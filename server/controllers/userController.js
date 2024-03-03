@@ -1,4 +1,5 @@
 import UserModel from '../models/User.js'
+import AdminModel from '../models/Admin.js'
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
@@ -48,4 +49,16 @@ export const getProfileController = (req, res) => {
     const loggerUser = await UserModel.findOne(username)
     res.status(200).json({ loggerUser: loggerUser })
   })
+}
+
+export const uploadProductAdmin = async (req, res) => {
+  const { productTitle, productDescription, productImage, productPrice } =
+    req.body
+  const createdProduct = await AdminModel.create({
+    title: productTitle,
+    description: productDescription,
+    image: productImage,
+    price: productPrice,
+  })
+  res.status(200).json(createdProduct)
 }
