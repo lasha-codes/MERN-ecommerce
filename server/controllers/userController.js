@@ -52,13 +52,32 @@ export const getProfileController = (req, res) => {
 }
 
 export const uploadProductAdmin = async (req, res) => {
-  const { productTitle, productDescription, productImage, productPrice } =
-    req.body
+  const {
+    productTitle,
+    productDescription,
+    productImage,
+    productPrice,
+    productColor,
+    productType,
+  } = req.body
+
+  if (
+    !productTitle ||
+    !productDescription ||
+    !productImage ||
+    !productColor ||
+    !productPrice
+  ) {
+    return res.status(400).json({ message: 'Please fill out all fields' })
+  }
+
   const createdProduct = await AdminModel.create({
     title: productTitle,
     description: productDescription,
     image: productImage,
     price: productPrice,
+    color: productColor,
+    type: productType,
   })
   res.status(200).json(createdProduct)
 }

@@ -3,12 +3,17 @@ import { useState } from 'react'
 import Header from '../components/Header'
 import { FaFileUpload } from 'react-icons/fa'
 import axios from 'axios'
+import toast from 'react-hot-toast'
+import { Navigate } from 'react-router-dom'
 
 const AdminPage = () => {
   const [productTitle, setProductTitle] = useState<string>('')
   const [productDescription, setProductDescription] = useState<string>('')
   const [productImage, setProductImage] = useState('')
-  const [productPrice, setProductPrice] = useState<number>()
+  const [productPrice, setProductPrice] = useState<number>(0)
+  const [productType, setProductType] = useState<string>('')
+  const [productColor, setProductColor] = useState<string>('')
+  const [redirect, setRedirect] = useState<boolean>(false)
 
   const convertToBase64 = (file: Blob) => {
     return new Promise((resolve, reject) => {
@@ -29,17 +34,34 @@ const AdminPage = () => {
     setProductPrice(0)
     setProductTitle('')
     setProductImage('')
-    await axios.post('/user/product-admin', {
-      productTitle: productTitle,
-      productDescription: productDescription,
-      productImage: productImage,
-      productPrice: productPrice,
-    })
+
+    try {
+      const response = await axios.post('/user/product-admin', {
+        productTitle: productTitle,
+        productDescription: productDescription,
+        productImage: productImage,
+        productPrice: productPrice,
+        productType: productType,
+        productColor: productColor,
+      })
+      const data = response.data
+      if (response.status > 299) {
+        return console.error(data)
+      }
+      toast.success('You have successfully uploaded a product')
+      setRedirect(true)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   const handleSelectImage = async (e: any) => {
     const file: any = await convertToBase64(e.target.files[0])
     setProductImage(file)
+  }
+
+  if (redirect) {
+    return <Navigate to='/' />
   }
 
   return (
@@ -71,8 +93,34 @@ const AdminPage = () => {
             value={productPrice}
             onChange={(e) => setProductPrice(Number(e.target.value))}
             required
+            placeholder='price'
             className='outline-none w-[150px] py-2 px-7 border rounded-full tracking-[0.5px]]'
           />
+
+          <select
+            value={productColor}
+            className='outline-none border px-5 py-2 rounded-full'
+            onChange={(e) => setProductColor(e.target.value)}
+          >
+            <option></option>
+            <option value='white'>white</option>
+            <option value='black'>black</option>
+            <option value='gray'>gray</option>
+            <option value='purple'>purple</option>
+            <option value='silver'>silver</option>
+          </select>
+          <select
+            value={productType}
+            className='outline-none border px-5 py-2 rounded-full'
+            onChange={(e) => setProductType(e.target.value)}
+          >
+            <option></option>
+            <option value='phone'>phone</option>
+            <option value='macbook'>macbook</option>
+            <option value='airpods'>airpods</option>
+            <option value='mouse'>mouse</option>
+            <option value='ipad'>ipad</option>
+          </select>
         </div>
         <div className='flex flex-col items-center justify-center gap-8'>
           <div className='w-[200px] h-[150px] border rounded-xl border-black flex flex-col items-center justify-center overflow-hidden'>
@@ -102,7 +150,8 @@ const AdminPage = () => {
           required
           onChange={handleSelectImage}
           id='product-file'
-          className='invisible'
+          name='file'
+          className='sr-only'
         />
       </form>
     </main>

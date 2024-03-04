@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom'
 const Header = () => {
   const [toggle, setToggle] = useState<boolean>(true)
   const [isAdmin, setIsAdmin] = useState<boolean>(true)
+  const [cartCount, setCartCount] = useState<number>(0)
   const location: any = useLocation().pathname
   // animation variants
   const navVariants: any = {
@@ -68,20 +69,6 @@ const Header = () => {
       >
         {isAdmin ? (
           <>
-            {listItems.map((item) => (
-              <motion.span
-                variants={listVariants}
-                key={item.link}
-                className='lg:!opacity-100 lg:!translate-x-0'
-              >
-                <a href={item.to} className='text-lg'>
-                  {item.link}
-                </a>
-              </motion.span>
-            ))}
-          </>
-        ) : (
-          <>
             {adminListItems.map((item) => (
               <motion.span
                 variants={listVariants}
@@ -89,7 +76,25 @@ const Header = () => {
                 className='lg:!opacity-100 lg:!translate-x-0'
               >
                 <a href={item.to} className='text-lg'>
-                  {item.link}
+                  {item.link === 'Cart'
+                    ? `Cart(${Number(cartCount)})`
+                    : item.link}
+                </a>
+              </motion.span>
+            ))}
+          </>
+        ) : (
+          <>
+            {listItems.map((item) => (
+              <motion.span
+                variants={listVariants}
+                key={item.link}
+                className='lg:!opacity-100 lg:!translate-x-0'
+              >
+                <a href={item.to} className='text-lg'>
+                  {item.link === 'Cart'
+                    ? `Cart(${Number(cartCount)})`
+                    : item.link}
                 </a>
               </motion.span>
             ))}

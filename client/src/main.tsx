@@ -3,14 +3,15 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import axios from 'axios'
 import './index.css'
-
 axios.defaults.baseURL = 'http://localhost:5000'
+import { Toaster } from 'react-hot-toast'
 
 import { BrowserRouter } from 'react-router-dom'
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
       <App />
+      <Toaster position='top-right' />
     </BrowserRouter>
   </React.StrictMode>
 )

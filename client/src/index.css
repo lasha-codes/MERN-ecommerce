@@ -11,3 +11,7 @@
   font-family: 'Poppins', sans-serif;
   scroll-behavior: smooth;
 }
+
+option {
+  color: gray;
+}
