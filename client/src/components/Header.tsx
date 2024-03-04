@@ -10,7 +10,7 @@ import { useLocation } from 'react-router-dom'
 
 const Header = () => {
   const [toggle, setToggle] = useState<boolean>(true)
-  const [isAdmin, setIsAdmin] = useState<boolean>(true)
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
   const [cartCount, setCartCount] = useState<number>(0)
   const location: any = useLocation().pathname
   // animation variants

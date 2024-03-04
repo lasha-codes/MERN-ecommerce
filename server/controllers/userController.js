@@ -81,3 +81,13 @@ export const uploadProductAdmin = async (req, res) => {
   })
   res.status(200).json(createdProduct)
 }
+
+export const getAllArrivals = async (req, res) => {
+  const products = await AdminModel.find({})
+  if (!products) {
+    return res
+      .status(500)
+      .json({ message: 'Internal server error: problem fetching products' })
+  }
+  res.status(200).json(products)
+}
