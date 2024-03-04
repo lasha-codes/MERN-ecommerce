@@ -12,6 +12,21 @@
   scroll-behavior: smooth;
 }
 
+main::-webkit-scrollbar {
+  display: none;
+}
+
 option {
   color: gray;
+}
+
+.loader {
+  border-top: 15px solid #ffffff;
+  animation: 1s spinning-loader linear infinite;
+}
+
+@keyframes spinning-loader {
+  100% {
+    transform: rotate(360deg);
+  }
 }

@@ -5,9 +5,10 @@ import { FaShoppingCart } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import Loader from '../components/Loader.js'
 
 const LandPage = () => {
-  const [newArrivals, setNewArrivals] = useState<[object]>([{}])
+  const [newArrivals, setNewArrivals] = useState<[object]>()
 
   const fetchArrivals = async () => {
     const response = await axios.get('/user/get-arrivals')
@@ -23,7 +24,7 @@ const LandPage = () => {
   }, [])
 
   return (
-    <main className='w-full h-full py-10 relative bg-gray-100'>
+    <main className='w-full h-screen overflow-y-scroll py-10 relative bg-gray-100'>
       <div className='w-full px-16 py-4 bg-main flex flex-col'>
         <Header />
         <div className='flex justify-center items-center mt-[5rem] gap-x-[100px] max-xl:flex-col'>
@@ -55,29 +56,35 @@ const LandPage = () => {
         </div>
       </div>
       <div className='px-10'>
-        <h1 className='mb-5 text-xl mt-6'>New Arrivals</h1>
-        <div className='grid grid-cols-4 w-full'>
-          {newArrivals.slice(0, 10).map((product: any, idx: number) => (
-            <div key={idx}>
-              <div className='w-[200px] h-[160px] bg-white rounded-xl flex items-center justify-center'>
-                <img
-                  src={product.image}
-                  alt='product image'
-                  className='w-[150px] h-[150px] object-contain'
-                />
-              </div>
-              <div>
-                <h2 className='capitalize p-[2.5px]'>{product.title}</h2>
-                <div className='flex items-center justify-start gap-2'>
-                  <span className='font-bold'>${product.price}</span>
-                  <button className='border border-green-900 rounded-lg text-green-900 px-4 py-1'>
-                    Add to cart
-                  </button>
+        <h1 className='mb-5 text-[30px] mt-6'>New Arrivals</h1>
+        {newArrivals ? (
+          <div className='flex flex-wrap gap-[20px] w-full justify-center items-center'>
+            {newArrivals.slice(0, 10).map((product: any, idx: number) => (
+              <div key={idx}>
+                <div className='w-[300px] h-[240px] bg-white rounded-xl flex items-center justify-center'>
+                  <img
+                    src={product.image}
+                    alt='product image'
+                    className='w-[200px] h-[200px] object-contain'
+                  />
+                </div>
+                <div>
+                  <h2 className='capitalize p-[2.5px]'>{product.title}</h2>
+                  <div className='flex items-center justify-start gap-2'>
+                    <span className='font-bold'>${product.price}</span>
+                    <button className='border border-green-900 rounded-lg text-green-900 px-4 py-1'>
+                      Add to cart
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className='w-full flex justify-center items-center p-20'>
+            <Loader />
+          </div>
+        )}
       </div>
     </main>
   )
