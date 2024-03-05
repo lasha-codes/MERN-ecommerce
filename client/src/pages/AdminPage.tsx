@@ -44,7 +44,7 @@ const AdminPage = () => {
         productType: productType,
         productColor: productColor,
       })
-      const data = response.data
+      const data = await response.data
       if (response.status > 299) {
         return console.error(data)
       }

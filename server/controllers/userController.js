@@ -7,48 +7,82 @@ import jwt from 'jsonwebtoken'
 dotenv.config()
 
 export const registerController = async (req, res) => {
-  const { email, password, username, base64 } = req.body
+  const { email, password, username, gender } = req.body
 
   const hashedPassword = await bcrypt.hash(password, 10)
 
   const dupEmail = await UserModel.findOne({ email })
-  if (dupEmail) {
-    return res.status(400).json({ message: 'This user already exists' })
-  }
-  const dupUsername = await UserModel.findOne({ password })
-  if (dupUsername) {
+  const dupUsername = await UserModel.findOne({ username })
+
+  if (dupEmail || dupUsername) {
     return res.status(400).json({ message: 'This user already exists' })
   }
 
-  const user = await UserModel.create({
+  await UserModel.create({
     email: email,
     username: username,
     password: hashedPassword,
-    avatar: base64,
+    gender: gender,
   })
 
-  jwt.sign({ username, email }, process.env.JWT_TOKEN, {}, (err, token) => {
+  jwt.sign({ username, email }, process.env.JWT_SECRET, {}, (err, token) => {
     if (err) {
       return res.status(400).json({ message: 'Something went wrong' })
     }
-    res.status(200).json({
-      email: user.email,
-      username: user.username,
+    res.cookie('token', token).status(200).json({
       message: 'U have successfully created an account',
     })
   })
 }
 
+export const loginController = async (req, res) => {
+  const { email, password } = req.body
+
+  const existsUser = UserModel.findOne({ email })
+  if (!existsUser) {
+    return res
+      .status(400)
+      .json({ message: 'User with this email does`t exist' })
+  }
+  const passwordMatched = await bcrypt.compare(password, existsUser.password)
+  if (passwordMatched) {
+    jwt.sign(
+      { email, username: existsUser.username },
+      process.env.JWT_SECRET,
+      {},
+      (err, token) => {
+        if (err)
+          return res.status(500).json({ message: 'Internal server error' })
+        res.cookie('token', token).json({ existsUser })
+      }
+    )
+  }
+}
+
 export const getProfileController = (req, res) => {
   const { token } = req.cookies
-  jwt.verify(token, process.env.JWT_TOKEN, {}, async (err, token) => {
-    const { username } = token
-    if (err) {
-      return res.status(401).json({ message: 'Unauthorized Request' })
+  if (!token) {
+    return res.status(401).json({ message: 'User is unauthorized' })
+  }
+  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, token) => {
+    const { email } = token
+    const loggerUser = await UserModel.findOne({ email })
+
+    if (loggerUser) {
+      res
+        .status(200)
+        .json({ username: loggerUser.username, email: loggerUser.email })
     }
-    const loggerUser = await UserModel.findOne(username)
-    res.status(200).json({ loggerUser: loggerUser })
   })
+}
+
+export const logoutUser = (req, res) => {
+  const { token } = req.cookies
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized request' })
+  }
+  req.cookies('token', '')
+  jwt.verify(token, process.env.JWT_SECRET, {}, (err, token) => {})
 }
 
 export const uploadProductAdmin = async (req, res) => {
