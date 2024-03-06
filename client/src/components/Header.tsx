@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react'
 import { adminListItems, listItems } from '../data'
@@ -7,12 +7,16 @@ import { CiMenuFries } from 'react-icons/ci'
 import { IoMdClose } from 'react-icons/io'
 import { motion } from 'framer-motion'
 import { Link, useLocation } from 'react-router-dom'
+import { userContext } from './UserContext'
+import { useContext } from 'react'
 
 const Header = () => {
+  const { user } = useContext<any>(userContext)
   const [toggle, setToggle] = useState<boolean>(true)
   const [isAdmin, setIsAdmin] = useState<boolean>(true)
-  const [cartCount, setCartCount] = useState<number>(0)
+  const [cartCount, setCartCount] = useState<number>(user?.cartContext.length)
   const location: any = useLocation().pathname
+
   // animation variants
   const navVariants: any = {
     hidden: {
@@ -76,9 +80,7 @@ const Header = () => {
                 className='lg:!opacity-100 lg:!translate-x-0'
               >
                 <Link to={item.to} className='text-lg'>
-                  {item.link === 'Cart'
-                    ? `Cart(${Number(cartCount)})`
-                    : item.link}
+                  {item.link === 'Cart' ? `Cart(${cartCount || 0})` : item.link}
                 </Link>
               </motion.span>
             ))}

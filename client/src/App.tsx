@@ -7,6 +7,7 @@ import Register from './pages/Register'
 import { useContext } from 'react'
 import { userContext } from './components/UserContext.jsx'
 import UserSigned from './pages/UserSigned.js'
+import Cart from './pages/Cart.js'
 
 const App = () => {
   const { user } = useContext<any>(userContext)
@@ -22,6 +23,7 @@ const App = () => {
       ) : (
         <Route path='/account' element={<UserSigned />} />
       )}
+      <Route path='/cart' element={<Cart />} />
     </Routes>
   )
 }

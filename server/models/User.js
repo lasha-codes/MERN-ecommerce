@@ -6,8 +6,18 @@ const User = new mongoose.Schema({
   password: { type: String, required: true },
   gender: { type: String },
   avatar: { type: String },
-  cart: { type: Array },
   isAdmin: { type: Boolean },
+  messages: { type: String },
+  cart: [
+    {
+      productTitle: { type: String, required: true },
+      productImage: { type: String, required: true },
+      productPrice: { type: String, required: true },
+      productType: { type: String },
+      productColor: { type: String },
+      productCount: { type: Number, required: true },
+    },
+  ],
 })
 
 const UserModel = mongoose.model('User', User)

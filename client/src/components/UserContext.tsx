@@ -17,6 +17,7 @@ const UserContext = ({ children }: { children: any }) => {
         emailContext: data.email,
         gender: data.gender,
         avatarContext: data.avatar,
+        cartContext: data.cart,
       })
     } catch (error) {
       console.error('unauthorized', error)

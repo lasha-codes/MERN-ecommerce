@@ -23,6 +23,22 @@ const LandPage = () => {
     fetchArrivals()
   }, [])
 
+  const addToCart = async (product: any) => {
+    try {
+      const response = await axios.post('user/add-to-cart', {
+        productTitle: product.title,
+        productImage: product.image,
+        productType: product.type,
+        productColor: product.color,
+        productPrice: product.price,
+      })
+      const data = await response.data
+      toast.success(data.message)
+    } catch (error) {
+      toast.error('Something went wrong')
+    }
+  }
+
   return (
     <main className='w-full h-screen overflow-y-scroll py-10 relative bg-gray-100'>
       <div className='w-full px-16 py-4 bg-main flex flex-col'>
@@ -72,7 +88,10 @@ const LandPage = () => {
                   <h2 className='capitalize p-[2.5px]'>{product.title}</h2>
                   <div className='flex items-center justify-start gap-2'>
                     <span className='font-bold'>${product.price}</span>
-                    <button className='border border-green-900 rounded-lg text-green-900 px-4 py-1'>
+                    <button
+                      className='border border-green-900 rounded-lg text-green-900 px-4 py-1'
+                      onClick={() => addToCart(product)}
+                    >
                       Add to cart
                     </button>
                   </div>

@@ -8,6 +8,7 @@ import {
   logoutUser,
   loginController,
   userPhotoUpload,
+  addToUserCart,
 } from '../controllers/userController.js'
 
 router.get('/get-arrivals', getAllArrivals)
@@ -17,5 +18,6 @@ router.post('/login', loginController)
 router.post('/product-admin', uploadProductAdmin)
 router.post('/logout', logoutUser)
 router.post('/upload-image', userPhotoUpload)
+router.post('/add-to-cart', addToUserCart)
 
 export default router

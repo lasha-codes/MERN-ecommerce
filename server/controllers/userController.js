@@ -76,6 +76,7 @@ export const getProfileController = (req, res) => {
         email: loggerUser.email,
         gender: loggerUser.gender,
         avatar: loggerUser.avatar ? loggerUser.avatar : '',
+        cart: loggerUser.cart,
       })
     }
   })
@@ -138,12 +139,10 @@ export const userPhotoUpload = (req, res) => {
   const { base64 } = req.body
 
   if (!base64) return res.status(400).json({ message: 'photo not defined' })
-
-  if (!token) {
-    return res.status(401).json({ message: 'Unauthorized request' })
-  }
   jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
     const { email } = info
+    if (err) throw err
+    console.log(email)
     const userToUpdate = await UserModel.findOne({ email })
     if (!userToUpdate) {
       return res.status(400).json({ message: 'Bad request' })
@@ -151,5 +150,43 @@ export const userPhotoUpload = (req, res) => {
     userToUpdate.avatar = base64
     await userToUpdate.save()
     res.status(200).json({ message: 'upload successful' })
+  })
+}
+
+export const addToUserCart = async (req, res) => {
+  const { token } = req.cookies
+  const {
+    productTitle,
+    productImage,
+    productType,
+    productColor,
+    productPrice,
+  } = req.body
+  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
+    const { email } = info
+    if (err) {
+      return res.status(401).json({ message: 'Unauthorized request' })
+    }
+    const userCartToUpdate = await UserModel.findOne({ email })
+
+    const alreadyInCart = userCartToUpdate.cart.find((product) => {
+      return product?.productTitle === productTitle
+    })
+
+    if (alreadyInCart) {
+      return (alreadyInCart.productCount += 1)
+    }
+
+    userCartToUpdate.cart.push({
+      productTitle: productTitle,
+      productColor: productColor,
+      productPrice: productPrice,
+      productImage: productImage,
+      productType: productType,
+      productCount: 1,
+    })
+    await userCartToUpdate.save()
+
+    res.status(200).json({ message: 'Successfully added product to the cart' })
   })
 }
