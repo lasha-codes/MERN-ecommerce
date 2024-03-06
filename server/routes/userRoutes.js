@@ -7,6 +7,7 @@ import {
   getAllArrivals,
   logoutUser,
   loginController,
+  userPhotoUpload,
 } from '../controllers/userController.js'
 
 router.get('/get-arrivals', getAllArrivals)
@@ -15,5 +16,6 @@ router.post('/register', registerController)
 router.post('/login', loginController)
 router.post('/product-admin', uploadProductAdmin)
 router.post('/logout', logoutUser)
+router.post('/upload-image', userPhotoUpload)
 
 export default router

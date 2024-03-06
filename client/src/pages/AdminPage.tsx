@@ -15,7 +15,7 @@ const AdminPage = () => {
   const [productColor, setProductColor] = useState<string>('')
   const [redirect, setRedirect] = useState<boolean>(false)
 
-  const convertToBase64 = (file: Blob) => {
+  const convertToBase64 = (file: any) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader()
       fileReader.readAsDataURL(file)
@@ -125,7 +125,10 @@ const AdminPage = () => {
         <div className='flex flex-col items-center justify-center gap-8'>
           <div className='w-[200px] h-[150px] border rounded-xl border-black flex flex-col items-center justify-center overflow-hidden'>
             {productImage ? (
-              <img src={productImage} className='h-full w-full' />
+              <img
+                src={productImage}
+                className='h-full w-full object-contain'
+              />
             ) : (
               <FaFileUpload className='text-[80px]' />
             )}
@@ -133,13 +136,13 @@ const AdminPage = () => {
           <div className='flex flex-col gap-5'>
             <label
               htmlFor='product-file'
-              className='text-center text-lg cursor-pointer bg-main text-white py-2 px-8 rounded-full'
+              className='text-center text-lg cursor-pointer bg-main text-white py-2 px-6 rounded-full'
             >
               Upload file
             </label>
             <button
               type='submit'
-              className='text-lg cursor-pointer bg-main text-white py-2 px-8 rounded-full'
+              className='text-lg cursor-pointer bg-transparent text-main border border-main py-2 px-6 rounded-full'
             >
               Upload Product
             </button>

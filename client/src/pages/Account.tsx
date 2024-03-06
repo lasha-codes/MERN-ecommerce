@@ -61,7 +61,7 @@ const Register = () => {
             <input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              type={`${passVisible ? 'password' : 'text'}`}
+              type={`${!passVisible ? 'password' : 'text'}`}
               id='password'
               placeholder='Enter you password'
               required

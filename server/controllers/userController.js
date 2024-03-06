@@ -71,9 +71,12 @@ export const getProfileController = (req, res) => {
     const loggerUser = await UserModel.findOne({ email })
 
     if (loggerUser) {
-      res
-        .status(200)
-        .json({ username: loggerUser.username, email: loggerUser.email })
+      res.status(200).json({
+        username: loggerUser.username,
+        email: loggerUser.email,
+        gender: loggerUser.gender,
+        avatar: loggerUser.avatar ? loggerUser.avatar : '',
+      })
     }
   })
 }
@@ -128,4 +131,25 @@ export const getAllArrivals = async (req, res) => {
       .json({ message: 'Internal server error: problem fetching products' })
   }
   res.status(200).json(products)
+}
+
+export const userPhotoUpload = (req, res) => {
+  const { token } = req.cookies
+  const { base64 } = req.body
+
+  if (!base64) return res.status(400).json({ message: 'photo not defined' })
+
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized request' })
+  }
+  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
+    const { email } = info
+    const userToUpdate = await UserModel.findOne({ email })
+    if (!userToUpdate) {
+      return res.status(400).json({ message: 'Bad request' })
+    }
+    userToUpdate.avatar = base64
+    await userToUpdate.save()
+    res.status(200).json({ message: 'upload successful' })
+  })
 }
