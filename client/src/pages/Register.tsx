@@ -6,9 +6,10 @@ import { FaMale } from 'react-icons/fa'
 import { FaFemale } from 'react-icons/fa'
 import { IoMdLock } from 'react-icons/io'
 import { FaUser } from 'react-icons/fa'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import Header from '../components/Header'
 
 const Register = () => {
   const [passVisible, setPassVisible] = useState<boolean>(false)
@@ -16,7 +17,7 @@ const Register = () => {
   const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [gender, setGender] = useState<string>('male')
-  const [redirect, setRedirect] = useState<boolean>(false)
+  const navigate = useNavigate()
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -29,7 +30,8 @@ const Register = () => {
       })
       const data = await response.data
       toast.success(data.message)
-      setRedirect(true)
+      navigate('/')
+      navigate(0)
     } catch (error) {
       toast.error('This account already exists')
     } finally {
@@ -39,12 +41,9 @@ const Register = () => {
     }
   }
 
-  if (redirect) {
-    return <Navigate to='/' />
-  }
-
   return (
     <main className='h-screen w-full flex items-center justify-center bg-gray-200'>
+      <Header />
       <div className='w-[350px] px-5 bg-white rounded-xl py-10'>
         <h1 className='w-full text-2xl mb-4 text-center tracking-wider'>
           Create an account
@@ -116,7 +115,7 @@ const Register = () => {
           </div>
           <button
             type='button'
-            className='absolute bottom-[93px] right-[32px]'
+            className='absolute bottom-[130px] right-[32px]'
             onClick={() => setPassVisible(!passVisible)}
           >
             {!passVisible ? <FaEye /> : <FaEyeSlash />}

@@ -38,7 +38,7 @@ export const registerController = async (req, res) => {
 export const loginController = async (req, res) => {
   const { email, password } = req.body
 
-  const existsUser = UserModel.findOne({ email })
+  const existsUser = await UserModel.findOne({ email })
   if (!existsUser) {
     return res
       .status(400)
@@ -56,6 +56,8 @@ export const loginController = async (req, res) => {
         res.cookie('token', token).json({ existsUser })
       }
     )
+  } else {
+    res.status(400).json({ message: 'password is incorrect' })
   }
 }
 
@@ -81,8 +83,10 @@ export const logoutUser = (req, res) => {
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized request' })
   }
-  req.cookies('token', '')
-  jwt.verify(token, process.env.JWT_SECRET, {}, (err, token) => {})
+  res
+    .cookie('token', '')
+    .status(200)
+    .json({ message: 'User has successfully logged out' })
 }
 
 export const uploadProductAdmin = async (req, res) => {
@@ -117,7 +121,7 @@ export const uploadProductAdmin = async (req, res) => {
 }
 
 export const getAllArrivals = async (req, res) => {
-  const products = await AdminModel.find({})
+  const products = await AdminModel.find({}).sort({ createdAt: -1 })
   if (!products) {
     return res
       .status(500)

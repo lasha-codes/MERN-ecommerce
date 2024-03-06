@@ -3,20 +3,43 @@ import { FaEyeSlash } from 'react-icons/fa'
 import { FaEye } from 'react-icons/fa'
 import { MdOutlineAlternateEmail } from 'react-icons/md'
 import { IoMdLock } from 'react-icons/io'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import Header from '../components/Header'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 const Register = () => {
   const [passVisible, setPassVisible] = useState<boolean>(false)
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const navigate = useNavigate()
+
+  const loginUser = async (e: React.FormEvent) => {
+    try {
+      e.preventDefault()
+      await axios.post('/user/login', {
+        email: email,
+        password: password,
+      })
+      toast.success('U have successfully logged in')
+      navigate('/')
+      navigate(0)
+    } catch (error) {
+      toast.error('Wrong credentials')
+    }
+  }
 
   return (
     <main className='h-screen w-full flex items-center justify-center bg-gray-200'>
+      <Header />
       <div className='w-[350px] px-5 bg-white rounded-xl py-10'>
         <h1 className='w-full text-2xl mb-4 text-center tracking-wider'>
           Login
         </h1>
-        <form className='flex flex-col justify-center items-center relative gap-3'>
+        <form
+          className='flex flex-col justify-center items-center relative gap-3'
+          onSubmit={loginUser}
+        >
           <div className='flex items-center justify-center gap-2'>
             <label htmlFor='email'>
               <MdOutlineAlternateEmail className='text-gray-900 text-xl cursor-pointer' />

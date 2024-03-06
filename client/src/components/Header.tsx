@@ -6,7 +6,7 @@ import { IoIosSearch } from 'react-icons/io'
 import { CiMenuFries } from 'react-icons/ci'
 import { IoMdClose } from 'react-icons/io'
 import { motion } from 'framer-motion'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const Header = () => {
   const [toggle, setToggle] = useState<boolean>(true)
@@ -75,11 +75,11 @@ const Header = () => {
                 key={item.link}
                 className='lg:!opacity-100 lg:!translate-x-0'
               >
-                <a href={item.to} className='text-lg'>
+                <Link to={item.to} className='text-lg'>
                   {item.link === 'Cart'
                     ? `Cart(${Number(cartCount)})`
                     : item.link}
-                </a>
+                </Link>
               </motion.span>
             ))}
           </>

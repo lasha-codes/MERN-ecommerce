@@ -30,11 +30,6 @@ const AdminPage = () => {
 
   const adminProductUpload = async (e: React.FormEvent) => {
     e.preventDefault()
-    setProductDescription('')
-    setProductPrice(0)
-    setProductTitle('')
-    setProductImage('')
-
     try {
       const response = await axios.post('/user/product-admin', {
         productTitle: productTitle,
@@ -50,6 +45,10 @@ const AdminPage = () => {
       }
       toast.success('You have successfully uploaded a product')
       setRedirect(true)
+      setProductDescription('')
+      setProductPrice(0)
+      setProductTitle('')
+      setProductImage('')
     } catch (err) {
       console.error(err)
     }
@@ -120,6 +119,7 @@ const AdminPage = () => {
             <option value='airpods'>airpods</option>
             <option value='mouse'>mouse</option>
             <option value='ipad'>ipad</option>
+            <option value='vision-pro'>vision pro</option>
           </select>
         </div>
         <div className='flex flex-col items-center justify-center gap-8'>
