@@ -69,6 +69,16 @@ export const getProfileController = (req, res) => {
   jwt.verify(token, process.env.JWT_SECRET, {}, async (err, token) => {
     const { email } = token
     const loggerUser = await UserModel.findOne({ email })
+    const productCounts = []
+    loggerUser.cart.forEach((product) => {
+      productCounts.push(product.productCount)
+    })
+
+    let finalCartLength = 0
+
+    for (const count of productCounts) {
+      finalCartLength += count
+    }
 
     if (loggerUser) {
       res.status(200).json({
@@ -77,6 +87,7 @@ export const getProfileController = (req, res) => {
         gender: loggerUser.gender,
         avatar: loggerUser.avatar ? loggerUser.avatar : '',
         cart: loggerUser.cart,
+        cartLength: finalCartLength,
       })
     }
   })
@@ -174,7 +185,10 @@ export const addToUserCart = async (req, res) => {
     })
 
     if (alreadyInCart) {
-      return (alreadyInCart.productCount += 1)
+      res.status(200).json({ message: 'Product count incremented' })
+      alreadyInCart.productCount += 1
+      await userCartToUpdate.save()
+      return
     }
 
     userCartToUpdate.cart.push({
@@ -185,8 +199,7 @@ export const addToUserCart = async (req, res) => {
       productType: productType,
       productCount: 1,
     })
-    await userCartToUpdate.save()
-
     res.status(200).json({ message: 'Successfully added product to the cart' })
+    await userCartToUpdate.save()
   })
 }

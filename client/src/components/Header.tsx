@@ -11,10 +11,9 @@ import { userContext } from './UserContext'
 import { useContext } from 'react'
 
 const Header = () => {
-  const { user } = useContext<any>(userContext)
+  const { cartLength } = useContext<any>(userContext)
   const [toggle, setToggle] = useState<boolean>(true)
   const [isAdmin, setIsAdmin] = useState<boolean>(true)
-  const [cartCount, setCartCount] = useState<number>(user?.cartContext.length)
   const location: any = useLocation().pathname
 
   // animation variants
@@ -80,7 +79,9 @@ const Header = () => {
                 className='lg:!opacity-100 lg:!translate-x-0'
               >
                 <Link to={item.to} className='text-lg'>
-                  {item.link === 'Cart' ? `Cart(${cartCount || 0})` : item.link}
+                  {item.link === 'Cart'
+                    ? `Cart(${cartLength || 0})`
+                    : item.link}
                 </Link>
               </motion.span>
             ))}
@@ -93,11 +94,11 @@ const Header = () => {
                 key={item.link}
                 className='lg:!opacity-100 lg:!translate-x-0'
               >
-                <a href={item.to} className='text-lg'>
+                <Link to={item.to} className='text-lg'>
                   {item.link === 'Cart'
-                    ? `Cart(${Number(cartCount)})`
+                    ? `Cart(${cartLength || 0})`
                     : item.link}
-                </a>
+                </Link>
               </motion.span>
             ))}
           </>

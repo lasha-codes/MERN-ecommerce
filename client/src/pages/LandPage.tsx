@@ -2,12 +2,14 @@
 import Header from '../components/Header.jsx'
 import banner from '../assets/banner.png'
 import { FaShoppingCart } from 'react-icons/fa'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import Loader from '../components/Loader.js'
+import { userContext } from '../components/UserContext.js'
 
 const LandPage = () => {
+  const { setCartLength, cartLength } = useContext<any>(userContext)
   const [newArrivals, setNewArrivals] = useState<[object]>()
 
   const fetchArrivals = async () => {
@@ -15,6 +17,7 @@ const LandPage = () => {
     if (response.status !== 200) {
       toast.error('Server error: failed fetching products')
     }
+
     const data = response.data
     setNewArrivals(data)
   }
@@ -25,15 +28,18 @@ const LandPage = () => {
 
   const addToCart = async (product: any) => {
     try {
-      const response = await axios.post('user/add-to-cart', {
+      if (cartLength > 4) {
+        return toast.error(`Can't add more items to the cart`)
+      }
+      await axios.post('user/add-to-cart', {
         productTitle: product.title,
         productImage: product.image,
         productType: product.type,
         productColor: product.color,
         productPrice: product.price,
       })
-      const data = await response.data
-      toast.success(data.message)
+      setCartLength((prev: number) => prev + 1)
+      toast.success('Successfully added product to the cart')
     } catch (error) {
       toast.error('Something went wrong')
     }

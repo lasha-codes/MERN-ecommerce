@@ -7,6 +7,7 @@ import { createContext, useEffect, useState } from 'react'
 export const userContext = createContext({})
 const UserContext = ({ children }: { children: any }) => {
   const [user, setUser] = useState<object>()
+  const [cartLength, setCartLength] = useState<number>(0)
 
   const getUserProfile = async () => {
     try {
@@ -19,6 +20,7 @@ const UserContext = ({ children }: { children: any }) => {
         avatarContext: data.avatar,
         cartContext: data.cart,
       })
+      setCartLength(data.cartLength)
     } catch (error) {
       console.error('unauthorized', error)
     }
@@ -29,7 +31,14 @@ const UserContext = ({ children }: { children: any }) => {
   }, [])
 
   return (
-    <userContext.Provider value={{ user: user, setUser: setUser }}>
+    <userContext.Provider
+      value={{
+        user: user,
+        setUser: setUser,
+        cartLength: cartLength,
+        setCartLength: setCartLength,
+      }}
+    >
       {children}
     </userContext.Provider>
   )
