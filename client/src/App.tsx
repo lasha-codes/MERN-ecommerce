@@ -11,6 +11,7 @@ import Cart from './pages/Cart.js'
 
 const App = () => {
   const { user } = useContext<any>(userContext)
+
   return (
     <Routes>
       <Route path='/' element={<LandPage />} />

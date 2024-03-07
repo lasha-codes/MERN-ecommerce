@@ -19,6 +19,7 @@ const UserContext = ({ children }: { children: any }) => {
         gender: data.gender,
         avatarContext: data.avatar,
         cartContext: data.cart,
+        totalPrice: data.totalPrice,
       })
       setCartLength(data.cartLength)
     } catch (error) {

@@ -70,14 +70,23 @@ export const getProfileController = (req, res) => {
     const { email } = token
     const loggerUser = await UserModel.findOne({ email })
     const productCounts = []
+    const products = []
     loggerUser.cart.forEach((product) => {
       productCounts.push(product.productCount)
     })
+    loggerUser.cart.forEach((product) => {
+      products.push(product)
+    })
 
     let finalCartLength = 0
+    let totalPrice = 0
 
     for (const count of productCounts) {
       finalCartLength += count
+    }
+
+    for (const product of products) {
+      totalPrice += product.productPrice * product.productCount
     }
 
     if (loggerUser) {
@@ -87,6 +96,7 @@ export const getProfileController = (req, res) => {
         gender: loggerUser.gender,
         avatar: loggerUser.avatar ? loggerUser.avatar : '',
         cart: loggerUser.cart,
+        totalPrice: totalPrice,
         cartLength: finalCartLength,
       })
     }

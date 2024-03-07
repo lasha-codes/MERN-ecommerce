@@ -30,3 +30,7 @@ option {
     transform: rotate(360deg);
   }
 }
+
+div.cart::-webkit-scrollbar {
+  display: none;
+}
