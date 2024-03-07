@@ -12,6 +12,10 @@
   scroll-behavior: smooth;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 main::-webkit-scrollbar {
   display: none;
 }

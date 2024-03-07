@@ -76,7 +76,7 @@ const Header = () => {
               <motion.span
                 variants={listVariants}
                 key={item.link}
-                className='lg:!opacity-100 lg:!translate-x-0'
+                className='lg:!opacity-100 lg:!translate-x-0 link-span'
               >
                 <Link to={item.to} className='text-lg'>
                   {item.link === 'Cart'
@@ -92,7 +92,7 @@ const Header = () => {
               <motion.span
                 variants={listVariants}
                 key={item.link}
-                className='lg:!opacity-100 lg:!translate-x-0'
+                className='lg:!opacity-100 lg:!translate-x-0 link-span'
               >
                 <Link to={item.to} className='text-lg'>
                   {item.link === 'Cart'

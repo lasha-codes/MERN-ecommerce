@@ -111,7 +111,7 @@ const Cart = () => {
                     key={idx}
                     src={card.src}
                     className={`w-[150px] h-[70px] object-contain border-2 border-white rounded-lg px-10 cursor-pointer transition-all duration-500 hover:border-gray-700  ${
-                      idx === activeCard && 'border-gray-700'
+                      idx === activeCard && '!border-gray-700'
                     }`}
                   />
                 )

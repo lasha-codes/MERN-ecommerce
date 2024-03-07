@@ -176,6 +176,9 @@ export const userPhotoUpload = (req, res) => {
 
 export const addToUserCart = async (req, res) => {
   const { token } = req.cookies
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized request' })
+  }
   const {
     productTitle,
     productImage,
