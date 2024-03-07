@@ -8,6 +8,7 @@ export const userContext = createContext({})
 const UserContext = ({ children }: { children: any }) => {
   const [user, setUser] = useState<object>()
   const [cartLength, setCartLength] = useState<number>(0)
+  const [allProducts, setAllProducts] = useState()
 
   const getUserProfile = async () => {
     try {
@@ -22,6 +23,7 @@ const UserContext = ({ children }: { children: any }) => {
         totalPrice: data.totalPrice,
       })
       setCartLength(data.cartLength)
+      setAllProducts(data.allProducts)
     } catch (error) {
       console.error('unauthorized', error)
     }
@@ -38,6 +40,8 @@ const UserContext = ({ children }: { children: any }) => {
         setUser: setUser,
         cartLength: cartLength,
         setCartLength: setCartLength,
+        allProducts: allProducts,
+        setAllProducts: setAllProducts,
       }}
     >
       {children}

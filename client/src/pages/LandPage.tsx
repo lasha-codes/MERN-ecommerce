@@ -2,29 +2,15 @@
 import Header from '../components/Header.jsx'
 import banner from '../assets/banner.png'
 import { FaShoppingCart } from 'react-icons/fa'
-import { useEffect, useState, useContext } from 'react'
+import { useContext } from 'react'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import Loader from '../components/Loader.js'
 import { userContext } from '../components/UserContext.js'
 
 const LandPage = () => {
-  const { setCartLength, cartLength } = useContext<any>(userContext)
-  const [newArrivals, setNewArrivals] = useState<[object]>()
-
-  const fetchArrivals = async () => {
-    const response = await axios.get('/user/get-arrivals')
-    if (response.status !== 200) {
-      toast.error('Server error: failed fetching products')
-    }
-
-    const data = response.data
-    setNewArrivals(data)
-  }
-
-  useEffect(() => {
-    fetchArrivals()
-  }, [])
+  const { setCartLength, cartLength, allProducts } =
+    useContext<any>(userContext)
 
   const addToCart = async (product: any) => {
     try {
@@ -79,9 +65,9 @@ const LandPage = () => {
       </div>
       <div className='px-10'>
         <h1 className='mb-5 text-[30px] mt-6'>New Arrivals</h1>
-        {newArrivals ? (
+        {allProducts ? (
           <div className='flex flex-wrap gap-[20px] w-full justify-center items-center'>
-            {newArrivals.slice(0, 10).map((product: any, idx: number) => (
+            {allProducts.slice(0, 10).map((product: any, idx: number) => (
               <div key={idx}>
                 <div className='w-[300px] h-[240px] bg-white rounded-xl flex items-center justify-center'>
                   <img

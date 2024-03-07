@@ -89,6 +89,8 @@ export const getProfileController = (req, res) => {
       totalPrice += product.productPrice * product.productCount
     }
 
+    const allProducts = await AdminModel.find({}).sort({ createdAt: -1 })
+
     if (loggerUser) {
       res.status(200).json({
         username: loggerUser.username,
@@ -98,6 +100,7 @@ export const getProfileController = (req, res) => {
         cart: loggerUser.cart,
         totalPrice: totalPrice,
         cartLength: finalCartLength,
+        allProducts: allProducts,
       })
     }
   })
@@ -143,16 +146,6 @@ export const uploadProductAdmin = async (req, res) => {
     type: productType,
   })
   res.status(200).json(createdProduct)
-}
-
-export const getAllArrivals = async (req, res) => {
-  const products = await AdminModel.find({}).sort({ createdAt: -1 })
-  if (!products) {
-    return res
-      .status(500)
-      .json({ message: 'Internal server error: problem fetching products' })
-  }
-  res.status(200).json(products)
 }
 
 export const userPhotoUpload = (req, res) => {

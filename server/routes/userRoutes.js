@@ -4,14 +4,12 @@ import {
   registerController,
   getProfileController,
   uploadProductAdmin,
-  getAllArrivals,
   logoutUser,
   loginController,
   userPhotoUpload,
   addToUserCart,
 } from '../controllers/userController.js'
 
-router.get('/get-arrivals', getAllArrivals)
 router.get('/account', getProfileController)
 router.post('/register', registerController)
 router.post('/login', loginController)
