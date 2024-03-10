@@ -249,16 +249,16 @@ export const decrementProductCount = (req, res) => {
 
 export const removeFromTheCart = async (req, res) => {
   const { token } = req.cookies
+  const { product } = req.body
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized request' })
   }
-  const { product } = req.body
   const { email } = jwt.verify(token, process.env.JWT_SECRET)
 
   console.log(email)
 
   const userCartToRemove = await UserModel.findOne({ email })
-  userCartToRemove.cart.filter((item) => {
+  userCartToRemove.cart = userCartToRemove.cart.filter((item) => {
     return product._id !== item._id
   })
   await userCartToRemove.save()
