@@ -7,25 +7,32 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import Loader from '../components/Loader.js'
 import { userContext } from '../components/UserContext.js'
+import { PiCurrencyDollarSimple } from 'react-icons/pi'
+import { useNavigate } from 'react-router-dom'
 
 const LandPage = () => {
-  const { setCartLength, cartLength, allProducts } =
+  const { setCartLength, cartLength, allProducts, user } =
     useContext<any>(userContext)
+  const navigate = useNavigate()
 
   const addToCart = async (product: any) => {
     try {
-      if (cartLength > 4) {
-        return toast.error(`Can't add more items to the cart`)
+      if (user) {
+        if (cartLength > 4) {
+          return toast.error(`Can't add more items to the cart`)
+        }
+        setCartLength((prev: number) => prev + 1)
+        await axios.post('user/add-to-cart', {
+          productTitle: product.title,
+          productImage: product.image,
+          productType: product.type,
+          productColor: product.color,
+          productPrice: product.price,
+        })
+        toast.success('Successfully added product to the cart')
+      } else {
+        navigate('/account')
       }
-      await axios.post('user/add-to-cart', {
-        productTitle: product.title,
-        productImage: product.image,
-        productType: product.type,
-        productColor: product.color,
-        productPrice: product.price,
-      })
-      setCartLength((prev: number) => prev + 1)
-      toast.success('Successfully added product to the cart')
     } catch (error) {
       toast.error('Something went wrong')
     }
@@ -79,7 +86,12 @@ const LandPage = () => {
                 <div>
                   <h2 className='capitalize p-[2.5px]'>{product.title}</h2>
                   <div className='flex items-center justify-start gap-2'>
-                    <span className='font-bold'>${product.price}</span>
+                    <span className='font-bold'>
+                      <div className='flex items-center'>
+                        <PiCurrencyDollarSimple className='text-[16px]' />
+                        {product.price}
+                      </div>
+                    </span>
                     <button
                       className='border border-green-900 rounded-lg text-green-900 px-4 py-1'
                       onClick={() => addToCart(product)}

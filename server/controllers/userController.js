@@ -3,6 +3,7 @@ import AdminModel from '../models/Admin.js'
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
+import { all } from 'axios'
 
 dotenv.config()
 
@@ -61,49 +62,54 @@ export const loginController = async (req, res) => {
   }
 }
 
-export const getProfileController = (req, res) => {
+export const getProfileController = async (req, res) => {
   const { token } = req.cookies
-  if (!token) {
-    return res.status(401).json({ message: 'User is unauthorized' })
-  }
-  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, token) => {
-    const { email } = token
-    const loggerUser = await UserModel.findOne({ email })
-    const productCounts = []
-    const products = []
-    loggerUser.cart.forEach((product) => {
-      productCounts.push(product.productCount)
-    })
-    loggerUser.cart.forEach((product) => {
-      products.push(product)
-    })
-
-    let finalCartLength = 0
-    let totalPrice = 0
-
-    for (const count of productCounts) {
-      finalCartLength += count
-    }
-
-    for (const product of products) {
-      totalPrice += product.productPrice * product.productCount
-    }
-
-    const allProducts = await AdminModel.find({}).sort({ createdAt: -1 })
-
-    if (loggerUser) {
-      res.status(200).json({
-        username: loggerUser.username,
-        email: loggerUser.email,
-        gender: loggerUser.gender,
-        avatar: loggerUser.avatar ? loggerUser.avatar : '',
-        cart: loggerUser.cart,
-        totalPrice: totalPrice,
-        cartLength: finalCartLength,
-        allProducts: allProducts,
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, token) => {
+      if (err) res.status(200).json({ message: 'server error' })
+      const { email } = token
+      const loggerUser = await UserModel.findOne({ email })
+      const productCounts = []
+      const products = []
+      loggerUser.cart.forEach((product) => {
+        productCounts.push(product.productCount)
       })
-    }
-  })
+      loggerUser.cart.forEach((product) => {
+        products.push(product)
+      })
+
+      let finalCartLength = 0
+      let totalPrice = 0
+
+      for (const count of productCounts) {
+        finalCartLength += count
+      }
+
+      for (const product of products) {
+        totalPrice += product.productPrice * product.productCount
+      }
+
+      const allProducts = await AdminModel.find({}).sort({ createdAt: -1 })
+
+      if (loggerUser) {
+        res.status(200).json({
+          username: loggerUser.username,
+          email: loggerUser.email,
+          gender: loggerUser.gender,
+          avatar: loggerUser.avatar ? loggerUser.avatar : '',
+          cart: loggerUser.cart,
+          totalPrice: totalPrice,
+          cartLength: finalCartLength,
+          allProducts: allProducts,
+        })
+      }
+    })
+  } else {
+    const allProducts = await AdminModel.find({}).sort({ createdAt: -1 })
+    res.status(200).json({
+      allProducts: allProducts,
+    })
+  }
 }
 
 export const logoutUser = (req, res) => {
@@ -179,33 +185,84 @@ export const addToUserCart = async (req, res) => {
     productColor,
     productPrice,
   } = req.body
-  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
-    const { email } = info
-    if (err) {
-      return res.status(401).json({ message: 'Unauthorized request' })
-    }
-    const userCartToUpdate = await UserModel.findOne({ email })
-
-    const alreadyInCart = userCartToUpdate.cart.find((product) => {
-      return product?.productTitle === productTitle
-    })
-
-    if (alreadyInCart) {
-      res.status(200).json({ message: 'Product count incremented' })
-      alreadyInCart.productCount += 1
-      await userCartToUpdate.save()
-      return
-    }
-
-    userCartToUpdate.cart.push({
-      productTitle: productTitle,
-      productColor: productColor,
-      productPrice: productPrice,
-      productImage: productImage,
-      productType: productType,
-      productCount: 1,
-    })
-    res.status(200).json({ message: 'Successfully added product to the cart' })
-    await userCartToUpdate.save()
+  const email = jwt.verify(token, process.env.JWT_SECRET)
+  const userCartToUpdate = await UserModel.findOne({ email })
+  const alreadyInCart = userCartToUpdate.cart.find((product) => {
+    return product?.productTitle === productTitle
   })
+
+  if (alreadyInCart) {
+    res.status(200).json({ message: 'Product count incremented' })
+    alreadyInCart.productCount += 1
+  }
+  await userCartToUpdate.save()
+
+  if (alreadyInCart) return
+
+  userCartToUpdate.cart.push({
+    productTitle: productTitle,
+    productColor: productColor,
+    productPrice: productPrice,
+    productImage: productImage,
+    productType: productType,
+    productCount: 1,
+  })
+  res.status(200).json({ message: 'Successfully added product to the cart' })
+  await userCartToUpdate.save()
+}
+
+export const decrementProductCount = (req, res) => {
+  const { token } = req.cookies
+  const { productId } = req.body
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized request' })
+  }
+  try {
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
+      const { email } = info
+      const loggerUser = await UserModel.findOne({ email })
+      const productToUpdate = loggerUser.cart.find((product) => {
+        return product._id.toString() === productId.toString()
+      })
+      if (!productToUpdate) return
+      if (productToUpdate.productCount === 1) {
+        const filteredCart = loggerUser.cart.filter((product) => {
+          return product._id.toString() !== productId.toString()
+        })
+        loggerUser.cart = filteredCart
+        await loggerUser.save()
+        res
+          .status(200)
+          .json({ message: 'Successfully removed item from the cart' })
+        return
+      }
+      productToUpdate.productCount -= 1
+      await loggerUser.save()
+      res
+        .status(200)
+        .json({ message: 'Successfully decremented item from the cart' })
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' })
+  }
+}
+
+export const removeFromTheCart = async (req, res) => {
+  const { token } = req.cookies
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized request' })
+  }
+  const { product } = req.body
+  const { email } = jwt.verify(token, process.env.JWT_SECRET)
+
+  console.log(email)
+
+  const userCartToRemove = await UserModel.findOne({ email })
+  userCartToRemove.cart.filter((item) => {
+    return product._id !== item._id
+  })
+  await userCartToRemove.save()
+  res
+    .status(200)
+    .json({ message: 'Successfully removed product from the cart' })
 }

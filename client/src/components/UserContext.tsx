@@ -14,16 +14,21 @@ const UserContext = ({ children }: { children: any }) => {
     try {
       const response = await axios.get('/user/account')
       const data = await response.data
-      setUser({
-        usernameContext: data.username,
-        emailContext: data.email,
-        gender: data.gender,
-        avatarContext: data.avatar,
-        cartContext: data.cart,
-        totalPrice: data.totalPrice,
-      })
-      setCartLength(data.cartLength)
-      setAllProducts(data.allProducts)
+
+      if (data.username) {
+        setUser({
+          usernameContext: data.username,
+          emailContext: data.email,
+          gender: data.gender,
+          avatarContext: data.avatar,
+          cartContext: data.cart,
+          totalPrice: data.totalPrice,
+        })
+        setCartLength(data.cartLength)
+        setAllProducts(data.allProducts)
+      } else {
+        setAllProducts(data.allProducts)
+      }
     } catch (error) {
       console.error('unauthorized', error)
     }

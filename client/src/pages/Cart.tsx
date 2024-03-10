@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { userContext } from '../components/UserContext'
 import { useContext, useState } from 'react'
@@ -10,6 +11,8 @@ import mastercard from '../assets/mastercard.png'
 import paypal from '../assets/paypal.png'
 import { PiCurrencyDollarSimple } from 'react-icons/pi'
 import Loader from '../components/Loader'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 const Cart = () => {
   const { user } = useContext<any>(userContext)
@@ -21,6 +24,29 @@ const Cart = () => {
     { src: mastercard },
     { src: paypal },
   ]
+
+  const decrementFromCart = async (product: any) => {
+    try {
+      if (product.productCount === 1) {
+        user.cartContext = user.cartContext.filter((item: any) => {
+          return product._id !== item._id
+        })
+        await axios.put('/user/remove-from-cart', {
+          product: product,
+        })
+        toast.success('Product has been removed from the cart')
+        return
+      }
+      product.productCount -= 1
+      const response = await axios.put('user/decrement-product-count', {
+        productId: product._id,
+      })
+      const data = await response.data
+      toast.success(data.message)
+    } catch (error) {
+      toast.error('something went wrong')
+    }
+  }
 
   return (
     <main className='w-full overflow-scroll h-screen flex flex-col justify-center items-center px-10 py-10 bg-slate-500'>
@@ -79,7 +105,12 @@ const Cart = () => {
                           {product.productCount}
                         </span>
                       </div>
-                      <span className='cursor-pointer text-[25px]'>-</span>
+                      <span
+                        className='cursor-pointer text-[25px]'
+                        onClick={() => decrementFromCart(product)}
+                      >
+                        -
+                      </span>
                     </div>
                     <div className='flex items-center gap-3'>
                       <span className='font-[600] text-[20px] text-gray-700 max-sm:text-[17px] flex items-center'>
