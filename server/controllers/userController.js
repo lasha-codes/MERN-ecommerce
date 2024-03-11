@@ -3,7 +3,7 @@ import AdminModel from '../models/Admin.js'
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
-import { all } from 'axios'
+// too much code it does'nt load might have to leave it like this
 
 dotenv.config()
 
@@ -231,9 +231,7 @@ export const decrementProductCount = (req, res) => {
         })
         loggerUser.cart = filteredCart
         await loggerUser.save()
-        res
-          .status(200)
-          .json({ message: 'Successfully removed item from the cart' })
+        res.status(200).json({ message: 'Successfully removed from the cart' })
         return
       }
       productToUpdate.productCount -= 1
