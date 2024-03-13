@@ -3,8 +3,6 @@ import AdminModel from '../models/Admin.js'
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
-// too much code it does'nt load might have to leave it like this
-
 dotenv.config()
 
 export const registerController = async (req, res) => {
@@ -66,7 +64,7 @@ export const getProfileController = async (req, res) => {
   const { token } = req.cookies
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, {}, async (err, token) => {
-      if (err) res.status(200).json({ message: 'server error' })
+      if (err) throw err
       const { email } = token
       const loggerUser = await UserModel.findOne({ email })
       const productCounts = []
@@ -185,30 +183,28 @@ export const addToUserCart = async (req, res) => {
     productColor,
     productPrice,
   } = req.body
-  const email = jwt.verify(token, process.env.JWT_SECRET)
+  const { email } = jwt.verify(token, process.env.JWT_SECRET)
   const userCartToUpdate = await UserModel.findOne({ email })
   const alreadyInCart = userCartToUpdate.cart.find((product) => {
     return product?.productTitle === productTitle
   })
 
   if (alreadyInCart) {
-    res.status(200).json({ message: 'Product count incremented' })
     alreadyInCart.productCount += 1
+    await userCartToUpdate.save()
+    res.status(200).json({ message: 'Product count incremented' })
+  } else {
+    userCartToUpdate.cart.push({
+      productTitle: productTitle,
+      productColor: productColor,
+      productPrice: productPrice,
+      productImage: productImage,
+      productType: productType,
+      productCount: 1,
+    })
+    await userCartToUpdate.save()
+    res.status(200).json({ message: 'Successfully added product to the cart' })
   }
-  await userCartToUpdate.save()
-
-  if (alreadyInCart) return
-
-  userCartToUpdate.cart.push({
-    productTitle: productTitle,
-    productColor: productColor,
-    productPrice: productPrice,
-    productImage: productImage,
-    productType: productType,
-    productCount: 1,
-  })
-  res.status(200).json({ message: 'Successfully added product to the cart' })
-  await userCartToUpdate.save()
 }
 
 export const decrementProductCount = (req, res) => {
@@ -245,22 +241,48 @@ export const decrementProductCount = (req, res) => {
   }
 }
 
-export const removeFromTheCart = async (req, res) => {
+export const deleteFromTheCart = async (req, res) => {
   const { token } = req.cookies
-  const { product } = req.body
-  if (!token) {
-    return res.status(401).json({ message: 'Unauthorized request' })
+  const { productId } = req.body
+  try {
+    if (!token) return res.status(401).json({ message: 'Unauthorized request' })
+    const { email } = jwt.verify(token, process.env.JWT_SECRET)
+    const loggerUser = await UserModel.findOne({ email })
+    if (!loggerUser)
+      return res.status(500).json({ message: 'How tf did this even happen' })
+
+    const updatedCart = loggerUser.cart.filter((products) => {
+      return productId.toString() !== products._id.toString()
+    })
+
+    loggerUser.cart = updatedCart
+    await loggerUser.save()
+    res
+      .status(200)
+      .json({ message: 'successfully removed product from the cart' })
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' })
   }
-  const { email } = jwt.verify(token, process.env.JWT_SECRET)
+}
 
-  console.log(email)
-
-  const userCartToRemove = await UserModel.findOne({ email })
-  userCartToRemove.cart = userCartToRemove.cart.filter((item) => {
-    return product._id !== item._id
-  })
-  await userCartToRemove.save()
-  res
-    .status(200)
-    .json({ message: 'Successfully removed product from the cart' })
+export const incrementProductCart = async (req, res) => {
+  const { token } = req.cookies
+  const { productId } = req.body
+  try {
+    if (!token) {
+      return res.status(401).json({ message: 'Unauthorized request' })
+    }
+    const { email } = jwt.verify(token, process.env.JWT_SECRET)
+    const loggerUser = await UserModel.findOne({ email })
+    const productToIncrement = loggerUser.cart.find((product) => {
+      return productId.toString() === product._id.toString()
+    })
+    if (productToIncrement) {
+      productToIncrement.productCount += 1
+    }
+    await loggerUser.save()
+    res.status(200).json({ message: 'Successfully incremented product' })
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error try again.' })
+  }
 }

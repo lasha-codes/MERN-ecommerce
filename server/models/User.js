@@ -10,12 +10,12 @@ const User = new mongoose.Schema({
   messages: { type: String },
   cart: [
     {
-      productTitle: { type: String, required: true },
-      productImage: { type: String, required: true },
-      productPrice: { type: String, required: true },
+      productTitle: { type: String },
+      productImage: { type: String },
+      productPrice: { type: String },
       productType: { type: String },
       productColor: { type: String },
-      productCount: { type: Number, required: true },
+      productCount: { type: Number },
     },
   ],
 })

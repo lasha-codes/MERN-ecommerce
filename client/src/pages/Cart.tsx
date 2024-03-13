@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { userContext } from '../components/UserContext'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { MdKeyboardArrowLeft } from 'react-icons/md'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import visa from '../assets/visa.png'
 import amex from '../assets/amex.png'
@@ -15,8 +15,9 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 
 const Cart = () => {
-  const { user } = useContext<any>(userContext)
+  const { user, cart, setCart, setCartLength } = useContext<any>(userContext)
   const [activeCard, setActiveCard] = useState<number>(0)
+  const navigate = useNavigate()
 
   const cardsData = [
     { src: visa },
@@ -25,14 +26,22 @@ const Cart = () => {
     { src: paypal },
   ]
 
+  useEffect(() => {
+    if (!user) {
+      navigate('/account')
+    }
+  })
+
   const decrementFromCart = async (product: any) => {
     try {
+      setCartLength((prev: any) => prev - 1)
       if (product.productCount === 1) {
-        user.cartContext = user.cartContext.filter((item: any) => {
-          return product._id !== item._id
+        const filteredCart = cart.filter((products: any) => {
+          return products._id !== product._id
         })
-        await axios.put('/user/remove-from-cart', {
-          product: product,
+        setCart(filteredCart)
+        await axios.put('/user/delete-product', {
+          productId: product._id,
         })
         toast.success('Product has been removed from the cart')
         return
@@ -50,7 +59,7 @@ const Cart = () => {
 
   return (
     <main className='w-full overflow-scroll h-screen flex flex-col justify-center items-center px-10 py-10 bg-slate-500'>
-      {user?.cartContext ? (
+      {cart ? (
         <div className='cart w-full h-[calc(100vh-5rem)] rounded-[35px] bg-gray-100 px-10 overflow-y-scroll py-5 flex justify-between gap-[70px] max-xl:flex-col'>
           <div className='flex flex-col gap-10 w-[70%] max-xl:w-full'>
             <div>
@@ -66,7 +75,7 @@ const Cart = () => {
               </h1>
             </div>
 
-            {user?.cartContext.map((product: any, idx: number) => {
+            {cart.map((product: any, idx: number) => {
               return (
                 <div
                   key={idx}

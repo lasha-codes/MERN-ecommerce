@@ -9,6 +9,7 @@ const UserContext = ({ children }: { children: any }) => {
   const [user, setUser] = useState<object>()
   const [cartLength, setCartLength] = useState<number>(0)
   const [allProducts, setAllProducts] = useState()
+  const [cart, setCart] = useState()
 
   const getUserProfile = async () => {
     try {
@@ -21,11 +22,11 @@ const UserContext = ({ children }: { children: any }) => {
           emailContext: data.email,
           gender: data.gender,
           avatarContext: data.avatar,
-          cartContext: data.cart,
           totalPrice: data.totalPrice,
         })
         setCartLength(data.cartLength)
         setAllProducts(data.allProducts)
+        setCart(data.cart)
       } else {
         setAllProducts(data.allProducts)
       }
@@ -47,6 +48,8 @@ const UserContext = ({ children }: { children: any }) => {
         setCartLength: setCartLength,
         allProducts: allProducts,
         setAllProducts: setAllProducts,
+        cart: cart,
+        setCart: setCart,
       }}
     >
       {children}
