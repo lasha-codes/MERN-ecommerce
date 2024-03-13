@@ -252,7 +252,7 @@ export const deleteFromTheCart = async (req, res) => {
       return res.status(500).json({ message: 'How tf did this even happen' })
 
     const updatedCart = loggerUser.cart.filter((products) => {
-      return productId.toString() !== products._id.toString()
+      return productId.toString() !== products._id?.toString()
     })
 
     loggerUser.cart = updatedCart
@@ -267,19 +267,22 @@ export const deleteFromTheCart = async (req, res) => {
 
 export const incrementProductCart = async (req, res) => {
   const { token } = req.cookies
-  const { productId } = req.body
+  const { productTitle } = req.body
   try {
     if (!token) {
       return res.status(401).json({ message: 'Unauthorized request' })
     }
+
     const { email } = jwt.verify(token, process.env.JWT_SECRET)
     const loggerUser = await UserModel.findOne({ email })
     const productToIncrement = loggerUser.cart.find((product) => {
-      return productId.toString() === product._id.toString()
+      return product.productTitle.toString() === productTitle.toString()
     })
+
     if (productToIncrement) {
       productToIncrement.productCount += 1
     }
+
     await loggerUser.save()
     res.status(200).json({ message: 'Successfully incremented product' })
   } catch (error) {

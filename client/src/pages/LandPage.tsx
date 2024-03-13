@@ -18,14 +18,17 @@ const LandPage = () => {
   const addToCart = async (product: any) => {
     try {
       if (cartLength > 4) return toast.error('can`t add more items to the cart')
-      setCartLength((prev: number) => prev + 1)
       if (user) {
         const dupProduct = cart.find((products: any) => {
           return product.title === products.productTitle
         })
         if (dupProduct) {
           dupProduct.productCount += 1
-          return
+          setCartLength((prev: number) => prev + 1)
+          await axios.put('/user/increment-count', {
+            productTitle: product.title,
+          })
+          return toast.success('Successfully incremented product count')
         }
         setCart((prev: any) => [
           ...prev,
