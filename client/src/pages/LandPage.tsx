@@ -42,6 +42,13 @@ const LandPage = () => {
     }
   }
 
+  const addMacbookPro = () => {
+    const macbook = allProducts.find((singleProduct: any) => {
+      return singleProduct.title === 'Macbook 14 pro'
+    })
+    addToCart(macbook)
+  }
+
   return (
     <main className='w-full h-screen overflow-y-scroll py-10 relative bg-gray-100'>
       <div className='w-full px-16 py-4 bg-main flex flex-col'>
@@ -61,7 +68,10 @@ const LandPage = () => {
               <button className='border bg-transparent rounded-lg px-5 py-[5.5px] text-white text-[18px]'>
                 Read more
               </button>
-              <button className='border bg-white border-green-900 rounded-lg px-5 py-[5.5px] text-green-900 flex items-center justify-center gap-2 text-[18px]'>
+              <button
+                onClick={addMacbookPro}
+                className='border bg-white border-green-900 rounded-lg px-5 py-[5.5px] text-green-900 flex items-center justify-center gap-2 text-[18px]'
+              >
                 <FaShoppingCart />
                 Add to cart
               </button>

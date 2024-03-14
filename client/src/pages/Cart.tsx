@@ -10,6 +10,7 @@ import amex from '../assets/amex.png'
 import mastercard from '../assets/mastercard.png'
 import paypal from '../assets/paypal.png'
 import { PiCurrencyDollarSimple } from 'react-icons/pi'
+import { IoBagCheckOutline } from 'react-icons/io5'
 import toast from 'react-hot-toast'
 
 const Cart = () => {
@@ -81,6 +82,10 @@ const Cart = () => {
               Shopping Cart
             </h1>
           </div>
+
+          {cart.length === 0 && (
+            <h3 className='text-xl text-slate-500'>Cart Empty.</h3>
+          )}
 
           {cart?.map((product: any, idx: number) => {
             return (
@@ -157,7 +162,6 @@ const Cart = () => {
               demo
             </span>
           </h2>
-          {/* TODO: card selection */}
           <div className='grid grid-cols-4 place-items-center mb-10 gap-4 max-md:grid-cols-2 max-sm:grid-cols-1'>
             {cardsData.map((card, idx) => {
               return (
@@ -187,7 +191,10 @@ const Cart = () => {
               <h3 className='text-gray-300 text-[14px] max-sm:text-[12px]'>
                 CARD NUMBER
               </h3>
-              <input className='bg-slate-400 text-gray-100 w-full py-1 px-5 rounded-sm outline-none' />
+              <input
+                className='bg-slate-400 text-gray-100 w-full py-1 px-5 rounded-sm outline-none placeholder:text-gray-200'
+                placeholder='eg. 4444 1111 1111 1111'
+              />
             </div>
             <div className='flex items-center justify-center gap-5'>
               <div className='flex flex-col w-full gap-2'>
@@ -196,7 +203,8 @@ const Cart = () => {
                 </h3>
                 <input
                   type='text'
-                  className='bg-slate-400 text-gray-100 w-full py-1 px-5 rounded-sm outline-none'
+                  className='bg-slate-400 text-gray-100 w-full py-1 px-5 rounded-sm outline-none placeholder:text-gray-200'
+                  placeholder='04/26'
                 />
               </div>
               <div className='flex flex-col gap-2 w-full'>
@@ -205,7 +213,8 @@ const Cart = () => {
                 </h3>
                 <input
                   type='text'
-                  className='bg-slate-400 text-gray-100 w-full py-1 px-5 rounded-sm outline-none'
+                  className='bg-slate-400 text-gray-100 w-full py-1 px-5 rounded-sm outline-none placeholder:text-gray-200'
+                  placeholder='137'
                 />
               </div>
             </div>
@@ -232,8 +241,9 @@ const Cart = () => {
                 {(totalPrice + 20).toFixed(2)}
               </span>
             </div>
-            <button className='text-gray-700 bg-gray-200 px-10 py-1 rounded-full max-w-[200px] m-auto mt-2 hover:bg-gray-300 transition-all duration-300'>
-              Checkout
+            <button className='text-gray-700 bg-gray-200 px-10 py-1 rounded-full max-w-[200px] m-auto mt-2 hover:bg-gray-300 transition-all duration-300 flex items-center gap-2'>
+              <span className='text-[18px]'>Checkout</span>
+              <IoBagCheckOutline className='text-[20px]' />
             </button>
           </div>
         </div>
