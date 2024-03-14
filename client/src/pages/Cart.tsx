@@ -53,7 +53,7 @@ const Cart = () => {
       const data = await response.data
       toast.success(data.message)
     } catch (error) {
-      toast.error('something went wrong')
+      toast.error('wait for other product to be removed')
     }
   }
 

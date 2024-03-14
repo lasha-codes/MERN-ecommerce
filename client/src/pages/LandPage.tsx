@@ -73,7 +73,7 @@ const LandPage = () => {
             <p className='text-gray-300 max-w-[470px] text-[18px] max-sm:text-[16px]'>
               Supercharged by M2 Pro or M2 Max, macbook pro takes its power and
               efficiency further than ever. it delivers exceptional performance
-              whether its plugged in or not, and now it has eveno longer battery
+              whether its plugged in or not, and now it has even longer battery
               life.
             </p>
             <div className='flex gap-2 py-2 max-md:flex-col'>

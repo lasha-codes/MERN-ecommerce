@@ -131,44 +131,52 @@ export const uploadProductAdmin = async (req, res) => {
     productType,
   } = req.body
 
-  if (
-    !productTitle ||
-    !productDescription ||
-    !productImage ||
-    !productColor ||
-    !productPrice
-  ) {
-    return res.status(400).json({ message: 'Please fill out all fields' })
-  }
+  try {
+    if (
+      !productTitle ||
+      !productDescription ||
+      !productImage ||
+      !productColor ||
+      !productPrice
+    ) {
+      return res.status(400).json({ message: 'Please fill out all fields' })
+    }
 
-  const createdProduct = await AdminModel.create({
-    title: productTitle,
-    description: productDescription,
-    image: productImage,
-    price: productPrice,
-    color: productColor,
-    type: productType,
-  })
-  res.status(200).json(createdProduct)
+    const createdProduct = await AdminModel.create({
+      title: productTitle,
+      description: productDescription,
+      image: productImage,
+      price: productPrice,
+      color: productColor,
+      type: productType,
+    })
+    res.status(200).json(createdProduct)
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' })
+  }
 }
 
 export const userPhotoUpload = (req, res) => {
   const { token } = req.cookies
   const { base64 } = req.body
 
-  if (!base64) return res.status(400).json({ message: 'photo not defined' })
-  jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
-    const { email } = info
-    if (err) throw err
-    console.log(email)
-    const userToUpdate = await UserModel.findOne({ email })
-    if (!userToUpdate) {
-      return res.status(400).json({ message: 'Bad request' })
-    }
-    userToUpdate.avatar = base64
-    await userToUpdate.save()
-    res.status(200).json({ message: 'upload successful' })
-  })
+  try {
+    if (!base64) return res.status(400).json({ message: 'photo not defined' })
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
+      const { email } = info
+      if (err) throw err
+      console.log(email)
+      const userToUpdate = await UserModel.findOne({ email })
+      if (!userToUpdate) {
+        return res.status(400).json({ message: 'Bad request' })
+      }
+      userToUpdate.avatar = base64
+      await userToUpdate.save()
+      res.status(200).json({ message: 'upload successful' })
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Server error, try again.' })
+  }
 }
 
 export const addToUserCart = async (req, res) => {
@@ -183,27 +191,33 @@ export const addToUserCart = async (req, res) => {
     productColor,
     productPrice,
   } = req.body
-  const { email } = jwt.verify(token, process.env.JWT_SECRET)
-  const userCartToUpdate = await UserModel.findOne({ email })
-  const alreadyInCart = userCartToUpdate.cart.find((product) => {
-    return product?.productTitle === productTitle
-  })
-
-  if (alreadyInCart) {
-    alreadyInCart.productCount += 1
-    await userCartToUpdate.save()
-    res.status(200).json({ message: 'Product count incremented' })
-  } else {
-    userCartToUpdate.cart.push({
-      productTitle: productTitle,
-      productColor: productColor,
-      productPrice: productPrice,
-      productImage: productImage,
-      productType: productType,
-      productCount: 1,
+  try {
+    const { email } = jwt.verify(token, process.env.JWT_SECRET)
+    const userCartToUpdate = await UserModel.findOne({ email })
+    const alreadyInCart = userCartToUpdate.cart.find((product) => {
+      return product?.productTitle === productTitle
     })
-    await userCartToUpdate.save()
-    res.status(200).json({ message: 'Successfully added product to the cart' })
+
+    if (alreadyInCart) {
+      alreadyInCart.productCount += 1
+      await userCartToUpdate.save()
+      res.status(200).json({ message: 'Product count incremented' })
+    } else {
+      userCartToUpdate.cart.push({
+        productTitle: productTitle,
+        productColor: productColor,
+        productPrice: productPrice,
+        productImage: productImage,
+        productType: productType,
+        productCount: 1,
+      })
+      await userCartToUpdate.save()
+      res
+        .status(200)
+        .json({ message: 'Successfully added product to the cart' })
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' })
   }
 }
 
@@ -217,20 +231,24 @@ export const decrementProductCount = (req, res) => {
     jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
       const { email } = info
       const loggerUser = await UserModel.findOne({ email })
-      const productToUpdate = loggerUser.cart.find((product) => {
-        return product._id.toString() === productId.toString()
-      })
-      if (!productToUpdate) return
-      if (productToUpdate.productCount === 1) {
-        const filteredCart = loggerUser.cart.filter((product) => {
-          return product._id.toString() !== productId.toString()
+      if (productId) {
+        const productToUpdate = loggerUser.cart.find((product) => {
+          return product._id.toString() === productId.toString()
         })
-        loggerUser.cart = filteredCart
-        await loggerUser.save()
-        res.status(200).json({ message: 'Successfully removed from the cart' })
-        return
+        if (!productToUpdate) return
+        if (productToUpdate.productCount === 1) {
+          const filteredCart = loggerUser.cart.filter((product) => {
+            return product._id.toString() !== productId.toString()
+          })
+          loggerUser.cart = filteredCart
+          await loggerUser.save()
+          res
+            .status(200)
+            .json({ message: 'Successfully removed from the cart' })
+          return
+        }
+        productToUpdate.productCount -= 1
       }
-      productToUpdate.productCount -= 1
       await loggerUser.save()
       res
         .status(200)
