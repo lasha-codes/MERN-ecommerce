@@ -11,10 +11,16 @@ import { userContext } from './UserContext'
 import { useContext } from 'react'
 
 const Header = () => {
-  const { cartLength } = useContext<any>(userContext)
+  const { cart } = useContext<any>(userContext)
   const [toggle, setToggle] = useState<boolean>(true)
   const [isAdmin, setIsAdmin] = useState<boolean>(true)
   const location: any = useLocation().pathname
+  let cartCount = 0
+  if (cart.length > 0) {
+    cart.forEach((product: any) => {
+      cartCount += product.productCount
+    })
+  }
 
   // animation variants
   const navVariants: any = {
@@ -79,9 +85,7 @@ const Header = () => {
                 className='lg:!opacity-100 lg:!translate-x-0 link-span'
               >
                 <Link to={item.to} className='text-lg'>
-                  {item.link === 'Cart'
-                    ? `Cart(${cartLength || 0})`
-                    : item.link}
+                  {item.link === 'Cart' ? `Cart(${cartCount || 0})` : item.link}
                 </Link>
               </motion.span>
             ))}
@@ -95,9 +99,7 @@ const Header = () => {
                 className='lg:!opacity-100 lg:!translate-x-0 link-span'
               >
                 <Link to={item.to} className='text-lg'>
-                  {item.link === 'Cart'
-                    ? `Cart(${cartLength || 0})`
-                    : item.link}
+                  {item.link === 'Cart' ? `Cart(${cartCount || 0})` : item.link}
                 </Link>
               </motion.span>
             ))}

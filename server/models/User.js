@@ -8,16 +8,6 @@ const User = new mongoose.Schema({
   avatar: { type: String },
   isAdmin: { type: Boolean },
   messages: { type: String },
-  cart: [
-    {
-      productTitle: { type: String },
-      productImage: { type: String },
-      productPrice: { type: String },
-      productType: { type: String },
-      productColor: { type: String },
-      productCount: { type: Number },
-    },
-  ],
 })
 
 const UserModel = mongoose.model('User', User)

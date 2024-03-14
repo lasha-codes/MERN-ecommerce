@@ -3,7 +3,6 @@ import Header from '../components/Header.jsx'
 import banner from '../assets/banner.png'
 import { FaShoppingCart } from 'react-icons/fa'
 import { useContext } from 'react'
-import axios from 'axios'
 import toast from 'react-hot-toast'
 import Loader from '../components/Loader.js'
 import { userContext } from '../components/UserContext.js'
@@ -11,47 +10,29 @@ import { PiCurrencyDollarSimple } from 'react-icons/pi'
 import { useNavigate } from 'react-router-dom'
 
 const LandPage = () => {
-  const { setCartLength, cartLength, allProducts, user, cart, setCart } =
-    useContext<any>(userContext)
+  const { allProducts, user, cart, setCart } = useContext<any>(userContext)
   const navigate = useNavigate()
 
   const addToCart = async (product: any) => {
     try {
-      if (cartLength > 4) return toast.error('can`t add more items to the cart')
       if (user) {
-        const dupProduct = cart.find((products: any) => {
-          return product.title === products.productTitle
+        const duplicateProduct = cart.find((singleProduct: any) => {
+          return product.title === singleProduct.productTitle
         })
-        if (dupProduct) {
-          dupProduct.productCount += 1
-          setCartLength((prev: number) => prev + 1)
-          await axios.put('/user/increment-count', {
-            productTitle: product.title,
-          })
-          return toast.success('Successfully incremented product count')
+        if (duplicateProduct) {
+          toast.success('Successfully added product to the cart')
+          return duplicateProduct.productCount++
         }
         setCart((prev: any) => [
           ...prev,
           {
             productTitle: product.title,
             productImage: product.image,
-            productType: product.type,
             productColor: product.color,
             productPrice: product.price,
             productCount: 1,
           },
         ])
-        if (cartLength > 4) {
-          return toast.error(`Can't add more items to the cart`)
-        }
-        setCartLength((prev: number) => prev + 1)
-        await axios.post('user/add-to-cart', {
-          productTitle: product.title,
-          productImage: product.image,
-          productType: product.type,
-          productColor: product.color,
-          productPrice: product.price,
-        })
         toast.success('Successfully added product to the cart')
       } else {
         navigate('/account')
