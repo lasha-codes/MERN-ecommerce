@@ -11,9 +11,9 @@ import { FaFileUpload } from 'react-icons/fa'
 import UserImage from '../components/UserImage.js'
 
 const UserSigned = () => {
-  const { user } = useContext<any>(userContext)
+  const { user, setUserImage } = useContext<any>(userContext)
   const [toggleConfirm, setToggleConfirm] = useState<boolean>(false)
-  const [userImage, setUserImage] = useState('')
+  const [userAvatar, setUserAvatar] = useState('')
   const navigate = useNavigate()
 
   const convertToBase64 = (file: any) => {
@@ -31,16 +31,16 @@ const UserSigned = () => {
 
   const handleUploadImage = async (e: any) => {
     const userImg: any = await convertToBase64(e.target.files[0])
-    setUserImage(userImg)
+    setUserAvatar(userImg)
   }
 
   const uploadUserImage = async () => {
     try {
       await axios.post('/user/upload-image', {
-        base64: userImage,
+        base64: userAvatar,
       })
-      navigate(0)
-      toast.success('Photo uploaded successfully')
+      setUserImage(userAvatar)
+      toast.success('Successfully uploaded avatar')
     } catch (error) {
       toast.error('Failed to upload photo')
     }
@@ -123,8 +123,8 @@ const UserSigned = () => {
       </div>
       <div className='border-bottom w-full flex flex-col items-center justify-center gap-4'>
         <div className='h-[250px] w-[250px] border border-black flex justify-center items-center rounded-full overflow-hidden'>
-          {userImage ? (
-            <img src={userImage} className='object-cover w-full h-full' />
+          {userAvatar ? (
+            <img src={userAvatar} className='object-cover w-full h-full' />
           ) : (
             <FaFileUpload className='text-[70px]' />
           )}

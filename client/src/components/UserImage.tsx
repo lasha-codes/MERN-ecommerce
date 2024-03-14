@@ -5,11 +5,11 @@ import defaultAvatarMale from '../assets/defaultAvatarMale.jpg'
 import defaultAvatarWomen from '../assets/defaultAvatarWomen.jpg'
 
 const UserImage = () => {
-  const { user } = useContext<any>(userContext)
-  if (user.avatarContext) {
+  const { user, userImage } = useContext<any>(userContext)
+  if (userImage) {
     return (
       <img
-        src={user.avatarContext}
+        src={userImage}
         className='w-full h-full object-cover cursor-pointer'
       />
     )
