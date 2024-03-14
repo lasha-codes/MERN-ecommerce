@@ -75,6 +75,7 @@ export const getProfileController = async (req, res) => {
           username: loggerUser.username,
           email: loggerUser.email,
           gender: loggerUser.gender,
+          isAdmin: loggerUser.isAdmin || false,
           avatar: loggerUser.avatar ? loggerUser.avatar : '',
           allProducts: allProducts,
         })
@@ -154,5 +155,30 @@ export const userPhotoUpload = (req, res) => {
     })
   } catch (error) {
     res.status(500).json({ message: 'Server error, try again.' })
+  }
+}
+
+export const becomeAdmin = async (req, res) => {
+  const { token } = req.cookies
+  try {
+    if (!token) {
+      res.status(401).json({ message: 'Unauthorized request' })
+    }
+    const { admin_key } = req.body
+    const { email } = jwt.verify(token, process.env.JWT_SECRET)
+    const secretMatch = admin_key === process.env.ADMIN_KEY
+    const loggedUser = await UserModel.findOne({ email })
+    if (!loggedUser) {
+      return res.status(400).json({ message: 'Bad request' })
+    }
+    if (secretMatch) {
+      loggedUser.isAdmin = true
+      await loggedUser.save()
+      res.status(200).json({ message: 'User has become admin' })
+    } else {
+      res.status(400).json({ message: 'key does not match' })
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' })
   }
 }

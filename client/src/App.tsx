@@ -9,6 +9,7 @@ import { userContext } from './components/UserContext.js'
 import UserSigned from './pages/UserSigned.js'
 import Cart from './pages/Cart.js'
 import { motion } from 'framer-motion'
+import BecomeAdmin from './pages/BecomeAdmin.js'
 
 const App = () => {
   const { user } = useContext<any>(userContext)
@@ -54,6 +55,10 @@ const App = () => {
           <Route path='/account' element={<UserSigned />} />
         )}
         <Route path='/cart' element={<Cart />} />
+        <Route
+          path='/become-admin'
+          element={!user?.isAdmin ? <BecomeAdmin /> : <LandPage />}
+        />
       </Routes>
     </main>
   )

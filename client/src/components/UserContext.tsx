@@ -22,6 +22,7 @@ const UserContext = ({ children }: { children: any }) => {
           usernameContext: data.username,
           emailContext: data.email,
           gender: data.gender,
+          isAdmin: data.isAdmin,
         })
         setUserAvatar(data.avatar)
         setAllProducts(data.allProducts)
