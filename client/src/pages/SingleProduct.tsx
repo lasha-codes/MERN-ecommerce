@@ -8,11 +8,16 @@ import Loader from '../components/Loader'
 import { PiCurrencyDollarSimple } from 'react-icons/pi'
 import { FaShoppingCart } from 'react-icons/fa'
 import toast from 'react-hot-toast'
-
+import axios from 'axios'
 const SingleProduct = () => {
   const { allProducts, cart, setCart } = useContext<any>(userContext)
   const [productById, setProductById] = useState<any>([])
+  const [comment, setComment] = useState<string>('')
+  const [title, setTitle] = useState<string>('')
+  const [reviewTracker, setReviewTracker] = useState<number>(1)
   const { id } = useParams()
+
+  const reviews = [1, 2, 3, 4, 5]
 
   useEffect(() => {
     const findById = allProducts?.find((product: any) => {
@@ -45,13 +50,19 @@ const SingleProduct = () => {
     }
   }
 
+  const addCommentToTheProduct = async () => {
+    await axios.post('/add-comment', {
+      id: id,
+    })
+  }
+
   return (
     <main className='w-full flex h-screen flex-col items-center overflow-scroll py-36 px-0 bg-gray-200'>
       <Header />
       {productById.length < 1 ? (
         <Loader />
       ) : (
-        <div className='w-full flex items-center justify-between px-20'>
+        <div className='w-full flex flex-col gap-[50px] items-start justify-between px-20'>
           {productById.map((product: any, idx: number) => {
             return (
               <div
@@ -88,6 +99,58 @@ const SingleProduct = () => {
               </div>
             )
           })}
+          <div>
+            <h2 className='font-[500] text-[27px]'>Reviews</h2>
+            <div className='flex items-center gap-5'>
+              <div className='bg-white w-[400px] rounded-2xl py-8 px-10 flex flex-col justify-center items-start'>
+                <h3 className='font-[600] text-[21px]'>Add a review</h3>
+                <div className='flex py-3'>
+                  {reviews.map((_review, idx) => {
+                    return (
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        onClick={() => setReviewTracker(idx + 1)}
+                        className={`w-8 text-[#013220] h-8 cursor-pointer`}
+                        fill={`${reviewTracker > idx ? '#013220' : 'none'}`}
+                        color='#007400'
+                        viewBox='0 0 24 24'
+                        strokeWidth={1.5}
+                        stroke='currentColor'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          d='M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z'
+                        />
+                      </svg>
+                    )
+                  })}
+                </div>
+                <form className='flex flex-col gap-2 w-full'>
+                  <input
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    type='text'
+                    placeholder='Title'
+                    className='outline-none border py-1 px-3 rounded-xl w-full'
+                  />
+                  <textarea
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder='Was it good? Pros? Cons?'
+                    className='outline-none border rounded-xl py-1 px-3 w-full'
+                  />
+                  <button
+                    className='bg-green-950 w-[180px] mt-2 text-white px-2 py-2 rounded-lg'
+                    onClick={addCommentToTheProduct}
+                  >
+                    Submit your review
+                  </button>
+                </form>
+              </div>
+              <div></div>
+            </div>
+          </div>
         </div>
       )}
     </main>

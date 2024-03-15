@@ -7,7 +7,14 @@ const User = new mongoose.Schema({
   gender: { type: String },
   avatar: { type: String },
   isAdmin: { type: Boolean },
-  messages: { type: String },
+  messages: [
+    {
+      title: String,
+      username: String,
+      comment: String,
+      rating: Number,
+    },
+  ],
 })
 
 const UserModel = mongoose.model('User', User)

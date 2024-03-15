@@ -59,11 +59,10 @@ const Cart = () => {
     })
     productToDecrement.productCount--
 
-    if (productToDecrement.productCount < 2) {
+    if (productToDecrement.productCount < 1) {
       deleteProductFromTheCart(product)
       return
     }
-
     toast.success('Successfully removed product from the cart')
   }
 

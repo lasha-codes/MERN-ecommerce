@@ -9,6 +9,7 @@ import {
   userPhotoUpload,
   becomeAdmin,
   quitBeingAdmin,
+  addComment,
 } from '../controllers/userController.js'
 
 router.get('/account', getProfileController)
@@ -19,5 +20,6 @@ router.post('/logout', logoutUser)
 router.post('/upload-image', userPhotoUpload)
 router.post('/become-admin', becomeAdmin)
 router.post('/quit-admin', quitBeingAdmin)
+router.post('/add-comment', addComment)
 
 export default router
