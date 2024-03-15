@@ -15,6 +15,7 @@ const SingleProduct = () => {
   const [comment, setComment] = useState<string>('')
   const [title, setTitle] = useState<string>('')
   const [reviewTracker, setReviewTracker] = useState<number>(1)
+  const [productComments, setProductComments] = useState([])
   const { id } = useParams()
 
   const reviews = [1, 2, 3, 4, 5]
@@ -25,6 +26,7 @@ const SingleProduct = () => {
     })
     if (findById) {
       setProductById([findById])
+      setProductComments(findById.messages)
     }
   }, [allProducts])
 
@@ -58,7 +60,7 @@ const SingleProduct = () => {
         rating: reviewTracker,
         comment: comment,
         title: title,
-        username: user.username,
+        username: user.usernameContext,
       })
     } catch (error) {
       console.error(error)
@@ -108,10 +110,10 @@ const SingleProduct = () => {
               </div>
             )
           })}
-          <div>
+          <div className='w-full'>
             <h2 className='font-[500] text-[27px]'>Reviews</h2>
-            <div className='flex items-center gap-5'>
-              <div className='bg-white w-[400px] rounded-2xl py-8 px-10 flex flex-col justify-center items-start'>
+            <div className='flex items-start gap-[80px] w-full justify-center'>
+              <div className='bg-white w-[600px] rounded-2xl py-8 px-10 flex flex-col justify-center items-start'>
                 <h3 className='font-[600] text-[21px]'>Add a review</h3>
                 <div className='flex py-3'>
                   {reviews.map((_review, idx: number) => {
@@ -160,7 +162,54 @@ const SingleProduct = () => {
                   </button>
                 </form>
               </div>
-              <div></div>
+              <div className='bg-white  overflow-y-scroll w-[600px] rounded-2xl py-8 px-10 flex flex-col justify-center items-start'>
+                <h3 className='font-[600] text-[21px] border-b w-full pb-3 mb-3'>
+                  All reviews
+                </h3>
+                <div className='max-h-[500px] overflow-y-scroll'>
+                  {productComments?.length > 0 ? (
+                    productComments.map((product: any) => {
+                      return (
+                        <div className='border-b w-full py-5'>
+                          <span>@by {product.username}</span>
+                          <div className='flex items-center'>
+                            {reviews.map((_, idx) => {
+                              return (
+                                <svg
+                                  key={idx}
+                                  fill={
+                                    product.rating > idx ? '#013220' : 'none'
+                                  }
+                                  xmlns='http://www.w3.org/2000/svg'
+                                  className={`w-6 text-[#013220] h-6 cursor-pointer`}
+                                  color='#007400'
+                                  viewBox='0 0 24 24'
+                                  strokeWidth={1.5}
+                                  stroke='currentColor'
+                                >
+                                  <path
+                                    strokeLinecap='round'
+                                    strokeLinejoin='round'
+                                    d='M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z'
+                                  />
+                                </svg>
+                              )
+                            })}
+                          </div>
+                          <div className='flex flex-col gap-2'>
+                            <h2 className='font-[500] text-xl'>
+                              {product.title}
+                            </h2>
+                            <p>{product.comment}</p>
+                          </div>
+                        </div>
+                      )
+                    })
+                  ) : (
+                    <p>No comments.</p>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
