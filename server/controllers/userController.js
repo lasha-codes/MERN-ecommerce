@@ -199,17 +199,17 @@ export const quitBeingAdmin = async (req, res) => {
 
 export const addComment = async (req, res) => {
   const { token } = req.cookies
-  const { comment, username, rating, id } = req.body
+  const { comment, username, rating, title, id } = req.body
   try {
     if (!token) {
       return res.status(401).json({ message: 'Unauthorized request' })
     }
-    const productToUpdate = await AdminModel.findOne({ id })
-    console.log(productToUpdate)
+    const productToUpdate = await AdminModel.findById(id)
     productToUpdate.messages.push({
       username: username,
       comment: comment,
       rating: rating,
+      title: title,
     })
     await productToUpdate.save()
     res.status(200).json({ message: 'Successfully added a comment.' })

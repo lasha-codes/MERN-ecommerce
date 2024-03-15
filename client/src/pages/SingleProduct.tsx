@@ -10,7 +10,7 @@ import { FaShoppingCart } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 const SingleProduct = () => {
-  const { allProducts, cart, setCart } = useContext<any>(userContext)
+  const { allProducts, cart, setCart, user } = useContext<any>(userContext)
   const [productById, setProductById] = useState<any>([])
   const [comment, setComment] = useState<string>('')
   const [title, setTitle] = useState<string>('')
@@ -50,10 +50,19 @@ const SingleProduct = () => {
     }
   }
 
-  const addCommentToTheProduct = async () => {
-    await axios.post('/add-comment', {
-      id: id,
-    })
+  const addCommentToTheProduct = async (e: React.FormEvent) => {
+    try {
+      e.preventDefault()
+      await axios.post('/user/add-comment', {
+        id: id,
+        rating: reviewTracker,
+        comment: comment,
+        title: title,
+        username: user.username,
+      })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -105,9 +114,10 @@ const SingleProduct = () => {
               <div className='bg-white w-[400px] rounded-2xl py-8 px-10 flex flex-col justify-center items-start'>
                 <h3 className='font-[600] text-[21px]'>Add a review</h3>
                 <div className='flex py-3'>
-                  {reviews.map((_review, idx) => {
+                  {reviews.map((_review, idx: number) => {
                     return (
                       <svg
+                        key={idx}
                         xmlns='http://www.w3.org/2000/svg'
                         onClick={() => setReviewTracker(idx + 1)}
                         className={`w-8 text-[#013220] h-8 cursor-pointer`}
@@ -126,24 +136,26 @@ const SingleProduct = () => {
                     )
                   })}
                 </div>
-                <form className='flex flex-col gap-2 w-full'>
+                <form
+                  className='flex flex-col gap-2 w-full'
+                  onSubmit={addCommentToTheProduct}
+                >
                   <input
                     value={title}
+                    required
                     onChange={(e) => setTitle(e.target.value)}
                     type='text'
                     placeholder='Title'
-                    className='outline-none border py-1 px-3 rounded-xl w-full'
+                    className='outline-none border py-1 px-3 rounded-md w-full'
                   />
                   <textarea
+                    required
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     placeholder='Was it good? Pros? Cons?'
-                    className='outline-none border rounded-xl py-1 px-3 w-full'
+                    className='outline-none border rounded-md py-1 px-3 w-full'
                   />
-                  <button
-                    className='bg-green-950 w-[180px] mt-2 text-white px-2 py-2 rounded-lg'
-                    onClick={addCommentToTheProduct}
-                  >
+                  <button className='bg-green-950 w-[180px] mt-2 text-white px-2 py-2 rounded-lg'>
                     Submit your review
                   </button>
                 </form>
