@@ -182,3 +182,17 @@ export const becomeAdmin = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' })
   }
 }
+
+export const quitBeingAdmin = async (req, res) => {
+  try {
+    const { token } = req.cookies
+    if (!token) return res.status(401).json({ message: 'Unauthorized request' })
+    const { email } = jwt.verify(token, process.env.JWT_SECRET)
+    const signedUser = await UserModel.findOne({ email })
+    signedUser.isAdmin = false
+    await signedUser.save()
+    res.status(200).json({ message: 'User has quite being an admin' })
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error, try again.' })
+  }
+}

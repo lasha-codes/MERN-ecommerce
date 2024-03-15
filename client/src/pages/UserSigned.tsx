@@ -92,6 +92,16 @@ const UserSigned = () => {
     )
   }
 
+  const quitBeingAdmin = async () => {
+    try {
+      await axios.post('/user/quit-admin')
+      user.isAdmin = false
+      toast.success('U have quit being an admin')
+    } catch (error) {
+      toast.error('Something went wrong, try again.')
+    }
+  }
+
   return (
     <main className='w-full h-screen screen flex flex-col items-center overflow-scroll bg-gray-200'>
       <Header />
@@ -109,9 +119,13 @@ const UserSigned = () => {
           >
             Logout
           </span>
-          <Link to='/become-admin'>
-            {user.isAdmin ? user.isAdmin : 'Become admin'}
-          </Link>
+          {!user.isAdmin ? (
+            <Link to='/become-admin'>Become admin</Link>
+          ) : (
+            <span onClick={quitBeingAdmin} className='cursor-pointer'>
+              Quit admin
+            </span>
+          )}
         </nav>
       </div>
       <div
