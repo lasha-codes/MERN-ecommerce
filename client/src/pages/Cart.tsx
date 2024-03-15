@@ -57,13 +57,14 @@ const Cart = () => {
     const productToDecrement = cart.find((singleProduct: any) => {
       return singleProduct.productTitle === product.productTitle
     })
-    if (productToDecrement) {
-      if (productToDecrement.productCount < 2) {
-        deleteProductFromTheCart(product)
-      }
-      productToDecrement.productCount--
-      toast.success('Successfully removed product from the cart')
+    productToDecrement.productCount--
+
+    if (productToDecrement.productCount < 2) {
+      deleteProductFromTheCart(product)
+      return
     }
+
+    toast.success('Successfully removed product from the cart')
   }
 
   return (

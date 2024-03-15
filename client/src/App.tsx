@@ -11,6 +11,8 @@ import Cart from './pages/Cart.js'
 import { motion } from 'framer-motion'
 import BecomeAdmin from './pages/BecomeAdmin.js'
 import NotFound from './pages/NotFound.js'
+import UrNotAdmin from './pages/UrNotAdmin.js'
+import SingleProduct from './pages/SingleProduct.js'
 
 const App = () => {
   const { user } = useContext<any>(userContext)
@@ -46,7 +48,10 @@ const App = () => {
       ></motion.div>
       <Routes>
         <Route path='/' element={<LandPage />} />
-        <Route path='/admin' element={<AdminPage />} />
+        <Route
+          path='/admin'
+          element={user?.isAdmin ? <AdminPage /> : <UrNotAdmin />}
+        />
         {!user ? (
           <>
             <Route path='/account' element={<Account />} />
@@ -60,6 +65,9 @@ const App = () => {
           path='/become-admin'
           element={!user?.isAdmin ? <BecomeAdmin /> : <NotFound />}
         />
+
+        <Route path='/product/:id' element={<SingleProduct />} />
+
         <Route path='*' element={<NotFound />} />
       </Routes>
     </main>

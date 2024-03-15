@@ -4,6 +4,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import Header from '../components/Header'
 
 const BecomeAdmin = () => {
   const [secret, setSecret] = useState<string>('')
@@ -25,6 +26,7 @@ const BecomeAdmin = () => {
 
   return (
     <main className='w-screen h-screen bg-gray-400 flex justify-center items-center'>
+      <Header />
       <form className='text-center w-full' onSubmit={becomeAdmin}>
         <h2 className='mb-[10px] text-xl text-white'>Become admin</h2>
         <div className='flex flex-col items-center justify-center gap-2'>

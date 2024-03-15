@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 import Loader from '../components/Loader.js'
 import { userContext } from '../components/UserContext.js'
 import { PiCurrencyDollarSimple } from 'react-icons/pi'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const LandPage = () => {
   const { allProducts, user, cart, setCart } = useContext<any>(userContext)
@@ -90,13 +90,16 @@ const LandPage = () => {
           <div className='flex flex-wrap gap-[20px] w-full justify-center items-center'>
             {allProducts.slice(0, 10).map((product: any, idx: number) => (
               <div key={idx}>
-                <div className='w-[300px] h-[240px] bg-white rounded-xl flex items-center justify-center'>
+                <Link
+                  to={`/product/${product._id}`}
+                  className='w-[300px] h-[240px] bg-white rounded-xl flex items-center justify-center'
+                >
                   <img
                     src={product.image}
                     alt='product image'
                     className='w-[200px] h-[200px] object-contain'
                   />
-                </div>
+                </Link>
                 <div>
                   <h2 className='capitalize p-[2.5px]'>{product.title}</h2>
                   <div className='flex items-center justify-start gap-2'>
