@@ -67,8 +67,8 @@ const Cart = () => {
   }
 
   return (
-    <main className='w-full overflow-scroll h-screen flex flex-col justify-center items-center px-10 py-10 bg-slate-500'>
-      <div className='cart w-full h-[calc(100vh-5rem)] rounded-[35px] bg-gray-100 px-10 overflow-y-scroll py-5 flex justify-between gap-[70px] max-xl:flex-col'>
+    <main className='w-full overflow-scroll h-screen flex flex-col justify-center items-center max-sm:px-0 px-10 py-10 bg-slate-500'>
+      <div className='cart w-full h-[calc(100vh-5rem)] max-sm:px-4 rounded-[35px] bg-gray-100 px-10 overflow-y-scroll py-5 flex justify-between gap-[70px] max-xl:flex-col'>
         <div className='flex flex-col gap-10 w-[70%] max-xl:w-full'>
           <div>
             <Link
@@ -91,7 +91,7 @@ const Cart = () => {
             return (
               <div
                 key={idx}
-                className='bg-white rounded-2xl px-4 py-2 shadow-sm drop-shadow-2xl flex items-center justify-between max-md:flex-col'
+                className='bg-white max-sm:px-0 rounded-2xl px-4 py-2 shadow-sm drop-shadow-2xl flex items-center justify-between max-md:flex-col'
               >
                 <div className='flex items-center gap-4 max-md:w-[95%]'>
                   <img
