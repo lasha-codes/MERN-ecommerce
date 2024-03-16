@@ -15,7 +15,7 @@ const SingleProduct = () => {
   const [comment, setComment] = useState<string>('')
   const [title, setTitle] = useState<string>('')
   const [reviewTracker, setReviewTracker] = useState<number>(1)
-  const [productComments, setProductComments] = useState([])
+  const [productComments, setProductComments] = useState<any>([])
   const { id } = useParams()
 
   const reviews = [1, 2, 3, 4, 5]
@@ -55,6 +55,19 @@ const SingleProduct = () => {
   const addCommentToTheProduct = async (e: React.FormEvent) => {
     try {
       e.preventDefault()
+      toast.success('Thanks for your feedback.')
+      setProductComments((prev: any) => [
+        ...prev,
+        {
+          rating: reviewTracker,
+          comment: comment,
+          title: title,
+          username: user.usernameContext,
+        },
+      ])
+      setReviewTracker(1)
+      setComment('')
+      setTitle('')
       await axios.post('/user/add-comment', {
         id: id,
         rating: reviewTracker,
@@ -112,8 +125,8 @@ const SingleProduct = () => {
           })}
           <div className='w-full'>
             <h2 className='font-[500] text-[27px]'>Reviews</h2>
-            <div className='flex items-start gap-[80px] w-full justify-center'>
-              <div className='bg-white w-[600px] rounded-2xl py-8 px-10 flex flex-col justify-center items-start'>
+            <div className='flex items-start gap-[80px] w-full max-lg:flex-col justify-center'>
+              <div className='bg-white max-md:w-[100%] w-[600px] rounded-2xl py-8 px-10 flex flex-col justify-center items-start'>
                 <h3 className='font-[600] text-[21px]'>Add a review</h3>
                 <div className='flex py-3'>
                   {reviews.map((_review, idx: number) => {
@@ -162,15 +175,15 @@ const SingleProduct = () => {
                   </button>
                 </form>
               </div>
-              <div className='bg-white  overflow-y-scroll w-[600px] rounded-2xl py-8 px-10 flex flex-col justify-center items-start'>
+              <div className='bg-white overflow-y-scroll max-md:w-[100%] w-[600px] rounded-2xl py-8 px-10 flex flex-col justify-center items-start'>
                 <h3 className='font-[600] text-[21px] border-b w-full pb-3 mb-3'>
                   All reviews
                 </h3>
                 <div className='max-h-[500px] overflow-y-scroll'>
                   {productComments?.length > 0 ? (
-                    productComments.map((product: any) => {
+                    productComments.map((product: any, idx: number) => {
                       return (
-                        <div className='border-b w-full py-5'>
+                        <div key={idx} className='border-b w-full py-5'>
                           <span>@by {product.username}</span>
                           <div className='flex items-center'>
                             {reviews.map((_, idx) => {

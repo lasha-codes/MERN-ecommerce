@@ -63,7 +63,7 @@ const App = () => {
         <Route path='/cart' element={<Cart />} />
         <Route
           path='/become-admin'
-          element={!user?.isAdmin ? <BecomeAdmin /> : <NotFound />}
+          element={!user?.isAdmin && user ? <BecomeAdmin /> : <NotFound />}
         />
 
         <Route path='/product/:id' element={<SingleProduct />} />

@@ -91,7 +91,7 @@ const LandPage = () => {
             {allProducts.slice(0, 10).map((product: any, idx: number) => (
               <div key={idx}>
                 <Link
-                  to={`/product/${product._id}`}
+                  to={user ? `/product/${product._id}` : '/account'}
                   className='w-[300px] h-[240px] bg-white rounded-xl flex items-center justify-center'
                 >
                   <img
