@@ -81,22 +81,22 @@ const SingleProduct = () => {
   }
 
   return (
-    <main className='w-full flex h-screen flex-col items-center overflow-scroll py-36 px-0 bg-gray-200'>
+    <main className='w-full flex h-screen flex-col items-center overflow-scroll py-36 bg-gray-200'>
       <Header />
       {productById.length < 1 ? (
         <Loader />
       ) : (
-        <div className='w-full flex flex-col gap-[50px] items-start justify-between px-20'>
+        <div className='w-full flex flex-col gap-[50px] items-start justify-between px-20 max-sm:px-6'>
           {productById.map((product: any, idx: number) => {
             return (
               <div
                 key={idx}
                 className='w-full gap-14 flex max-lg:flex-col justify-center'
               >
-                <div className='w-full lg:max-w-[500px] max-lg:h-[500px] px-14 flex items-center justify-center bg-white rounded-xl'>
+                <div className='w-full lg:max-w-[500px] max-lg:h-[500px] max-sm:h-[400px] px-14 flex items-center justify-center bg-white rounded-xl'>
                   <img
                     src={product.image}
-                    className='w-[100%] object-contain'
+                    className='w-[100%] max-h-[400px] max-sm:max-h-[450px] object-contain'
                   />
                 </div>
                 <div className='flex flex-col gap-8 py-5'>
@@ -106,7 +106,7 @@ const SingleProduct = () => {
                       {product.description}
                     </p>
                   </div>
-                  <div className='flex items-center gap-3'>
+                  <div className='flex items-center gap-6'>
                     <span className='flex items-center font-[500] text-[28px]'>
                       <PiCurrencyDollarSimple />
                       {product.price}

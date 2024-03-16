@@ -88,7 +88,7 @@ const LandPage = () => {
         <h1 className='mb-5 text-[30px] mt-6'>New Arrivals</h1>
         {allProducts ? (
           <div className='flex flex-wrap gap-[20px] w-full justify-center items-center'>
-            {allProducts.slice(0, 10).map((product: any, idx: number) => (
+            {allProducts.slice(0, 5).map((product: any, idx: number) => (
               <div key={idx}>
                 <Link
                   to={user ? `/product/${product._id}` : '/account'}

@@ -8,7 +8,7 @@ export const userContext = createContext({})
 const UserContext = ({ children }: { children: any }) => {
   const [user, setUser] = useState<object>()
   const [cartLength, setCartLength] = useState<number>(0)
-  const [allProducts, setAllProducts] = useState<any>([])
+  const [allProducts, setAllProducts] = useState<any>()
   const [cart, setCart] = useState<[]>([])
   const [userAvatar, setUserAvatar] = useState<string>('')
 

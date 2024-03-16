@@ -44,7 +44,7 @@ const App = () => {
           x: mousePosition.x - 15,
           y: mousePosition.y - 15,
         }}
-        className='cursor h-[40px] w-[40px] fixed rounded-full mix-blend-difference pointer-events-none bg-white z-[999] max-lg:hidden'
+        className='cursor h-[40px] w-[40px] fixed rounded-full mix-blend-difference pointer-events-none bg-white z-[999] max-xl:hidden'
       ></motion.div>
       <Routes>
         <Route path='/' element={<LandPage />} />

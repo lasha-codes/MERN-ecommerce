@@ -4,7 +4,7 @@ import Header from '../components/Header'
 import { FaFileUpload } from 'react-icons/fa'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import { Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const AdminPage = () => {
   const [productTitle, setProductTitle] = useState<string>('')
@@ -13,7 +13,7 @@ const AdminPage = () => {
   const [productPrice, setProductPrice] = useState<number>(0)
   const [productType, setProductType] = useState<string>('')
   const [productColor, setProductColor] = useState<string>('')
-  const [redirect, setRedirect] = useState<boolean>(false)
+  const navigate = useNavigate()
 
   const convertToBase64 = (file: any) => {
     return new Promise((resolve, reject) => {
@@ -44,11 +44,12 @@ const AdminPage = () => {
         return console.error(data)
       }
       toast.success('You have successfully uploaded a product')
-      setRedirect(true)
       setProductDescription('')
       setProductPrice(0)
       setProductTitle('')
       setProductImage('')
+      navigate('/')
+      navigate(0)
     } catch (err) {
       console.error(err)
     }
@@ -57,10 +58,6 @@ const AdminPage = () => {
   const handleSelectImage = async (e: any) => {
     const file: any = await convertToBase64(e.target.files[0])
     setProductImage(file)
-  }
-
-  if (redirect) {
-    return <Navigate to='/' />
   }
 
   return (
@@ -107,6 +104,9 @@ const AdminPage = () => {
             <option value='gray'>gray</option>
             <option value='purple'>purple</option>
             <option value='silver'>silver</option>
+            <option value='pink'>pink</option>
+            <option value='gold'>gold</option>
+            <option value='navy'>navy</option>
           </select>
           <select
             value={productType}
@@ -120,6 +120,7 @@ const AdminPage = () => {
             <option value='mouse'>mouse</option>
             <option value='ipad'>ipad</option>
             <option value='vision-pro'>vision pro</option>
+            <option value='applewatch'>applewatch</option>
           </select>
         </div>
         <div className='flex flex-col items-center justify-center gap-8'>
