@@ -36,7 +36,26 @@ const AllProducts = () => {
     'applewatch',
   ]
 
-  const sortData = ['All', 'price, lowest', 'price, highest']
+  const sortData = ['none', 'price, lowest', 'price, highest']
+
+  const sortFunctionality = (e: any) => {
+    const sortedProducts = [...mainProducts]
+
+    if (e.target.value.includes('highest')) {
+      sortedProducts.sort((productA: any, productB: any) => {
+        return productB.price - productA.price
+      })
+      setMainProducts(sortedProducts)
+    } else if (e.target.value.includes('lowest')) {
+      sortedProducts.sort((productA: any, productB: any) => {
+        return productA.price - productB.price
+      })
+      setMainProducts(sortedProducts)
+    } else {
+      sortedProducts.sort(() => Math.random() - 0.5)
+      setMainProducts(sortedProducts)
+    }
+  }
 
   const filterByColor = (e: any) => {
     setSelectedColor(e.target.value)
@@ -45,14 +64,37 @@ const AllProducts = () => {
         ? product.type === selectedType && product.color === e.target.value
         : product.color === e.target.value
     })
+    const filterOnlyColor = allProducts.filter((product: any) => {
+      return e.target.value === product.color
+    })
+
     const filterOnlyType = allProducts.filter((product: any) => {
       return selectedType === product.type
     })
-    if (e.target.value === 'All') {
-      if (selectedType) {
-        return setMainProducts(filterOnlyType)
-      }
+
+    const filterBoth = allProducts.filter((product: any) => {
+      return selectedType === product.type && product.color === e.target.value
+    })
+
+    if (e.target.value === 'All' && selectedType === 'All') {
       setMainProducts(allProducts)
+    } else if (
+      e.target.value &&
+      e.target.value !== 'All' &&
+      selectedType !== 'All' &&
+      selectedType
+    ) {
+      setMainProducts(filterBoth)
+    } else if (e.target.value === 'All' && !selectedType) {
+      setMainProducts(allProducts)
+    } else if (e.target.value !== false && e.target.value !== 'All') {
+      setMainProducts(filterOnlyColor)
+    } else if (
+      e.target.value === 'All' &&
+      selectedColor &&
+      selectedColor !== 'All'
+    ) {
+      setMainProducts(filterOnlyType)
     } else {
       setMainProducts(newProducts)
     }
@@ -130,7 +172,10 @@ const AllProducts = () => {
           </div>
           <div className='flex items-center py-1 px-1 rounded-[4px] bg-gray-300 w-[210px]'>
             <span className='ml-2 text-[16px]'>sort:</span>
-            <select className='bg-transparent flex justify-center text-center text-black cursor-pointer text-[15px]'>
+            <select
+              onChange={sortFunctionality}
+              className='bg-transparent flex justify-center text-center text-black cursor-pointer text-[15px]'
+            >
               {sortData.map((sort: string) => {
                 return (
                   <option value={sort} key={sort} className='bg-gray-300'>
