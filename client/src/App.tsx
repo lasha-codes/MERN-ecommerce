@@ -13,6 +13,7 @@ import BecomeAdmin from './pages/BecomeAdmin.js'
 import NotFound from './pages/NotFound.js'
 import UrNotAdmin from './pages/UrNotAdmin.js'
 import SingleProduct from './pages/SingleProduct.js'
+import AllProducts from './pages/AllProducts.js'
 
 const App = () => {
   const { user } = useContext<any>(userContext)
@@ -67,6 +68,7 @@ const App = () => {
         />
 
         <Route path='/product/:id' element={<SingleProduct />} />
+        <Route path='all-products' element={<AllProducts />} />
 
         <Route path='*' element={<NotFound />} />
       </Routes>

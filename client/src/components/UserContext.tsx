@@ -9,6 +9,7 @@ const UserContext = ({ children }: { children: any }) => {
   const [user, setUser] = useState<object>()
   const [cartLength, setCartLength] = useState<number>(0)
   const [allProducts, setAllProducts] = useState<any>()
+  const [mainProducts, setMainProducts] = useState<any>()
   const [cart, setCart] = useState<[]>([])
   const [userAvatar, setUserAvatar] = useState<string>('')
 
@@ -26,8 +27,10 @@ const UserContext = ({ children }: { children: any }) => {
         })
         setUserAvatar(data.avatar)
         setAllProducts(data.allProducts)
+        setMainProducts(data.allProducts)
       } else {
         setAllProducts(data.allProducts)
+        setMainProducts(data.allProducts)
       }
     } catch (error) {
       console.error('unauthorized', error)
@@ -51,6 +54,8 @@ const UserContext = ({ children }: { children: any }) => {
         setCart: setCart,
         userImage: userAvatar,
         setUserImage: setUserAvatar,
+        mainProducts: mainProducts,
+        setMainProducts: setMainProducts,
       }}
     >
       {children}

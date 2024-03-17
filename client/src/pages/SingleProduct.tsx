@@ -96,7 +96,7 @@ const SingleProduct = () => {
                 <div className='w-full lg:max-w-[500px] max-lg:h-[500px] max-sm:h-[400px] px-14 flex items-center justify-center bg-white rounded-xl'>
                   <img
                     src={product.image}
-                    className='w-[100%] max-h-[400px] max-sm:max-h-[450px] object-contain'
+                    className='w-[100%]  max-h-[400px] max-sm:max-h-[350px] object-contain'
                   />
                 </div>
                 <div className='flex flex-col gap-8 py-5'>
