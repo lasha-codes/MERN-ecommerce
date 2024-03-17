@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Header from '../components/Header'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { userContext } from '../components/UserContext'
 import { RiArrowDropDownFill } from 'react-icons/ri'
 import Loader from '../components/Loader'
@@ -8,7 +8,11 @@ import { FaShoppingCart } from 'react-icons/fa'
 import { PiCurrencyDollarSimple } from 'react-icons/pi'
 
 const AllProducts = () => {
-  const { mainProducts } = useContext<any>(userContext)
+  const { mainProducts, allProducts, setMainProducts } =
+    useContext<any>(userContext)
+  const [selectedColor, setSelectedColor] = useState<string>('')
+  const [selectedType, setSelectedType] = useState<string>('')
+
   const colorsData = [
     'All',
     'white',
@@ -28,11 +32,59 @@ const AllProducts = () => {
     'airpods',
     'mouse',
     'ipad',
-    'vision pro',
+    'vision-pro',
     'applewatch',
   ]
 
   const sortData = ['All', 'price, lowest', 'price, highest']
+
+  const filterByColor = (e: any) => {
+    setSelectedColor(e.target.value)
+    const newProducts = allProducts.filter((product: any) => {
+      return selectedType
+        ? product.type === selectedType && product.color === e.target.value
+        : product.color === e.target.value
+    })
+    const filterOnlyType = allProducts.filter((product: any) => {
+      return selectedType === product.type
+    })
+    if (e.target.value === 'All') {
+      if (selectedType) {
+        return setMainProducts(filterOnlyType)
+      }
+      setMainProducts(allProducts)
+    } else {
+      setMainProducts(newProducts)
+    }
+  }
+
+  const filterByType = (e: any) => {
+    setSelectedType(e.target.value)
+    const newProducts = allProducts.filter((product: any) => {
+      return selectedColor
+        ? product.type === e.target.value && product.color === selectedColor
+        : product.type === e.target.value
+    })
+    const allTypes = allProducts.filter((product: any) => {
+      return selectedColor
+        ? product.color === selectedColor
+        : Boolean(product.type)
+    })
+
+    const ignoreColor = allProducts.filter((product: any) => {
+      return product.type === e.target.value
+    })
+
+    if (e.target.value === 'All' && selectedColor !== 'All') {
+      setMainProducts(allTypes)
+    } else if (selectedColor === 'All' && e.target.value !== 'All') {
+      setMainProducts(ignoreColor)
+    } else if (selectedColor === 'All' && e.target.value === 'All') {
+      setMainProducts(allProducts)
+    } else {
+      setMainProducts(newProducts)
+    }
+  }
 
   return (
     <main className='bg-gray-200 h-screen w-full px-8 py-32 overflow-y-scroll'>
@@ -42,7 +94,10 @@ const AllProducts = () => {
         <div className='flex items-center justify-center gap-5 flex-wrap'>
           <div className='flex items-center py-1 px-1 rounded-[4px] bg-gray-300 w-[210px]'>
             <span className='ml-2 text-[16px]'>color:</span>
-            <select className='bg-transparent text-center text-black cursor-pointer text-[15px]'>
+            <select
+              onChange={filterByColor}
+              className='bg-transparent text-center text-black cursor-pointer text-[15px]'
+            >
               {colorsData.map((color: string) => {
                 return (
                   <option
@@ -59,7 +114,10 @@ const AllProducts = () => {
           </div>
           <div className='flex items-center py-1 px-1 rounded-[4px] bg-gray-300 w-[210px]'>
             <span className='ml-2 text-[16px]'>type:</span>
-            <select className='bg-transparent flex justify-center text-center text-black cursor-pointer text-[15px]'>
+            <select
+              onChange={filterByType}
+              className='bg-transparent flex justify-center text-center text-black cursor-pointer text-[15px]'
+            >
               {typesData.map((type: string) => {
                 return (
                   <option value={type} key={type} className='bg-gray-300'>
