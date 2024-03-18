@@ -92,7 +92,7 @@ const LandPage = () => {
               <div key={idx}>
                 <Link
                   to={user ? `/product/${product._id}` : '/account'}
-                  className='w-[300px] h-[240px] bg-white rounded-xl flex items-center justify-center'
+                  className='w-[300px] h-[240px] hover:opacity-40 transition-all duration-500 bg-white rounded-xl group flex items-center justify-center relative'
                 >
                   <img
                     src={product.image}

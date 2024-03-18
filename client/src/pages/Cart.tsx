@@ -44,24 +44,35 @@ const Cart = () => {
   }
 
   const incrementProduct = (product: any) => {
-    const productToIncrement = cart.find((singleProduct: any) => {
-      return product.productTitle === singleProduct.productTitle
+    const updatedCart = cart.map((item: any) => {
+      if (item.productTitle === product.productTitle) {
+        return {
+          ...item,
+          productCount: item.productCount + 1,
+        }
+      }
+      return item
     })
-    if (productToIncrement) {
-      productToIncrement.productCount++
-      toast.success('Successfully added product to the cart')
-    }
+
+    setCart(updatedCart)
+    toast.success('Successfully added product to the cart')
   }
 
   const decrementProduct = (product: any) => {
-    const productToDecrement = cart.find((singleProduct: any) => {
-      return singleProduct.productTitle === product.productTitle
+    const updatedCart = cart.map((item: any) => {
+      if (item.productTitle === product.productTitle) {
+        return {
+          ...item,
+          productCount: item.productCount - 1,
+        }
+      }
+      return item
     })
-    productToDecrement.productCount--
 
-    if (productToDecrement.productCount < 1) {
-      deleteProductFromTheCart(product)
-      return
+    setCart(updatedCart)
+
+    if (product.productCount <= 1) {
+      return deleteProductFromTheCart(product)
     }
     toast.success('Successfully removed product from the cart')
   }
@@ -87,11 +98,12 @@ const Cart = () => {
             <h3 className='text-xl text-slate-500'>Cart Empty.</h3>
           )}
 
+          <div></div>
           {cart?.map((product: any, idx: number) => {
             return (
               <div
                 key={idx}
-                className='bg-white max-sm:px-0 rounded-2xl px-4 py-2 shadow-sm drop-shadow-2xl flex items-center justify-between max-md:flex-col'
+                className='bg-white max-sm:px-0 rounded-2xl px-4 py-3 shadow-sm drop-shadow-2xl flex items-center justify-between max-md:flex-col'
               >
                 <div className='flex items-center gap-4 max-md:w-[95%]'>
                   <img

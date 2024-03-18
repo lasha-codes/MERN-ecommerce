@@ -31,6 +31,7 @@ const AllProducts = () => {
     'lightblue',
     'slategrey',
     'lime',
+    'yellow',
     'midnightblue',
   ]
 
@@ -232,7 +233,7 @@ const AllProducts = () => {
             <div key={idx}>
               <Link
                 to={user ? `/product/${product._id}` : '/account'}
-                className='w-[250px] block h-[250px] p-10 bg-white rounded-lg'
+                className='w-[250px] block h-[250px] hover:opacity-40 transition-all duration-500 p-10 bg-white rounded-lg'
               >
                 <img
                   className='w-full h-full object-contain'
