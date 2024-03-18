@@ -6,12 +6,15 @@ import { RiArrowDropDownFill } from 'react-icons/ri'
 import Loader from '../components/Loader'
 import { FaShoppingCart } from 'react-icons/fa'
 import { PiCurrencyDollarSimple } from 'react-icons/pi'
+import { Link, useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 const AllProducts = () => {
-  const { mainProducts, allProducts, setMainProducts } =
+  const { mainProducts, allProducts, setMainProducts, user, cart, setCart } =
     useContext<any>(userContext)
   const [selectedColor, setSelectedColor] = useState<string>('')
   const [selectedType, setSelectedType] = useState<string>('')
+  const navigate = useNavigate()
 
   const colorsData = [
     'All',
@@ -23,6 +26,12 @@ const AllProducts = () => {
     'gold',
     'navy',
     'pink',
+    'beige',
+    'darkgreen',
+    'lightblue',
+    'slategrey',
+    'lime',
+    'midnightblue',
   ]
 
   const typesData = [
@@ -128,6 +137,35 @@ const AllProducts = () => {
     }
   }
 
+  const addToCart = async (product: any) => {
+    try {
+      if (user) {
+        const duplicateProduct = cart.find((singleProduct: any) => {
+          return product.title === singleProduct.productTitle
+        })
+        if (duplicateProduct) {
+          toast.success('Successfully added product to the cart')
+          return duplicateProduct.productCount++
+        }
+        setCart((prev: any) => [
+          ...prev,
+          {
+            productTitle: product.title,
+            productImage: product.image,
+            productColor: product.color,
+            productPrice: product.price,
+            productCount: 1,
+          },
+        ])
+        toast.success('Successfully added product to the cart')
+      } else {
+        navigate('/account')
+      }
+    } catch (error) {
+      toast.error('Something went wrong')
+    }
+  }
+
   return (
     <main className='bg-gray-200 h-screen w-full px-8 py-32 overflow-y-scroll'>
       <Header />
@@ -192,19 +230,25 @@ const AllProducts = () => {
         {mainProducts ? (
           mainProducts.map((product: any, idx: number) => (
             <div key={idx}>
-              <div className='w-[250px] h-[250px] p-10 bg-white rounded-lg'>
+              <Link
+                to={user ? `/product/${product._id}` : '/account'}
+                className='w-[250px] block h-[250px] p-10 bg-white rounded-lg'
+              >
                 <img
                   className='w-full h-full object-contain'
                   src={product.image}
                 />
-              </div>
-              <h3 className='py-1'>{product.title}</h3>
+              </Link>
+              <h3 className='py-1 capitalize'>{product.title}</h3>
               <div className='flex items-center gap-2'>
                 <p className='flex items-center gap-[1px] font-bold text-lg'>
                   <PiCurrencyDollarSimple />
                   <span>{product.price}</span>
                 </p>
-                <button className='flex items-center gap-2 border border-green-900 text-green-900 px-[15px] text-md py-[5px] rounded-md'>
+                <button
+                  onClick={() => addToCart(product)}
+                  className='flex items-center gap-2 border border-green-900 text-green-900 px-[15px] text-md py-[5px] rounded-md'
+                >
                   <FaShoppingCart />
                   <span>Add to cart</span>
                 </button>

@@ -101,7 +101,9 @@ const SingleProduct = () => {
                 </div>
                 <div className='flex flex-col gap-8 py-5'>
                   <div className='flex flex-col py-5 items-start justify-center gap-8'>
-                    <h1 className='text-4xl font-[600]'>{product.title}</h1>
+                    <h1 className='text-4xl font-[600] capitalize'>
+                      {product.title}
+                    </h1>
                     <p className='max-w-[600px] text-[22px] text-gray-700'>
                       {product.description}
                     </p>

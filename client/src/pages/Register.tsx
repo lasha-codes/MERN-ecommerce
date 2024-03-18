@@ -98,16 +98,16 @@ const Register = () => {
           <div className='flex items-center justify-center gap-2'>
             <label htmlFor='gender' className='text-[20px]'>
               {gender === 'male' ? (
-                <FaMale className='text-blue-600' />
+                <FaMale className='text-blue-600 cursor-pointer' />
               ) : (
-                <FaFemale className='text-pink-800' />
+                <FaFemale className='text-pink-800 cursor-pointer' />
               )}
             </label>
             <select
               id='gender'
               value={gender}
               onChange={(e) => setGender(e.target.value)}
-              className='outline-none'
+              className='outline-none bg-transparent text-black'
             >
               <option value='male'>Male</option>
               <option value='woman'>Woman</option>

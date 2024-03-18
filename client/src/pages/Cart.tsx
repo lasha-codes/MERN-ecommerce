@@ -100,9 +100,9 @@ const Cart = () => {
                     className='w-[100px] h-[100px] object-contain'
                   />
                   <div className='flex flex-col justify-center gap-1'>
-                    <h2 className='text-[20px] max-md:text-[17px]'>
+                    <h3 className='text-[20px] capitalize max-md:text-[17px]'>
                       {product?.productTitle}
-                    </h2>
+                    </h3>
                     <div>
                       <div className='flex items-center gap-1'>
                         <span className='text-gray-500 max-sm:text-[14px]'>

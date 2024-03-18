@@ -107,6 +107,12 @@ const AdminPage = () => {
             <option value='pink'>pink</option>
             <option value='gold'>gold</option>
             <option value='navy'>navy</option>
+            <option value='beige'>beige</option>
+            <option value='darkgreen'>darkgreen</option>
+            <option value='lightblue'>lightblue</option>
+            <option value='slategrey'>slategrey</option>
+            <option value='lime'>lime</option>
+            <option value='midnightblue'>midnightblue</option>
           </select>
           <select
             value={productType}
