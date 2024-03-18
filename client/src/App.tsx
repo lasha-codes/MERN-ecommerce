@@ -15,7 +15,7 @@ import SingleProduct from './pages/SingleProduct.js'
 import AllProducts from './pages/AllProducts.js'
 
 const App = () => {
-  const { user } = useContext<any>(userContext)
+  const { user, isAdmin } = useContext<any>(userContext)
 
   return (
     <main>
@@ -23,7 +23,7 @@ const App = () => {
         <Route path='/' element={<LandPage />} />
         <Route
           path='/admin'
-          element={user?.isAdmin ? <AdminPage /> : <UrNotAdmin />}
+          element={isAdmin ? <AdminPage /> : <UrNotAdmin />}
         />
         {!user ? (
           <>
@@ -36,7 +36,7 @@ const App = () => {
         <Route path='/cart' element={<Cart />} />
         <Route
           path='/become-admin'
-          element={!user?.isAdmin && user ? <BecomeAdmin /> : <NotFound />}
+          element={!isAdmin && user ? <BecomeAdmin /> : <NotFound />}
         />
 
         <Route path='/product/:id' element={<SingleProduct />} />

@@ -11,7 +11,8 @@ import { FaFileUpload } from 'react-icons/fa'
 import UserImage from '../components/UserImage.js'
 
 const UserSigned = () => {
-  const { user, setUserImage } = useContext<any>(userContext)
+  const { user, isAdmin, setIsAdmin, setUserImage } =
+    useContext<any>(userContext)
   const [toggleConfirm, setToggleConfirm] = useState<boolean>(false)
   const [userAvatar, setUserAvatar] = useState('')
   const navigate = useNavigate()
@@ -95,7 +96,7 @@ const UserSigned = () => {
   const quitBeingAdmin = async () => {
     try {
       await axios.post('/user/quit-admin')
-      user.isAdmin = false
+      setIsAdmin(false)
       toast.success('U have quit being an admin')
     } catch (error) {
       toast.error('Something went wrong, try again.')
@@ -119,7 +120,7 @@ const UserSigned = () => {
           >
             Logout
           </span>
-          {!user.isAdmin ? (
+          {!isAdmin ? (
             <Link to='/become-admin'>Become admin</Link>
           ) : (
             <span onClick={quitBeingAdmin} className='cursor-pointer'>

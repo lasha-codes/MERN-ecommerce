@@ -16,6 +16,9 @@ import toast from 'react-hot-toast'
 const Cart = () => {
   const { user, cart, setCart } = useContext<any>(userContext)
   const [activeCard, setActiveCard] = useState<number>(0)
+  const [cartNumber, setCartNumber] = useState<number>()
+  const [cvv, setCvv] = useState<number>()
+  const [expDate, setExpDate] = useState<number>()
   const navigate = useNavigate()
   let totalPrice: number = 0
   cart?.forEach((product: any) => {
@@ -77,6 +80,12 @@ const Cart = () => {
     toast.success('Successfully removed product from the cart')
   }
 
+  const changeNumber = (e: any) => {}
+
+  const changeDate = () => {}
+
+  const changeCvv = () => {}
+
   return (
     <main className='w-full overflow-scroll h-screen flex flex-col justify-center items-center max-sm:px-0 px-10 py-10 bg-slate-500'>
       <div className='cart w-full h-[calc(100vh-5rem)] max-sm:px-4 rounded-[35px] bg-gray-100 px-10 overflow-y-scroll py-5 flex justify-between gap-[70px] max-xl:flex-col'>
@@ -98,7 +107,6 @@ const Cart = () => {
             <h3 className='text-xl text-slate-500'>Cart Empty.</h3>
           )}
 
-          <div></div>
           {cart?.map((product: any, idx: number) => {
             return (
               <div
@@ -204,6 +212,8 @@ const Cart = () => {
                 CARD NUMBER
               </h3>
               <input
+                value={cartNumber}
+                onChange={changeNumber}
                 className='bg-slate-400 text-gray-100 w-full py-1 px-5 rounded-sm outline-none placeholder:text-gray-200'
                 placeholder='eg. 4444 1111 1111 1111'
               />
@@ -214,6 +224,8 @@ const Cart = () => {
                   EXPIRATION DATE
                 </h3>
                 <input
+                  value={expDate}
+                  onChange={changeDate}
                   type='text'
                   className='bg-slate-400 text-gray-100 w-full py-1 px-5 rounded-sm outline-none placeholder:text-gray-200'
                   placeholder='04/26'
@@ -224,6 +236,8 @@ const Cart = () => {
                   CVV
                 </h3>
                 <input
+                  value={cvv}
+                  onChange={changeCvv}
                   type='text'
                   className='bg-slate-400 text-gray-100 w-full py-1 px-5 rounded-sm outline-none placeholder:text-gray-200'
                   placeholder='137'
