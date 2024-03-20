@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
+import { userContext } from '../components/UserContext'
 
 const BecomeAdmin = () => {
   const [secret, setSecret] = useState<string>('')
+  const { setIsAdmin } = useContext<any>(userContext)
   const navigate = useNavigate()
 
   const becomeAdmin = async (e: React.FormEvent) => {
@@ -16,6 +18,7 @@ const BecomeAdmin = () => {
       await axios.post('/user/become-admin', {
         admin_key: secret,
       })
+      setIsAdmin(true)
       navigate('/')
       navigate(0)
       toast.success('you are now admin')

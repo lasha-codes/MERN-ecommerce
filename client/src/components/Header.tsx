@@ -11,7 +11,7 @@ import { userContext } from './UserContext'
 import { useContext } from 'react'
 
 const Header = () => {
-  const { cart, user } = useContext<any>(userContext)
+  const { cart, isAdmin } = useContext<any>(userContext)
   const [toggle, setToggle] = useState<boolean>(true)
   const location: any = useLocation().pathname
 
@@ -69,7 +69,7 @@ const Header = () => {
         variants={navVariants}
         animate={toggle ? 'hidden' : 'visible'}
       >
-        {user?.isAdmin ? (
+        {isAdmin ? (
           <>
             {adminListItems.map((item) => (
               <motion.span

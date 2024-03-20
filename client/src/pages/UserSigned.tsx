@@ -8,44 +8,12 @@ import { IoMdClose } from 'react-icons/io'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import { FaFileUpload } from 'react-icons/fa'
-import UserImage from '../components/UserImage.js'
+import { CiSettings } from 'react-icons/ci'
 
 const UserSigned = () => {
-  const { user, isAdmin, setIsAdmin, setUserImage } =
-    useContext<any>(userContext)
+  const { user, isAdmin, setIsAdmin } = useContext<any>(userContext)
   const [toggleConfirm, setToggleConfirm] = useState<boolean>(false)
-  const [userAvatar, setUserAvatar] = useState('')
   const navigate = useNavigate()
-
-  const convertToBase64 = (file: any) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader()
-      fileReader.readAsDataURL(file)
-      fileReader.onload = () => {
-        resolve(fileReader.result)
-      }
-      fileReader.onerror = (error) => {
-        reject(error)
-      }
-    })
-  }
-
-  const handleUploadImage = async (e: any) => {
-    const userImg: any = await convertToBase64(e.target.files[0])
-    setUserAvatar(userImg)
-  }
-
-  const uploadUserImage = async () => {
-    try {
-      await axios.post('/user/upload-image', {
-        base64: userAvatar,
-      })
-      setUserImage(userAvatar)
-      toast.success('Successfully uploaded avatar')
-    } catch (error) {
-      toast.error('Failed to upload photo')
-    }
-  }
 
   const ConfirmLogout = () => {
     useEffect(() => {
@@ -107,8 +75,13 @@ const UserSigned = () => {
     <main className='w-full h-screen screen flex flex-col items-center overflow-scroll bg-gray-200'>
       <Header />
       <div className='flex w-full justify-between items-center px-10 py-[100px]'>
-        <div className='w-[50px] h-[50px] overflow-hidden rounded-full'>
-          <UserImage />
+        <div className='flex items-center gap-2 text-lg'>
+          <Link
+            to={'/account/settings'}
+            className='bg-main p-[7px] rounded-full hover:opacity-75 transition-all duration-300'
+          >
+            <CiSettings className='cursor-pointer text-white w-[23px] h-[23px]' />
+          </Link>
         </div>
         <nav className='flex items-center justify-center gap-3'>
           <span
@@ -135,35 +108,6 @@ const UserSigned = () => {
         } transition-all duration-300`}
       >
         <ConfirmLogout />
-      </div>
-      <div className='border-bottom w-full flex flex-col items-center justify-center gap-4'>
-        <div className='h-[250px] w-[250px] border border-black flex justify-center items-center rounded-full overflow-hidden'>
-          {userAvatar ? (
-            <img src={userAvatar} className='object-cover w-full h-full' />
-          ) : (
-            <FaFileUpload className='text-[70px]' />
-          )}
-        </div>
-        <div className='flex gap-3 justify-center items-center'>
-          <label
-            htmlFor='file'
-            className='rounded-full bg-main px-4 py-2 text-white cursor-pointer'
-          >
-            Upload Photo
-          </label>
-          <button
-            className='rounded-full bg-transparent border px-4 py-2 text-main border-main'
-            onClick={uploadUserImage}
-          >
-            Submit
-          </button>
-          <input
-            type='file'
-            id='file'
-            className='hidden'
-            onChange={handleUploadImage}
-          />
-        </div>
       </div>
     </main>
   )

@@ -7,29 +7,25 @@ import { createContext, useEffect, useState } from 'react'
 export const userContext = createContext({})
 const UserContext = ({ children }: { children: any }) => {
   const [user, setUser] = useState<object>()
-  const [cartLength, setCartLength] = useState<number>(0)
   const [allProducts, setAllProducts] = useState<any>()
   const [mainProducts, setMainProducts] = useState<any>()
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
   const [cart, setCart] = useState<[]>([])
   const [userAvatar, setUserAvatar] = useState<string>('')
-  const [isAdmin, setIsAdmin] = useState<boolean>()
 
   const getUserProfile = async () => {
     try {
-      const response = await axios.get('/user/account')
-      const data = await response.data
-
+      const { data } = await axios.get('/user/account')
       if (data.username) {
         setUser({
           usernameContext: data.username,
           emailContext: data.email,
           gender: data.gender,
-          isAdmin: data.isAdmin,
         })
+        setIsAdmin(data.isAdmin)
         setUserAvatar(data.avatar)
         setAllProducts(data.allProducts)
         setMainProducts(data.allProducts)
-        setIsAdmin(data.isAdmin)
       } else {
         setAllProducts(data.allProducts)
         setMainProducts(data.allProducts)
@@ -48,8 +44,6 @@ const UserContext = ({ children }: { children: any }) => {
       value={{
         user: user,
         setUser: setUser,
-        cartLength: cartLength,
-        setCartLength: setCartLength,
         allProducts: allProducts,
         setAllProducts: setAllProducts,
         cart: cart,

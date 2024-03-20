@@ -13,6 +13,7 @@ import NotFound from './pages/NotFound.js'
 import UrNotAdmin from './pages/UrNotAdmin.js'
 import SingleProduct from './pages/SingleProduct.js'
 import AllProducts from './pages/AllProducts.js'
+import Settings from './pages/Settings.js'
 
 const App = () => {
   const { user, isAdmin } = useContext<any>(userContext)
@@ -31,7 +32,10 @@ const App = () => {
             <Route path='/account/register' element={<Register />} />
           </>
         ) : (
-          <Route path='/account' element={<UserSigned />} />
+          <>
+            <Route path='/account' element={<UserSigned />} />
+            <Route path='/account/settings' element={<Settings />} />
+          </>
         )}
         <Route path='/cart' element={<Cart />} />
         <Route
