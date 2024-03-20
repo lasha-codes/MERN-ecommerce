@@ -143,7 +143,6 @@ const UserSigned = () => {
         </nav>
       </div>
       <div className='flex items-center flex-col gap-5 bg-white max-sm:w-full px-10 py-11 rounded-3xl'>
-        <h1 className='text-xl font-medium'>My Profile</h1>
         {activeRoute === '/profile' ? (
           <UserInfoComponent />
         ) : (
