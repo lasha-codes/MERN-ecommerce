@@ -217,3 +217,23 @@ export const addComment = async (req, res) => {
     res.status(500).json({ message: 'Server error, try again.' })
   }
 }
+
+export const updateUserInfo = async () => {
+  try {
+    const { token } = req.cookies
+    const { updatedUsername, updatedEmail } = req.body
+    if (!token) {
+      return res.status(401).json({ message: 'Unauthorized request' })
+    }
+    const { email } = jwt.verify(token, process.env.JWT_SECRET)
+    const userToUpdate = await UserModel.findOne({ email })
+    userToUpdate.email = updatedEmail
+    userToUpdate.username = updatedUsername
+    await userToUpdate.save()
+    res
+      .status(200)
+      .json({ message: 'U have successfully updated user information.' })
+  } catch (error) {
+    res.status(500).json({ message: 'Server error.' })
+  }
+}
