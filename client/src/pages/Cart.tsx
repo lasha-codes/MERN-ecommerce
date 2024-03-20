@@ -80,15 +80,15 @@ const Cart = () => {
     toast.success('Successfully removed product from the cart')
   }
 
-  const changeNumber = (e: any) => {}
+  const changeNumber = () => {}
 
   const changeDate = () => {}
 
   const changeCvv = () => {}
 
   return (
-    <main className='w-full overflow-scroll h-screen flex flex-col justify-center items-center max-sm:px-0 px-10 py-10 bg-slate-500'>
-      <div className='cart w-full h-[calc(100vh-5rem)] max-sm:px-4 rounded-[35px] bg-gray-100 px-10 overflow-y-scroll py-5 flex justify-between gap-[70px] max-xl:flex-col'>
+    <main className='w-full overflow-scroll h-screen flex flex-col justify-center items-center max-sm:px-0 max-sm:py-0 px-10 py-10 bg-slate-500'>
+      <div className='cart w-full h-[calc(100vh-5rem)] max-sm:px-4 rounded-[35px] max-sm:rounded-none max-sm:h-screen bg-gray-100 px-10 overflow-y-scroll py-5 flex justify-between gap-[70px] max-xl:flex-col'>
         <div className='flex flex-col gap-10 w-[70%] max-xl:w-full'>
           <div>
             <Link

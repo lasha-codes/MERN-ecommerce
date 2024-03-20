@@ -21,13 +21,13 @@ const profileData = [
         xmlns='http://www.w3.org/2000/svg'
         fill='none'
         viewBox='0 0 24 24'
-        stroke-width='1.5'
+        strokeWidth='1.5'
         stroke='currentColor'
-        className='w-6 h-6'
+        className='w-8 h-8'
       >
         <path
-          stroke-linecap='round'
-          stroke-linejoin='round'
+          strokeLinecap='round'
+          strokeLinejoin='round'
           d='M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z'
         />
       </svg>
@@ -43,7 +43,7 @@ const profileData = [
         viewBox='0 0 24 24'
         strokeWidth={1.5}
         stroke='currentColor'
-        className='w-6 h-6'
+        className='w-8 h-8'
       >
         <path
           strokeLinecap='round'
@@ -63,7 +63,7 @@ const profileData = [
         viewBox='0 0 24 24'
         strokeWidth={1.5}
         stroke='currentColor'
-        className='w-6 h-6'
+        className='w-8 h-8'
       >
         <path
           strokeLinecap='round'
@@ -152,9 +152,9 @@ const UserSigned = () => {
           )}
         </nav>
       </div>
-      <div className='flex items-center flex-col gap-5 bg-white px-10 py-11 rounded-3xl'>
+      <div className='flex items-center flex-col gap-5 bg-white max-sm:w-full px-10 py-11 rounded-3xl'>
         <h1 className='text-xl font-medium'>My Profile</h1>
-        <div className='flex flex-col items-start justify-center py-2 px-8 w-[400px] h-[100%] bg-[#131313] text-white relative rounded-2xl'>
+        <div className='flex flex-col items-start justify-center py-2 max-sm:w-full px-8 w-[400px] h-[100%] bg-[#131313] text-white relative rounded-2xl'>
           <div className='flex items-start border-b w-full py-5'>
             <div className='relative flex items-start group gap-2 py-2 px-3'>
               <div className='shadow-md shadow-white/20 w-[60px] h-[60px] rounded-full overflow-hidden'>
@@ -227,17 +227,26 @@ const UserSigned = () => {
         </div>
         <div>
           <div className='flex items-center justify-center gap-10'>
-            {profileData.map((item) => {
+            {profileData.map((item, idx: number) => {
               return item.to ? (
                 <Link
-                  className='flex font-medium flex-col items-center'
+                  key={idx}
+                  className='relative flex font-medium flex-col items-center'
                   to={item.to}
                 >
                   {item.icon}
+                  {item.name === 'Orders' ? (
+                    <div className='absolute text-xs flex items-center justify-center h-[18px] w-[18px] right-2 rounded-full bg-[#e65848] text-white font-[400] top-0'>
+                      0
+                    </div>
+                  ) : null}
                   <span>{item.name}</span>
                 </Link>
               ) : (
-                <div className='flex flex-col items-center font-medium'>
+                <div
+                  key={idx}
+                  className='flex flex-col items-center font-medium'
+                >
                   {item.icon}
                   <span>{item.name}</span>
                 </div>
