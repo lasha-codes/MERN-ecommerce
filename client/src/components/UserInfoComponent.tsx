@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import UserImage from '../components/UserImage.js'
-import { FaEdit } from 'react-icons/fa'
 import { FaCheck, FaFreeCodeCamp } from 'react-icons/fa6'
 import { IoIosArrowForward } from 'react-icons/io'
 import { useContext } from 'react'
@@ -25,12 +24,6 @@ const UserInfoComponent = () => {
             <div className='shadow-md shadow-white/20 w-[60px] h-[60px] rounded-full overflow-hidden'>
               <UserImage />
             </div>
-            <label
-              className='cursor-pointer absolute text-[21px] text-slate-600 transition-all duration-300 bottom-2 group-hover:opacity-100 group-hover:pointer-events-auto right-3 opacity-0 pointer-events-none'
-              htmlFor='file'
-            >
-              <FaEdit />
-            </label>
           </div>
           <div>
             <div className='flex items-center gap-3 mt-3'>

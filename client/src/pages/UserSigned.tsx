@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { userContext } from '../components/UserContext.jsx'
 import { Link } from 'react-router-dom'
 import Header from '../components/Header.js'
@@ -74,40 +74,7 @@ const profileData = [
 ]
 
 const UserSigned = () => {
-  const { activeRoute, isAdmin, setIsAdmin, setUserImage } =
-    useContext<any>(userContext)
-  const [, setUserAvatar] = useState('')
-
-  const convertToBase64 = (file: any) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader()
-      fileReader.readAsDataURL(file)
-      fileReader.onload = () => {
-        resolve(fileReader.result)
-      }
-      fileReader.onerror = (error) => {
-        reject(error)
-      }
-    })
-  }
-  const uploadUserImage = async (e: any) => {
-    try {
-      const userImg: any = await convertToBase64(e.target.files[0])
-      setUserAvatar(userImg)
-      if (userImg) {
-        await axios.post('/user/upload-image', {
-          base64: userImg,
-        })
-        setUserImage(userImg)
-        toast.success('Successfully uploaded avatar')
-      }
-    } catch (error) {
-      toast.error('Failed to upload photo')
-    }
-  }
-  const updateUserInfo = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-  }
+  const { activeRoute, isAdmin, setIsAdmin } = useContext<any>(userContext)
 
   const quitBeingAdmin = async () => {
     try {
@@ -178,13 +145,6 @@ const UserSigned = () => {
           </div>
         </div>
       </div>
-
-      <input
-        type='file'
-        id='file'
-        className='hidden'
-        onChange={uploadUserImage}
-      />
     </main>
   )
 }
