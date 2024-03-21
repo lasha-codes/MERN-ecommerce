@@ -15,7 +15,7 @@ const EditProfileComponent = () => {
   const [, setUserAvatar] = useState<string>('')
   const [username, setUsername] = useState<string>('')
   const [email, setEmail] = useState<string>('')
-  const [passwordToggle, setPasswordToggle] = useState<boolean>(true)
+  const [passwordToggle, setPasswordToggle] = useState<boolean>(false)
   const navigate = useNavigate()
 
   const convertToBase64 = (file: any) => {
@@ -146,7 +146,10 @@ const EditProfileComponent = () => {
           Confirm
         </button>
       </form>
-      <button className='justify-self-center bg-purple-600 rounded-full text-white px-6 hover:opacity-70 transition duration-300 py-2'>
+      <button
+        onClick={() => setPasswordToggle(true)}
+        className='justify-self-center bg-purple-600 rounded-full text-white px-6 hover:opacity-70 transition duration-300 py-2'
+      >
         Change password
       </button>
       {passwordToggle ? (
