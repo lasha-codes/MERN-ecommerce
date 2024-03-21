@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios'
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { IoIosClose } from 'react-icons/io'
 
 interface changePasswordTypes {
@@ -22,8 +23,9 @@ const ChangePassword: React.FC<changePasswordTypes> = ({
         currentPassword: curPassword,
         newPassword,
       })
+      toast.success('U have changed ur password.')
     } catch (err) {
-      console.log(err)
+      toast.error('Incorrect password')
     }
   }
 

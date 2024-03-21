@@ -5,8 +5,6 @@ import { useContext } from 'react'
 import { userContext } from '../components/UserContext.jsx'
 import { Link } from 'react-router-dom'
 import Header from '../components/Header.js'
-import axios from 'axios'
-import toast from 'react-hot-toast'
 import UserInfoComponent from '../components/UserInfoComponent.js'
 import EditProfileComponent from '../components/EditProfileComponent.js'
 
@@ -73,33 +71,14 @@ const profileData = [
 ]
 
 const UserSigned = () => {
-  const { activeRoute, isAdmin, setIsAdmin } = useContext<any>(userContext)
-
-  const quitBeingAdmin = async () => {
-    try {
-      await axios.post('/user/quit-admin')
-      setIsAdmin(false)
-      toast.success('U have quit being an admin')
-    } catch (error) {
-      toast.error('Something went wrong, try again.')
-    }
-  }
+  const { activeRoute } = useContext<any>(userContext)
 
   return (
     <main className='w-full h-screen screen flex flex-col items-center overflow-scroll bg-gray-200'>
       <Header />
       <div className='flex w-full justify-between items-center px-10 py-[100px]'>
         <div className='flex items-center gap-2 text-lg'></div>
-        <nav className='flex items-center justify-center gap-3'>
-          <span className='cursor-pointer'>Logout</span>
-          {!isAdmin ? (
-            <Link to='/become-admin'>Become admin</Link>
-          ) : (
-            <span onClick={quitBeingAdmin} className='cursor-pointer'>
-              Quit admin
-            </span>
-          )}
-        </nav>
+        <nav className='flex items-center justify-center gap-3'> </nav>
       </div>
       <div className='flex items-center flex-col gap-5 bg-white max-sm:w-full px-10 py-11 rounded-3xl'>
         {activeRoute === '/profile' ? (

@@ -9,9 +9,11 @@ import toast from 'react-hot-toast'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import ChangePassword from './ChangePassword'
+import { Link } from 'react-router-dom'
 
 const EditProfileComponent = () => {
-  const { setActiveRoute, user, setUserImage } = useContext<any>(userContext)
+  const { setActiveRoute, user, setUserImage, isAdmin, setIsAdmin } =
+    useContext<any>(userContext)
   const [, setUserAvatar] = useState<string>('')
   const [username, setUsername] = useState<string>('')
   const [email, setEmail] = useState<string>('')
@@ -60,19 +62,56 @@ const EditProfileComponent = () => {
     }
   }
 
+  const logoutUser = async () => {
+    try {
+      await axios.post('/user/logout')
+      navigate(0)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
     setUsername(user.usernameContext)
     setEmail(user.emailContext)
   }, [])
 
+  const quitBeingAdmin = async () => {
+    try {
+      await axios.post('/user/quit-admin')
+      setIsAdmin(false)
+      toast.success('U have quit being an admin')
+    } catch (error) {
+      toast.error('Something went wrong, try again.')
+    }
+  }
+
   return (
     <div className='relative flex flex-col justify-center items-center gap-4'>
-      <div className='flex items-center gap-5'>
-        <FaArrowLeftLong
-          className='cursor-pointer'
-          onClick={() => setActiveRoute('/profile')}
-        />
-        <h1 className='text-xl font-medium'>My Profile</h1>
+      <div>
+        <div className='flex items-center gap-5'>
+          <FaArrowLeftLong
+            className='cursor-pointer'
+            onClick={() => setActiveRoute('/profile')}
+          />
+
+          <h1 className='text-xl font-medium'>My Profile</h1>
+        </div>
+        {isAdmin ? (
+          <button
+            className='bg-transparent px-6 mt-3 py-1 rounded-full border border-gray-500 text-gray-500'
+            onClick={quitBeingAdmin}
+          >
+            Quit admin
+          </button>
+        ) : (
+          <Link
+            to='/become-admin'
+            className='bg-transparent block px-6 mt-3 py-1 rounded-full border border-gray-500 text-gray-500'
+          >
+            Become admin
+          </Link>
+        )}
       </div>
       <div className='w-full flex justify-center items-center flex-col'>
         <div className='relative'>
@@ -151,6 +190,12 @@ const EditProfileComponent = () => {
         className='justify-self-center bg-purple-600 rounded-full text-white px-6 hover:opacity-70 transition duration-300 py-2'
       >
         Change password
+      </button>
+      <button
+        onClick={logoutUser}
+        className='justify-self-center border border-red-400 text-red-400 rounded-full px-6 hover:opacity-70 transition duration-300 py-2'
+      >
+        Logout
       </button>
       <ChangePassword
         setPasswordToggle={setPasswordToggle}

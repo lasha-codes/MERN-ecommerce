@@ -12,6 +12,7 @@ import {
   addComment,
   updateUserInfo,
   updateUserPassword,
+  sendUserOrder,
 } from '../controllers/userController.js'
 
 router.get('/account', getProfileController)
@@ -22,6 +23,7 @@ router.post('/logout', logoutUser)
 router.post('/upload-image', userPhotoUpload)
 router.post('/become-admin', becomeAdmin)
 router.post('/quit-admin', quitBeingAdmin)
+router.post('/create-order', sendUserOrder)
 router.post('/add-comment', addComment)
 router.put('/update-user', updateUserInfo)
 router.put('/update-password', updateUserPassword)

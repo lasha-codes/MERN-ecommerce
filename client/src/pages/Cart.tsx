@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { userContext } from '../components/UserContext'
-import { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { MdKeyboardArrowLeft } from 'react-icons/md'
 import { Link, useNavigate } from 'react-router-dom'
 import { RiDeleteBin6Line } from 'react-icons/ri'
@@ -16,9 +16,9 @@ import toast from 'react-hot-toast'
 const Cart = () => {
   const { user, cart, setCart } = useContext<any>(userContext)
   const [activeCard, setActiveCard] = useState<number>(0)
-  const [cartNumber, setCartNumber] = useState<number>()
-  const [cvv, setCvv] = useState<number>()
-  const [expDate, setExpDate] = useState<number>()
+  const [cardNumber, setCardNumber] = useState<any>('')
+  const [cvv, setCvv] = useState<string>('')
+  const [expDate, setExpDate] = useState<string>('')
   const navigate = useNavigate()
   let totalPrice: number = 0
   cart?.forEach((product: any) => {
@@ -80,11 +80,19 @@ const Cart = () => {
     toast.success('Successfully removed product from the cart')
   }
 
-  const changeNumber = () => {}
+  const changeNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCardNumber(e.target.value)
+  }
 
-  const changeDate = () => {}
+  const changeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setExpDate(e.target.value)
+  }
 
-  const changeCvv = () => {}
+  const changeCvv = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCvv(e.target.value)
+  }
+
+  const proccessOrder = () => {}
 
   return (
     <main className='w-full overflow-scroll h-screen flex flex-col justify-center items-center max-sm:px-0 max-sm:py-0 px-10 py-10 bg-slate-500'>
@@ -212,7 +220,9 @@ const Cart = () => {
                 CARD NUMBER
               </h3>
               <input
-                value={cartNumber}
+                type='text'
+                minLength={1}
+                value={cardNumber}
                 onChange={changeNumber}
                 className='bg-slate-400 text-gray-100 w-full py-1 px-5 rounded-sm outline-none placeholder:text-gray-200'
                 placeholder='eg. 4444 1111 1111 1111'

@@ -1,5 +1,6 @@
 import UserModel from '../models/User.js'
 import AdminModel from '../models/Admin.js'
+import Orders from '../models/Orders.js'
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
@@ -252,7 +253,7 @@ export const updateUserPassword = async (req, res) => {
       signedUser.password
     )
     if (passwordMatches) {
-      signedUser.password = newPassword
+      signedUser.password = bcrypt.hashSync(newPassword)
       await signedUser.save()
       res
         .status(200)
@@ -260,6 +261,26 @@ export const updateUserPassword = async (req, res) => {
     } else {
       res.status(400).json({ message: 'incorrect password!' })
     }
+  } catch (err) {
+    res.status(500).json({ message: 'Server error.' })
+  }
+}
+
+export const sendUserOrder = async (req, res) => {
+  const { token } = req.cookies
+  const { email, cardNumber, cvv, checkedOut, products } = req.body
+  try {
+    if (!token) {
+      return res.status(401).json({ message: 'Unauthorized request' })
+    }
+    const createdOrder = await Orders.create({
+      email,
+      cardNumber,
+      cvv,
+      checkedOut,
+      products,
+    })
+    res.status(200).json(createdOrder)
   } catch (err) {
     res.status(500).json({ message: 'Server error.' })
   }
