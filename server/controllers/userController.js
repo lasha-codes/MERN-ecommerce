@@ -237,3 +237,27 @@ export const updateUserInfo = async (req, res) => {
     res.status(500).json({ message: 'Server error.' })
   }
 }
+
+export const updateUserPassword = async (req, res) => {
+  const { token } = req.cookies
+  const { currentPassword, newPassword } = req.body
+  try {
+    if (!token) {
+      return res.status(401).json({ message: 'Unauthorized request' })
+    }
+    const { email } = jwt.verify(token, process.env.JWT_SECRET)
+    const signedUser = await UserModel.findOne({ email })
+    const passwordMatches = bcrypt.compareSync(
+      currentPassword,
+      signedUser.password
+    )
+    if (passwordMatches) {
+      signedUser.password = newPassword
+      await signedUser.save()
+    } else {
+      res.status(400).json({ message: 'incorrect password!' })
+    }
+  } catch (err) {
+    res.status(500).json({ message: 'Server error.' })
+  }
+}

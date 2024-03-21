@@ -152,9 +152,12 @@ const EditProfileComponent = () => {
       >
         Change password
       </button>
-      {passwordToggle ? (
-        <ChangePassword setPasswordToggle={setPasswordToggle} />
-      ) : null}
+      <ChangePassword
+        setPasswordToggle={setPasswordToggle}
+        className={`${
+          !passwordToggle ? 'opacity-0 pointer-events-none' : 'opacity-1'
+        }`}
+      />
     </div>
   )
 }

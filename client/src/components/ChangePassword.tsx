@@ -4,13 +4,17 @@ import { IoIosClose } from 'react-icons/io'
 
 interface changePasswordTypes {
   setPasswordToggle: React.SetStateAction<any>
+  className: string
 }
 
 const ChangePassword: React.FC<changePasswordTypes> = ({
   setPasswordToggle,
+  className,
 }) => {
   return (
-    <div className='absolute flex p-10 items-center justify-center rounded-lg bg-gray-200'>
+    <div
+      className={` ${className} transition absolute duration-300 flex p-10 items-center justify-center rounded-lg bg-gray-200`}
+    >
       <IoIosClose
         onClick={() => setPasswordToggle(false)}
         className='absolute top-3 right-3 text-2xl text-red-400 cursor-pointer hover:opacity-70 transition'
