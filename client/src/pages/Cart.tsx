@@ -12,6 +12,7 @@ import paypal from '../assets/paypal.png'
 import { PiCurrencyDollarSimple } from 'react-icons/pi'
 import { IoBagCheckOutline } from 'react-icons/io5'
 import toast from 'react-hot-toast'
+import axios from 'axios'
 
 const Cart = () => {
   const { user, cart, setCart } = useContext<any>(userContext)
@@ -85,14 +86,44 @@ const Cart = () => {
   }
 
   const changeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setExpDate(e.target.value)
+    if (e.target.value.length === 2) {
+      setExpDate((e.target.value += '/'))
+    } else {
+      setExpDate(e.target.value)
+    }
   }
 
   const changeCvv = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCvv(e.target.value)
   }
 
-  const proccessOrder = () => {}
+  const processOrder = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    try {
+      if (!Number(cardNumber)) {
+        return toast.error('Card number must be all integers.')
+      }
+      if (!Number(cvv)) {
+        return toast.error('cvv must be an integer.')
+      }
+      if (cart.length === 0) {
+        return toast.error('Cart can`t be empty')
+      }
+      await axios.post('/user/create-order', {
+        status: 'pending',
+        email: user.emailContext,
+        cardNumber: cardNumber,
+        cvv: cvv,
+        checkedOut: totalPrice,
+        products: cart.forEach((product: any) => {
+          return { productName: product.productTitle }
+        }),
+      })
+      navigate(0)
+    } catch (err) {
+      toast.error('Something went wrong try again.')
+    }
+  }
 
   return (
     <main className='w-full overflow-scroll h-screen flex flex-col justify-center items-center max-sm:px-0 max-sm:py-0 px-10 py-10 bg-slate-500'>
@@ -204,7 +235,10 @@ const Cart = () => {
               )
             })}
           </div>
-          <form className='flex flex-col justify-center gap-[15px] border-b py-5'>
+          <form
+            onSubmit={processOrder}
+            className='flex flex-col justify-center gap-[15px] border-b py-5'
+          >
             <div className='flex flex-col items-start justify-center gap-2'>
               <h3 className='text-gray-300 text-[14px] max-sm:text-[12px]'>
                 CARDHOLDER NAME
@@ -220,6 +254,7 @@ const Cart = () => {
                 CARD NUMBER
               </h3>
               <input
+                required
                 type='text'
                 minLength={1}
                 value={cardNumber}
@@ -234,6 +269,8 @@ const Cart = () => {
                   EXPIRATION DATE
                 </h3>
                 <input
+                  required
+                  maxLength={5}
                   value={expDate}
                   onChange={changeDate}
                   type='text'
@@ -254,6 +291,10 @@ const Cart = () => {
                 />
               </div>
             </div>
+            <button className='text-gray-700 bg-gray-200 px-10 py-1 rounded-full max-w-[200px] m-auto mt-2 hover:bg-gray-300 transition-all duration-300 flex items-center gap-2'>
+              <span className='text-[18px]'>Checkout</span>
+              <IoBagCheckOutline className='text-[20px]' />
+            </button>
           </form>
           <div className='py-5 flex flex-col gap-4'>
             <div className='w-full flex items-center justify-between'>
@@ -277,10 +318,6 @@ const Cart = () => {
                 {(totalPrice + 20).toFixed(2)}
               </span>
             </div>
-            <button className='text-gray-700 bg-gray-200 px-10 py-1 rounded-full max-w-[200px] m-auto mt-2 hover:bg-gray-300 transition-all duration-300 flex items-center gap-2'>
-              <span className='text-[18px]'>Checkout</span>
-              <IoBagCheckOutline className='text-[20px]' />
-            </button>
           </div>
         </div>
       </div>

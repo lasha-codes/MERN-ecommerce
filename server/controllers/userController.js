@@ -268,20 +268,23 @@ export const updateUserPassword = async (req, res) => {
 
 export const sendUserOrder = async (req, res) => {
   const { token } = req.cookies
-  const { email, cardNumber, cvv, checkedOut, products } = req.body
+  const { email, cardNumber, cvv, checkedOut, products, status } = req.body
   try {
     if (!token) {
       return res.status(401).json({ message: 'Unauthorized request' })
     }
     const createdOrder = await Orders.create({
+      status,
       email,
       cardNumber,
       cvv,
       checkedOut,
       products,
     })
+    console.log(createdOrder)
     res.status(200).json(createdOrder)
   } catch (err) {
     res.status(500).json({ message: 'Server error.' })
+    console.log(err)
   }
 }

@@ -6,7 +6,7 @@ const ordersSchema = new mongoose.Schema({
   cardNumber: { type: Number, required: true },
   cvv: { type: Number, required: true },
   checkedOut: { type: Number, required: true },
-  products: [{ productName: { type: String, required: true } }],
+  products: [{ product: Object }],
 })
 
 const Orders = mongoose.model('Orders', ordersSchema)
