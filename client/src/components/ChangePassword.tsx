@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import axios from 'axios'
+import React, { useState } from 'react'
 import { IoIosClose } from 'react-icons/io'
 
 interface changePasswordTypes {
@@ -11,6 +12,21 @@ const ChangePassword: React.FC<changePasswordTypes> = ({
   setPasswordToggle,
   className,
 }) => {
+  const [curPassword, setCurPassword] = useState<string>('')
+  const [newPassword, setNewPassword] = useState<string>('')
+
+  const updatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    try {
+      await axios.put('/user/update-password', {
+        currentPassword: curPassword,
+        newPassword,
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <div
       className={` ${className} transition absolute duration-300 flex p-10 items-center justify-center rounded-lg bg-gray-200`}
@@ -19,7 +35,7 @@ const ChangePassword: React.FC<changePasswordTypes> = ({
         onClick={() => setPasswordToggle(false)}
         className='absolute top-3 right-3 text-2xl text-red-400 cursor-pointer hover:opacity-70 transition'
       />
-      <form className='flex flex-col gap-4'>
+      <form className='flex flex-col gap-4' onSubmit={updatePassword}>
         <div className='flex flex-col justify-center gap-1'>
           <label
             htmlFor='current-password'
@@ -28,6 +44,10 @@ const ChangePassword: React.FC<changePasswordTypes> = ({
             Current password
           </label>
           <input
+            value={curPassword}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setCurPassword(e.target.value)
+            }
             required
             type='text'
             id='current-password'
@@ -42,6 +62,10 @@ const ChangePassword: React.FC<changePasswordTypes> = ({
             New password
           </label>
           <input
+            value={newPassword}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setNewPassword(e.target.value)
+            }
             required
             type='text'
             id='new-password'

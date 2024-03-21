@@ -11,6 +11,7 @@ import {
   quitBeingAdmin,
   addComment,
   updateUserInfo,
+  updateUserPassword,
 } from '../controllers/userController.js'
 
 router.get('/account', getProfileController)
@@ -23,5 +24,6 @@ router.post('/become-admin', becomeAdmin)
 router.post('/quit-admin', quitBeingAdmin)
 router.post('/add-comment', addComment)
 router.put('/update-user', updateUserInfo)
+router.put('/update-password', updateUserPassword)
 
 export default router

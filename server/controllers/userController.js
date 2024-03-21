@@ -254,6 +254,9 @@ export const updateUserPassword = async (req, res) => {
     if (passwordMatches) {
       signedUser.password = newPassword
       await signedUser.save()
+      res
+        .status(200)
+        .json({ message: 'U have successfully changed the password.' })
     } else {
       res.status(400).json({ message: 'incorrect password!' })
     }
