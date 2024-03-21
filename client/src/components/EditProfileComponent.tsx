@@ -8,12 +8,14 @@ import { RiEditFill } from 'react-icons/ri'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import ChangePassword from './ChangePassword'
 
 const EditProfileComponent = () => {
   const { setActiveRoute, user, setUserImage } = useContext<any>(userContext)
   const [, setUserAvatar] = useState<string>('')
   const [username, setUsername] = useState<string>('')
   const [email, setEmail] = useState<string>('')
+  const [passwordToggle, setPasswordToggle] = useState<boolean>(true)
   const navigate = useNavigate()
 
   const convertToBase64 = (file: any) => {
@@ -64,7 +66,7 @@ const EditProfileComponent = () => {
   }, [])
 
   return (
-    <div className='flex flex-col justify-center items-center gap-4'>
+    <div className='relative flex flex-col justify-center items-center gap-4'>
       <div className='flex items-center gap-5'>
         <FaArrowLeftLong
           className='cursor-pointer'
@@ -147,6 +149,9 @@ const EditProfileComponent = () => {
       <button className='justify-self-center bg-purple-600 rounded-full text-white px-6 hover:opacity-70 transition duration-300 py-2'>
         Change password
       </button>
+      {passwordToggle ? (
+        <ChangePassword setPasswordToggle={setPasswordToggle} />
+      ) : null}
     </div>
   )
 }

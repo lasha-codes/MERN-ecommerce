@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom'
 import Header from '../components/Header.js'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import { CiSettings } from 'react-icons/ci'
 import UserInfoComponent from '../components/UserInfoComponent.js'
 import EditProfileComponent from '../components/EditProfileComponent.js'
 
@@ -90,8 +89,7 @@ const UserSigned = () => {
     <main className='w-full h-screen screen flex flex-col items-center overflow-scroll bg-gray-200'>
       <Header />
       <div className='flex w-full justify-between items-center px-10 py-[100px]'>
-        <div className='flex items-center gap-2 text-lg'>
-        </div>
+        <div className='flex items-center gap-2 text-lg'></div>
         <nav className='flex items-center justify-center gap-3'>
           <span className='cursor-pointer'>Logout</span>
           {!isAdmin ? (
