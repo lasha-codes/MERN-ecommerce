@@ -86,11 +86,7 @@ const Cart = () => {
   }
 
   const changeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length === 2) {
-      setExpDate((e.target.value += '/'))
-    } else {
-      setExpDate(e.target.value)
-    }
+    setExpDate(e.target.value)
   }
 
   const changeCvv = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,16 +105,28 @@ const Cart = () => {
       if (cart.length === 0) {
         return toast.error('Cart can`t be empty')
       }
+      if (cardNumber.length < 13) {
+        return toast.error('Enter a valid card number length')
+      }
+      if (cardNumber.length > 18) {
+        return toast.error('Enter a valid card number length')
+      }
+
+      const productsToSend = cart.map((product: any) => ({
+        productTitle: product.productTitle,
+        productCount: product.productCount,
+        productPrice: product.productPrice,
+      }))
+
       await axios.post('/user/create-order', {
         status: 'pending',
         email: user.emailContext,
         cardNumber: cardNumber,
         cvv: cvv,
         checkedOut: totalPrice,
-        products: cart.forEach((product: any) => {
-          return { productName: product.productTitle }
-        }),
+        products: productsToSend,
       })
+      navigate('/')
       navigate(0)
     } catch (err) {
       toast.error('Something went wrong try again.')
@@ -270,7 +278,7 @@ const Cart = () => {
                 </h3>
                 <input
                   required
-                  maxLength={5}
+                  maxLength={4}
                   value={expDate}
                   onChange={changeDate}
                   type='text'
@@ -283,6 +291,7 @@ const Cart = () => {
                   CVV
                 </h3>
                 <input
+                  maxLength={3}
                   value={cvv}
                   onChange={changeCvv}
                   type='text'

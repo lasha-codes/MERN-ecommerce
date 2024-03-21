@@ -6,7 +6,9 @@ const ordersSchema = new mongoose.Schema({
   cardNumber: { type: Number, required: true },
   cvv: { type: Number, required: true },
   checkedOut: { type: Number, required: true },
-  products: [{ product: Object }],
+  products: [
+    { productTitle: String, productCount: Number, productPrice: Number },
+  ],
 })
 
 const Orders = mongoose.model('Orders', ordersSchema)
