@@ -28,7 +28,7 @@ const UserInfoComponent = () => {
           <div>
             <div className='flex items-center gap-3 mt-3'>
               <h3 className='font-medium text-lg'>{user.usernameContext}</h3>
-              <span className='text-gray-100 bg-main rounded-full px-6 py-[3px] font-[300] text-sm'>
+              <span className='text-gray-100 whitespace-nowrap bg-main rounded-full px-6 py-[3px] font-[300] text-sm'>
                 {isAdmin ? 'Admin' : 'No role'}
               </span>
             </div>

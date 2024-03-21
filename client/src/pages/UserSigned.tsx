@@ -91,12 +91,6 @@ const UserSigned = () => {
       <Header />
       <div className='flex w-full justify-between items-center px-10 py-[100px]'>
         <div className='flex items-center gap-2 text-lg'>
-          <Link
-            to={'/account/settings'}
-            className='bg-main p-[7px] rounded-full hover:opacity-75 transition-all duration-300'
-          >
-            <CiSettings className='cursor-pointer text-white w-[23px] h-[23px]' />
-          </Link>
         </div>
         <nav className='flex items-center justify-center gap-3'>
           <span className='cursor-pointer'>Logout</span>

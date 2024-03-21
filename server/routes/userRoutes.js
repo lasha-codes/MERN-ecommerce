@@ -10,6 +10,7 @@ import {
   becomeAdmin,
   quitBeingAdmin,
   addComment,
+  updateUserInfo,
 } from '../controllers/userController.js'
 
 router.get('/account', getProfileController)
@@ -21,5 +22,6 @@ router.post('/upload-image', userPhotoUpload)
 router.post('/become-admin', becomeAdmin)
 router.post('/quit-admin', quitBeingAdmin)
 router.post('/add-comment', addComment)
+router.put('/update-user', updateUserInfo)
 
 export default router

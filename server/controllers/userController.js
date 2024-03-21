@@ -218,7 +218,7 @@ export const addComment = async (req, res) => {
   }
 }
 
-export const updateUserInfo = async () => {
+export const updateUserInfo = async (req, res) => {
   try {
     const { token } = req.cookies
     const { updatedUsername, updatedEmail } = req.body

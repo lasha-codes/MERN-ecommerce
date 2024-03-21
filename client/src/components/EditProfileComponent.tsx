@@ -7,12 +7,14 @@ import UserImage from './UserImage'
 import { RiEditFill } from 'react-icons/ri'
 import toast from 'react-hot-toast'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const EditProfileComponent = () => {
   const { setActiveRoute, user, setUserImage } = useContext<any>(userContext)
   const [, setUserAvatar] = useState<string>('')
   const [username, setUsername] = useState<string>('')
   const [email, setEmail] = useState<string>('')
+  const navigate = useNavigate()
 
   const convertToBase64 = (file: any) => {
     return new Promise((resolve, reject) => {
@@ -39,6 +41,20 @@ const EditProfileComponent = () => {
       }
     } catch (error) {
       toast.error('Failed to upload photo')
+    }
+  }
+
+  const updateUserInfo = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    try {
+      await axios.put('/user/update-user', {
+        updatedUsername: username,
+        updatedEmail: email,
+      })
+      await axios.post('/user/logout')
+      navigate(0)
+    } catch (error) {
+      toast.error('something went wrong')
     }
   }
 
@@ -82,7 +98,7 @@ const EditProfileComponent = () => {
         onChange={uploadUserImage}
       />
 
-      <form>
+      <form onSubmit={updateUserInfo}>
         <div className='flex flex-col gap-1'>
           <label
             htmlFor='username'
@@ -120,21 +136,13 @@ const EditProfileComponent = () => {
             className='border border-gray-200 text-gray-500 rounded-md px-3 py-1 outline-gray-300 text-[15px]'
           />
         </div>
-        {user.userContext !== username || user.emailContext !== email ? (
-          <button
-            type='submit'
-            className='ml-[47px] mt-3 bg-[#080808c9] text-gray-100 px-7 py-2 rounded-full hover:opacity-70 transition duration-300'
-          >
-            Confirm
-          </button>
-        ) : (
-          <button
-            type='submit'
-            className='ml-[47px] mt-3 bg-[#080808c9] text-gray-100 px-7 py-2 rounded-full hover:opacity-70 transition duration-300'
-          >
-            Save Changes?
-          </button>
-        )}
+
+        <button
+          type='submit'
+          className='ml-[47px] mt-3 bg-[#080808c9] text-gray-100 px-7 py-2 rounded-full hover:opacity-70 transition duration-300'
+        >
+          Confirm
+        </button>
       </form>
       <button className='justify-self-center bg-purple-600 rounded-full text-white px-6 hover:opacity-70 transition duration-300 py-2'>
         Change password
