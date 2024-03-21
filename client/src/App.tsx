@@ -13,6 +13,7 @@ import NotFound from './pages/NotFound.js'
 import UrNotAdmin from './pages/UrNotAdmin.js'
 import SingleProduct from './pages/SingleProduct.js'
 import AllProducts from './pages/AllProducts.js'
+import UserOrders from './pages/UserOrders.js'
 
 const App = () => {
   const { user, isAdmin } = useContext<any>(userContext)
@@ -41,6 +42,7 @@ const App = () => {
           element={!isAdmin && user ? <BecomeAdmin /> : <NotFound />}
         />
 
+        <Route path='/user/orders' element={<UserOrders />} />
         <Route path='/product/:id' element={<SingleProduct />} />
         <Route path='all-products' element={<AllProducts />} />
 
