@@ -69,6 +69,7 @@ export const getProfileController = async (req, res) => {
       const { email } = token
       const loggerUser = await UserModel.findOne({ email })
 
+      const allOrders = await Orders.find({})
       const allProducts = await AdminModel.find({}).sort({ createdAt: -1 })
 
       if (loggerUser) {
@@ -79,6 +80,7 @@ export const getProfileController = async (req, res) => {
           isAdmin: loggerUser.isAdmin || false,
           avatar: loggerUser.avatar ? loggerUser.avatar : '',
           allProducts: allProducts,
+          allOrders: allOrders,
         })
       }
     })

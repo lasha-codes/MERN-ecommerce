@@ -12,6 +12,7 @@ const UserContext = ({ children }: { children: any }) => {
   const [isAdmin, setIsAdmin] = useState<boolean>(false)
   const [cart, setCart] = useState<[]>([])
   const [activeRoute, setActiveRoute] = useState('/profile')
+  const [orders, setOrders] = useState([])
   const [userAvatar, setUserAvatar] = useState<string>('')
 
   const getUserProfile = async () => {
@@ -27,6 +28,7 @@ const UserContext = ({ children }: { children: any }) => {
         setUserAvatar(data.avatar)
         setAllProducts(data.allProducts)
         setMainProducts(data.allProducts)
+        setOrders(data.allOrders)
       } else {
         setAllProducts(data.allProducts)
         setMainProducts(data.allProducts)
@@ -57,6 +59,8 @@ const UserContext = ({ children }: { children: any }) => {
         setIsAdmin: setIsAdmin,
         activeRoute: activeRoute,
         setActiveRoute: setActiveRoute,
+        orders: orders,
+        setOrdersL: orders,
       }}
     >
       {children}
