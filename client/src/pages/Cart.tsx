@@ -116,6 +116,7 @@ const Cart = () => {
         productTitle: product.productTitle,
         productCount: product.productCount,
         productPrice: product.productPrice,
+        productColor: product.productColor,
       }))
 
       await axios.post('/user/create-order', {
