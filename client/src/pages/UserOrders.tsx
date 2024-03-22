@@ -2,26 +2,32 @@
 import { useContext } from 'react'
 import { userContext } from '../components/UserContext'
 import Header from '../components/Header'
-import Loader from '../components/Loader'
+import { addDays, format } from 'date-fns'
+import { CgDollar } from 'react-icons/cg'
 
 const UserOrders = () => {
   const { orders } = useContext<any>(userContext)
   return (
-    <main className='bg-gray-100 w-full h-screen pt-32 px-20'>
+    <main className='bg-gray-100 flex justify-center w-full h-screen pt-32 px-20 overflow-scroll'>
       <Header />
-      <div>
+      <div className='flex flex-col gap-3 items-center'>
         {orders.length > 0 ? (
           orders.map((productInfo: any, idx: number) => {
             return (
-              <div key={idx} className='flex items-start gap-10'>
+              <div
+                key={idx}
+                className='border px-10 py-5 rounded-lg w-fit h-fit grid grid-cols-6 sm:grid-cols-2 max-sm:grid-cols-2 max-sm:flex max-sm:flex-wrap md:grid-cols-3 xl:grid-cols-6 items-start gap-10'
+              >
                 <div>
-                  <h3>Product</h3>
+                  <h3 className='text-[18px] mb-1 border px-2 rounded-md'>
+                    Product
+                  </h3>
                   {productInfo.products.map((product: any, idx: number) => {
                     return (
                       <div className='flex items-center gap-5' key={idx}>
-                        <p className='flex gap-2 items-center'>
+                        <p className='flex gap-2 items-center border-b border-gray-300 py-1'>
                           <span>{product.productTitle}</span>
-                          <span>x</span>
+                          <span className='font-bold'>x</span>
                           <span>{product.productCount}</span>
                         </p>
                       </div>
@@ -29,21 +35,28 @@ const UserOrders = () => {
                   })}
                 </div>
                 <div>
-                  <h3>Color</h3>
+                  <h3 className='text-[18px] mb-1 border px-2 rounded-md'>
+                    Color
+                  </h3>
                   {productInfo.products.map((product: any, idx: number) => {
                     return (
-                      <div key={idx}>
-                        <span>{product.productColor}</span>
+                      <div key={idx} className='py-1 border-b border-gray-300'>
+                        <span className='text-gray-500'>
+                          {product.productColor}
+                        </span>
                       </div>
                     )
                   })}
                 </div>
                 <div>
-                  <h3>Price</h3>
+                  <h3 className='text-[18px] mb-1 border px-2 rounded-md'>
+                    Price
+                  </h3>
                   {productInfo.products.map((product: any, idx: number) => {
                     return (
-                      <div key={idx}>
-                        <span>
+                      <div key={idx} className='py-1 border-b border-gray-300'>
+                        <span className='flex items-center font-semibold'>
+                          <CgDollar />
                           {product.productPrice * product.productCount}
                         </span>
                       </div>
@@ -51,12 +64,37 @@ const UserOrders = () => {
                   })}
                 </div>
                 <div>
-                  <h3>Total price</h3>
-                  <span>{productInfo.checkedOut}</span>
+                  <h3 className='text-[18px] mb-1 border px-2 rounded-md'>
+                    Total price
+                  </h3>
+                  <span className='flex items-center py-1 border-b border-gray-300'>
+                    <CgDollar />
+                    {productInfo.checkedOut + 20}
+                  </span>
                 </div>
                 <div>
-                  <h3>Status</h3>
-                  <span>{productInfo.status}</span>
+                  <h3 className='text-[18px] mb-1 border px-2 rounded-md'>
+                    Status
+                  </h3>
+                  <span
+                    className={`py-1 border-b border-gray-300 font-[500] ${
+                      productInfo.status === 'pending'
+                        ? 'text-[#FFD700]'
+                        : 'text-[#50c878]'
+                    } ${
+                      productInfo.status === 'cancelled' && '!text-[#e32636]'
+                    }`}
+                  >
+                    {productInfo.status}
+                  </span>
+                </div>
+                <div>
+                  <h3 className='text-[18px] mb-1 border px-2 rounded-md'>
+                    Expected delivery
+                  </h3>
+                  <span className='py-1 border-b border-gray-300 text-gray-500'>
+                    {format(addDays(productInfo.createdAt, 6), 'yyyy-MM-dd')}
+                  </span>
                 </div>
               </div>
             )
