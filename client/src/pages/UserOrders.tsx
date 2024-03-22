@@ -6,13 +6,19 @@ import { addDays, format } from 'date-fns'
 import { CgDollar } from 'react-icons/cg'
 
 const UserOrders = () => {
-  const { orders } = useContext<any>(userContext)
+  const { orders, user } = useContext<any>(userContext)
+
+  const userOrders = orders.filter((order: any) => {
+    return user.emailContext === order.email
+  })
+
   return (
     <main className='bg-gray-100 flex justify-center w-full h-screen pt-32 px-20 overflow-scroll'>
       <Header />
-      <div className='flex flex-col gap-3 items-center'>
-        {orders.length > 0 ? (
-          orders.map((productInfo: any, idx: number) => {
+      <div className='flex flex-col gap-12 items-center'>
+        <h1 className='text-2xl text-gray-700'>Your orders</h1>
+        {userOrders.length > 0 ? (
+          userOrders.map((productInfo: any, idx: number) => {
             return (
               <div
                 key={idx}
