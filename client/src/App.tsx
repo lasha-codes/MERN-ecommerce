@@ -46,7 +46,10 @@ const App = () => {
         <Route path='/user/orders' element={<UserOrders />} />
         <Route path='/product/:id' element={<SingleProduct />} />
         <Route path='/all-products' element={<AllProducts />} />
-        <Route path='/admin-dashboard' element={<AdminDashboard />} />
+        <Route
+          path='/admin-dashboard'
+          element={isAdmin ? <AdminDashboard /> : <UrNotAdmin />}
+        />
 
         <Route path='*' element={<NotFound />} />
       </Routes>

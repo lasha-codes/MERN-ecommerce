@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext } from 'react'
 import { userContext } from '../components/UserContext'
-import { Line } from 'react-chartjs-2'
+
 import Loader from '../components/Loader'
+import Charts from '../components/Charts'
 
 const AdminDashboard = () => {
-  const { user } = useContext<any>(userContext)
+  const { user, orders } = useContext<any>(userContext)
+
   return (
-    <main className='w-full bg-[#252525] h-screen text-white p-12'>
-      {user ? (
+    <main className='w-full bg-[#252525] flex justify-center h-screen text-white p-12'>
+      {user && orders ? (
         <div className='flex flex-col'>
           <div>
             <h2 className='text-xl'>
@@ -17,9 +19,9 @@ const AdminDashboard = () => {
             </h2>
             <p className='text-md'>Here u can modify user orders</p>
           </div>
-          <div className='flex items-center gap-10'>
+          <div className='flex items-center gap-10 flex-wrap justify-center'>
             <div>
-              <div className='bg-[rgb(19,19,19)] rounded-3xl flex flex-col gap-3 w-[250px] px-10 py-8'>
+              <div className='bg-[rgb(19,19,19)] rounded-3xl flex flex-col gap-3 w-[250px]  px-10 py-8'>
                 <div className='flex items-center justify-between'>
                   <h4 className='text-[15px] text-gray-200'>Total Earnings</h4>
                   <span className='text-sm text-green-500'>+54%</span>
@@ -50,6 +52,9 @@ const AdminDashboard = () => {
               </div>
               <span className='text-2xl'>$34,702.00</span>
             </div>
+          </div>
+          <div className='w-[500px] h-[400px] bg-black rounded-lg py-10 px-5'>
+            <Charts />
           </div>
         </div>
       ) : (
