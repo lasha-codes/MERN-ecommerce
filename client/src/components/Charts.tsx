@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   AreaChart,
   Area,
@@ -5,7 +6,15 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
+  Tooltip,
+  Legend,
 } from 'recharts'
+
+interface TooltipProps {
+  active?: any
+  payload?: any
+  label?: any
+}
 
 const productSales = [
   {
@@ -46,7 +55,9 @@ const Charts = () => {
       <AreaChart width={500} height={400} data={productSales}>
         <YAxis />
         <XAxis />
-        <CartesianGrid />
+        <CartesianGrid strokeDasharray={'5, 5'} />
+        <Tooltip content={<CustomToolTip />} />
+        <Legend />
         <Area
           type='monotone'
           dataKey='product1'
@@ -69,6 +80,21 @@ const Charts = () => {
       </AreaChart>
     </ResponsiveContainer>
   )
+}
+
+const CustomToolTip: React.FC<TooltipProps> = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className='p-4 bg-slate-900 flex flex-col gap-4 rounded-md'>
+        <p className='text-md text-lg'>{label}</p>
+        <p className='text-sm text-blue-400'>
+          Product 1:
+          <span className='ml-2'>${payload[0].value}</span>
+        </p>
+        <p className='text-sm text-indigo-400'>Product 2:</p>
+      </div>
+    )
+  }
 }
 
 export default Charts

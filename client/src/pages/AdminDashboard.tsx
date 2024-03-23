@@ -44,7 +44,7 @@ const AdminDashboard = () => {
             </div>
             <div className='bg-[rgb(19,19,19)] rounded-3xl flex flex-col gap-3 w-[250px] px-10 py-8'>
               <div className='flex items-center justify-between'>
-                <h4 className='text-[15px] text-gray-200'>Total Lost</h4>
+                <h4 className='text-[15px] text-gray-200'>Profit</h4>
                 <span className='text-sm text-[#324AB2]'>+48%</span>
               </div>
               <div className='w-full h-[5px] rounded-lg bg-gray-500 flex justify-start overflow-hidden'>
