@@ -4,6 +4,7 @@ import Orders from '../models/Orders.js'
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
+import { format } from 'date-fns'
 dotenv.config()
 
 export const registerController = async (req, res) => {
@@ -271,10 +272,15 @@ export const updateUserPassword = async (req, res) => {
 export const sendUserOrder = async (req, res) => {
   const { token } = req.cookies
   const { email, cardNumber, cvv, checkedOut, products, status } = req.body
+
+  const randomLoss = Math.floor(Math.random() * 30)
+
   try {
+    const today = new Date()
     if (!token) {
       return res.status(401).json({ message: 'Unauthorized request' })
     }
+    const randomLoss = Math.floor(Math.random() * 30)
     const createdOrder = await Orders.create({
       status,
       email,
@@ -282,6 +288,8 @@ export const sendUserOrder = async (req, res) => {
       cvv,
       checkedOut,
       products,
+      lost: (checkedOut * randomLoss) / 100,
+      orderDate: format(today, 'yyyy-MM-dd'),
     })
     console.log(createdOrder)
     res.status(200).json(createdOrder)

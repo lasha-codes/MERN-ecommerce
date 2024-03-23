@@ -70,7 +70,6 @@ const AreaDash = () => {
           strokeWidth={4}
           fill='#5716FC'
           fillOpacity={0.3}
-          stackId='1'
         />
         <Line
           type='monotone'
@@ -79,7 +78,6 @@ const AreaDash = () => {
           strokeWidth={4}
           fill='#e32636'
           fillOpacity={0.3}
-          stackId='1'
         />
         <Tooltip content={<CustomToolTip />} />
       </LineChart>

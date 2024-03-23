@@ -1,22 +1,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { userContext } from '../components/UserContext'
 import Header from '../components/Header'
 import { addDays, format } from 'date-fns'
 import { CgDollar } from 'react-icons/cg'
+import { FaRegMoon } from 'react-icons/fa'
+import { IoSunny } from 'react-icons/io5'
 
 const UserOrders = () => {
   const { orders, user } = useContext<any>(userContext)
+  const [ordersTheme, setOrdersTheme] = useState<string>('light')
 
   const userOrders = orders.filter((order: any) => {
     return user.emailContext === order.email
   })
 
   return (
-    <main className='bg-gray-100 flex justify-center w-full h-screen pt-32 px-20 overflow-scroll'>
+    <main
+      className={`${
+        ordersTheme === 'light' ? 'bg-gray-100' : 'bg-[#111111] text-gray-100'
+      } flex justify-center w-full h-screen pt-32 px-20 overflow-scroll relative`}
+    >
       <Header />
       <div className='flex flex-col gap-12 items-center'>
         <h1 className='text-2xl text-gray-700'>Your orders</h1>
+        <div className='absolute top-28 right-10'>
+          {ordersTheme === 'light' ? <IoSunny /> : <FaRegMoon />}
+        </div>
         {userOrders.length > 0 ? (
           userOrders.map((productInfo: any, idx: number) => {
             return (
@@ -47,9 +57,15 @@ const UserOrders = () => {
                   {productInfo.products.map((product: any, idx: number) => {
                     return (
                       <div key={idx} className='py-1 border-b border-gray-300'>
-                        <span className='text-gray-500'>
-                          {product.productColor}
-                        </span>
+                        <p className='text-gray-500 flex items-center gap-2'>
+                          <span>{product.productColor}</span>
+                          <div
+                            className='w-[13px] h-[13px] rounded-full'
+                            style={{
+                              backgroundColor: product.productColor,
+                            }}
+                          ></div>
+                        </p>
                       </div>
                     )
                   })}
