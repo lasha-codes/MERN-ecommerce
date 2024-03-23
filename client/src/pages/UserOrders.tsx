@@ -24,9 +24,27 @@ const UserOrders = () => {
       <Header />
       <div className='flex flex-col gap-12 items-center'>
         <h1 className='text-2xl text-gray-700'>Your orders</h1>
-        <div className='absolute top-28 right-10'>
+
+        <div className='absolute flex items-center gap-3 top-28 right-10'>
           {ordersTheme === 'light' ? <IoSunny /> : <FaRegMoon />}
+          <div
+            onClick={() =>
+              setOrdersTheme(ordersTheme === 'light' ? 'dark' : 'light')
+            }
+            className={`w-[42px]  overflow-hidden h-[20px] rounded-full ${
+              ordersTheme === 'light' ? 'bg-green-500' : 'bg-[#252525]'
+            } cursor-pointer relative`}
+          >
+            <div
+              className={`h-full transition-all duration-300 ${
+                ordersTheme === 'light'
+                  ? ' translate-x-0 bg-white'
+                  : 'translate-x-[21px]'
+              } w-[20px] rounded-full border border-white`}
+            />
+          </div>
         </div>
+
         {userOrders.length > 0 ? (
           userOrders.map((productInfo: any, idx: number) => {
             return (
