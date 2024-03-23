@@ -78,7 +78,7 @@ const UserSigned = () => {
   ]
 
   return (
-    <main className='w-full h-screen screen flex flex-col items-center overflow-scroll bg-gray-200'>
+    <main className='w-full min-h-screen screen flex flex-col items-center overflow-y-scroll bg-gray-200 pb-20'>
       <Header />
       <div className='flex w-full justify-between items-center px-10 py-[100px]'>
         <div className='flex items-center gap-2 text-lg'></div>

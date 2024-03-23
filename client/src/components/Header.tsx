@@ -9,6 +9,7 @@ import { motion } from 'framer-motion'
 import { Link, useLocation } from 'react-router-dom'
 import { userContext } from './UserContext'
 import { useContext } from 'react'
+import logoWhite from '../assets/white-logo.png'
 
 const Header = () => {
   const { cart, isAdmin } = useContext<any>(userContext)
@@ -60,7 +61,12 @@ const Header = () => {
         {toggle ? <CiMenuFries /> : <IoMdClose />}
       </div>
       <Link to='/'>
-        <h1 className='text-[21px] text-gray-200'>Ecommerce</h1>
+        <h1 className='text-[21px] text-gray-200 max-md:hidden'>Ecommerce</h1>
+        <img
+          src={logoWhite}
+          alt='main logo'
+          className='w-[43px] hidden max-md:block'
+        />
       </Link>
       <motion.nav
         className={`flex justify-center items-center gap-4 max-lg:flex-col max-lg:absolute max-lg:bg-main text-gray-200 max-lg:py-6 max-lg:px-12 max-lg:rounded-xl max-lg:top-20 lg:!opacity-100 !z-[999] lg:!translate-y-0 ${

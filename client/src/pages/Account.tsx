@@ -30,7 +30,7 @@ const Register = () => {
   }
 
   return (
-    <main className='h-screen w-full flex items-center justify-center bg-gray-200'>
+    <main className='min-h-screen w-full overflow-y-scroll pb-10 flex items-center justify-center bg-gray-200'>
       <Header />
       <div className='w-[350px] px-5 bg-white rounded-xl py-10'>
         <h1 className='w-full text-2xl mb-4 text-center tracking-wider'>
