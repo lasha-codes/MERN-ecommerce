@@ -14,6 +14,7 @@ import UrNotAdmin from './pages/UrNotAdmin.js'
 import SingleProduct from './pages/SingleProduct.js'
 import AllProducts from './pages/AllProducts.js'
 import UserOrders from './pages/UserOrders.js'
+import AdminDashboard from './pages/AdminDashboard.js'
 
 const App = () => {
   const { user, isAdmin } = useContext<any>(userContext)
@@ -44,7 +45,8 @@ const App = () => {
 
         <Route path='/user/orders' element={<UserOrders />} />
         <Route path='/product/:id' element={<SingleProduct />} />
-        <Route path='all-products' element={<AllProducts />} />
+        <Route path='/all-products' element={<AllProducts />} />
+        <Route path='/admin-dashboard' element={<AdminDashboard />} />
 
         <Route path='*' element={<NotFound />} />
       </Routes>
