@@ -101,7 +101,7 @@ const UserSigned = () => {
                 >
                   {item.icon}
                   {item.name === 'Orders' ? (
-                    <div className='absolute text-xs flex items-center justify-center h-[18px] w-[18px] right-2 rounded-full bg-[#e65848] text-white font-[400] top-0'>
+                    <div className='absolute text-xs flex items-center justify-center h-[18px] w-[18px] right-2 rounded-full bg-[#c740fc] text-white font-[400] top-0'>
                       {userOrders.length}
                     </div>
                   ) : null}

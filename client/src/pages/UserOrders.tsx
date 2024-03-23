@@ -48,7 +48,7 @@ const UserOrders = () => {
             onClick={() =>
               setOrdersTheme(ordersTheme === 'light' ? 'dark' : 'light')
             }
-            className={`w-[42px]  overflow-hidden h-[20px] rounded-full ${
+            className={`w-[42px] transition-all duration-300 overflow-hidden h-[20px] rounded-full ${
               ordersTheme === 'light' ? 'bg-green-500' : 'bg-[#252525]'
             } cursor-pointer relative`}
           >
