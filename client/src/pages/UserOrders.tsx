@@ -55,7 +55,7 @@ const UserOrders = () => {
             <div
               className={`h-full transition-all duration-300 ${
                 ordersTheme === 'light'
-                  ? ' translate-x-0 bg-white'
+                  ? ' -translate-x-[0.5px] bg-white'
                   : 'translate-x-[21px]'
               } w-[20px] rounded-full border border-white`}
             />

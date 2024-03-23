@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React, { useContext } from 'react'
 import {
-  AreaChart,
   Area,
+  AreaChart,
   ResponsiveContainer,
   XAxis,
   YAxis,
@@ -10,6 +11,8 @@ import {
   Tooltip,
   Legend,
 } from 'recharts'
+import { userContext } from './UserContext'
+import { format } from 'date-fns'
 
 interface TooltipProps {
   active?: any
@@ -17,71 +20,48 @@ interface TooltipProps {
   label?: any
 }
 
-const productSales = [
-  {
-    name: 'Jan',
-    product1: 4000,
-    product2: 2400,
-  },
-  {
-    name: 'Feb',
-    product1: 3000,
-    product2: 2210,
-  },
-  {
-    name: 'Mar',
-    product1: 2000,
-    product2: 2290,
-  },
-  {
-    name: 'Apr',
-    product1: 2780,
-    product2: 2000,
-  },
-  {
-    name: 'May',
-    product1: 1890,
-    product2: 2181,
-  },
-  {
-    name: 'Jun',
-    product1: 2390,
-    product2: 2500,
-  },
-]
+const formattedDate = (date: string) => {
+  return format(new Date(date), 'MM/dd/yyyy')
+}
 
-const AreaDash = () => {
+const BarDash = () => {
+  const { orders } = useContext<any>(userContext)
+
   return (
     <ResponsiveContainer width='100%' height='100%'>
-      <AreaChart
-        width={500}
-        height={400}
-        data={productSales}
-        margin={{ right: 30 }}
-      >
+      <AreaChart width={500} height={400} data={orders} margin={{ right: 30 }}>
+        <defs>
+          <linearGradient id='colorSales' x1='0' y1='0' x2='0' y2='1'>
+            <stop offset='5%' stopColor='#7630ff' stopOpacity={0.8} />
+            <stop offset='95%' stopColor='#7630ff' stopOpacity={0.1} />
+          </linearGradient>
+          <linearGradient id='colorPv' x1='0' y1='0' x2='0' y2='1'>
+            <stop offset='5%' stopColor='#82ca9d' stopOpacity={0.8} />
+            <stop offset='95%' stopColor='#82ca9d' stopOpacity={0} />
+          </linearGradient>
+        </defs>
+
         <YAxis />
-        <XAxis dataKey='name' />
+        <XAxis dataKey={'orderDate'} tickFormatter={formattedDate} />
         <CartesianGrid strokeDasharray={'5, 5'} />
-        <Legend />
         <Area
           type='monotone'
-          dataKey='product1'
+          dataKey='Made'
           stroke='#5716FC'
-          strokeWidth={4}
-          fill='#5716FC'
-          fillOpacity={0.3}
-          stackId='1'
+          strokeWidth={2}
+          fill='url(#colorSales)'
         />
         <Area
           type='monotone'
-          dataKey='product2'
+          dataKey='Lost'
           stroke='#e32636'
           strokeWidth={4}
           fill='#e32636'
           fillOpacity={0.3}
-          stackId='1'
+          stopColor='10%'
         />
         <Tooltip content={<CustomToolTip />} />
+        <Legend />
       </AreaChart>
     </ResponsiveContainer>
   )
@@ -91,7 +71,7 @@ const CustomToolTip: React.FC<TooltipProps> = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
       <div className='p-4 bg-slate-900 flex flex-col gap-4 rounded-md'>
-        <p className='text-md text-lg'>{label}</p>
+        <p className='text-md text-lg'>{format(label, 'MM/dd/yyyy')}</p>
         <p className='text-sm text-indigo-400'>
           Profit:
           <span className='ml-2'>${payload[0].value}</span>
@@ -105,4 +85,4 @@ const CustomToolTip: React.FC<TooltipProps> = ({ active, payload, label }) => {
   }
 }
 
-export default AreaDash
+export default BarDash
