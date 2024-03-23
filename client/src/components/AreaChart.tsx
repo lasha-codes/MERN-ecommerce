@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import {
   AreaChart,
@@ -49,14 +50,18 @@ const productSales = [
   },
 ]
 
-const Charts = () => {
+const AreaDash = () => {
   return (
     <ResponsiveContainer width='100%' height='100%'>
-      <AreaChart width={500} height={400} data={productSales}>
+      <AreaChart
+        width={500}
+        height={400}
+        data={productSales}
+        margin={{ right: 30 }}
+      >
         <YAxis />
-        <XAxis />
+        <XAxis dataKey='name' />
         <CartesianGrid strokeDasharray={'5, 5'} />
-        <Tooltip content={<CustomToolTip />} />
         <Legend />
         <Area
           type='monotone'
@@ -67,7 +72,6 @@ const Charts = () => {
           fillOpacity={0.3}
           stackId='1'
         />
-
         <Area
           type='monotone'
           dataKey='product2'
@@ -77,6 +81,7 @@ const Charts = () => {
           fillOpacity={0.3}
           stackId='1'
         />
+        <Tooltip content={<CustomToolTip />} />
       </AreaChart>
     </ResponsiveContainer>
   )
@@ -87,14 +92,17 @@ const CustomToolTip: React.FC<TooltipProps> = ({ active, payload, label }) => {
     return (
       <div className='p-4 bg-slate-900 flex flex-col gap-4 rounded-md'>
         <p className='text-md text-lg'>{label}</p>
-        <p className='text-sm text-blue-400'>
-          Product 1:
+        <p className='text-sm text-indigo-400'>
+          Profit:
           <span className='ml-2'>${payload[0].value}</span>
         </p>
-        <p className='text-sm text-indigo-400'>Product 2:</p>
+        <p className='text-sm text-red-400'>
+          Revenue:
+          <span className='ml-2'>${payload[1].value}</span>
+        </p>
       </div>
     )
   }
 }
 
-export default Charts
+export default AreaDash

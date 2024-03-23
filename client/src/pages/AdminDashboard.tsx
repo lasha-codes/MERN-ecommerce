@@ -3,13 +3,15 @@ import { useContext } from 'react'
 import { userContext } from '../components/UserContext'
 
 import Loader from '../components/Loader'
-import Charts from '../components/Charts'
+import AreaChart from '../components/AreaChart'
+import BarChart from '../components/BarChart'
+import LineChart from '../components/LineChart'
 
 const AdminDashboard = () => {
   const { user, orders } = useContext<any>(userContext)
 
   return (
-    <main className='w-full bg-[#252525] flex justify-center h-screen text-white p-12'>
+    <main className='w-full bg-[#252525] overflow-y-scroll min-h-screen flex justify-center  text-white p-12'>
       {user && orders ? (
         <div className='flex flex-col'>
           <div>
@@ -53,8 +55,16 @@ const AdminDashboard = () => {
               <span className='text-2xl'>$34,702.00</span>
             </div>
           </div>
-          <div className='w-[500px] h-[400px] bg-black rounded-lg py-10 px-5'>
-            <Charts />
+          <div className='flex items-center justify-center gap-10 flex-wrap mt-12'>
+            <div className='w-[500px] h-[400px] bg-black rounded-lg py-10 px-5'>
+              <AreaChart />
+            </div>
+            <div className='w-[500px] h-[400px] bg-black rounded-lg py-10 px-5'>
+              <BarChart />
+            </div>
+            <div className='w-[500px] h-[400px] bg-black rounded-lg py-10 px-5'>
+              <LineChart />
+            </div>
           </div>
         </div>
       ) : (

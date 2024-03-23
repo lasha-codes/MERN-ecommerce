@@ -7,6 +7,8 @@ const ordersSchema = new mongoose.Schema(
     cardNumber: { type: Number, required: true },
     cvv: { type: Number, required: true },
     checkedOut: { type: Number, required: true },
+    orderDate: { type: Date, required: true },
+    lost: { type: Number, required: true },
     products: [
       {
         productTitle: String,
