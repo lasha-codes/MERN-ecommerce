@@ -18,15 +18,32 @@ const UserOrders = () => {
   return (
     <main
       className={`${
-        ordersTheme === 'light' ? 'bg-gray-100' : 'bg-[#111111] text-gray-100'
-      } flex justify-center w-full h-screen pt-32 px-20 overflow-scroll relative`}
+        ordersTheme === 'light' ? 'bg-gray-100' : 'bg-main text-gray-100'
+      } flex justify-center w-full min-h-screen pt-32 px-20 pb-10 overflow-y-scroll relative transition-all`}
     >
       <Header />
       <div className='flex flex-col gap-12 items-center'>
-        <h1 className='text-2xl text-gray-700'>Your orders</h1>
+        <h1
+          className={`text-2xl ${
+            ordersTheme === 'light' ? 'text-black' : 'text-gray-100'
+          }`}
+        >
+          Your Orders
+        </h1>
 
         <div className='absolute flex items-center gap-3 top-28 right-10'>
-          {ordersTheme === 'light' ? <IoSunny /> : <FaRegMoon />}
+          <div
+            onClick={() =>
+              ordersTheme === 'light'
+                ? setOrdersTheme('dark')
+                : setOrdersTheme('light')
+            }
+            className={`border transition-all duration-300 rounded-full p-[6px] cursor-pointer ${
+              ordersTheme === 'light' ? 'border-black' : 'border-gray-100'
+            }`}
+          >
+            {ordersTheme === 'light' ? <IoSunny /> : <FaRegMoon />}
+          </div>
           <div
             onClick={() =>
               setOrdersTheme(ordersTheme === 'light' ? 'dark' : 'light')
@@ -50,7 +67,9 @@ const UserOrders = () => {
             return (
               <div
                 key={idx}
-                className='border px-10 py-5 rounded-lg w-fit h-fit grid grid-cols-6 sm:grid-cols-2 max-sm:grid-cols-2 max-sm:flex max-sm:flex-wrap md:grid-cols-3 xl:grid-cols-6 items-start gap-10'
+                className={`border px-10 py-5 rounded-lg max-w-[1340px] h-fit grid grid-cols-6 sm:grid-cols-2 max-sm:grid-cols-2 max-sm:flex max-sm:flex-wrap md:grid-cols-3 xl:grid-cols-6 items-start gap-10 ${
+                  ordersTheme === 'light' ? 'bg-transparent' : 'bg-[#181818]'
+                }`}
               >
                 <div>
                   <h3 className='text-[18px] mb-1 border px-2 rounded-md'>
@@ -78,7 +97,11 @@ const UserOrders = () => {
                         <p className='text-gray-500 flex items-center gap-2'>
                           <span>{product.productColor}</span>
                           <div
-                            className='w-[13px] h-[13px] rounded-full'
+                            className={`w-[13px] h-[13px] rounded-full border ${
+                              ordersTheme === 'light'
+                                ? 'border-black'
+                                : 'border-gray-100'
+                            }`}
                             style={{
                               backgroundColor: product.productColor,
                             }}
