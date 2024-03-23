@@ -32,12 +32,12 @@ const BarDash = () => {
       <AreaChart width={500} height={400} data={orders} margin={{ right: 30 }}>
         <defs>
           <linearGradient id='colorSales' x1='0' y1='0' x2='0' y2='1'>
-            <stop offset='5%' stopColor='#7630ff' stopOpacity={0.8} />
-            <stop offset='95%' stopColor='#7630ff' stopOpacity={0.1} />
+            <stop offset='30%' stopColor='#82ca9d' stopOpacity={0.8} />
+            <stop offset='95%' stopColor='#82ca9d' stopOpacity={0.1} />
           </linearGradient>
-          <linearGradient id='colorPv' x1='0' y1='0' x2='0' y2='1'>
-            <stop offset='5%' stopColor='#82ca9d' stopOpacity={0.8} />
-            <stop offset='95%' stopColor='#82ca9d' stopOpacity={0} />
+          <linearGradient id='colorLost' x1='0' y1='0' x2='0' y2='1'>
+            <stop offset='30%' stopColor='#e32636' stopOpacity={0.8} />
+            <stop offset='95%' stopColor='#e32636' stopOpacity={0.1} />
           </linearGradient>
         </defs>
 
@@ -47,7 +47,7 @@ const BarDash = () => {
         <Area
           type='monotone'
           dataKey='Made'
-          stroke='#5716FC'
+          stroke='#82ca9d'
           strokeWidth={2}
           fill='url(#colorSales)'
         />
@@ -55,9 +55,8 @@ const BarDash = () => {
           type='monotone'
           dataKey='Lost'
           stroke='#e32636'
-          strokeWidth={4}
-          fill='#e32636'
-          fillOpacity={0.3}
+          strokeWidth={2}
+          fill='url(#colorLost)'
           stopColor='10%'
         />
         <Tooltip content={<CustomToolTip />} />
@@ -73,11 +72,11 @@ const CustomToolTip: React.FC<TooltipProps> = ({ active, payload, label }) => {
       <div className='p-4 bg-slate-900 flex flex-col gap-4 rounded-md'>
         <p className='text-md text-lg'>{format(label, 'MM/dd/yyyy')}</p>
         <p className='text-sm text-indigo-400'>
-          Profit:
+          Made:
           <span className='ml-2'>${payload[0].value}</span>
         </p>
         <p className='text-sm text-red-400'>
-          Revenue:
+          Lost:
           <span className='ml-2'>${payload[1].value}</span>
         </p>
       </div>
