@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React, { useContext } from 'react'
 import {
   BarChart,
   Bar,
@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'recharts'
+import { userContext } from './UserContext'
 
 interface TooltipProps {
   active?: any
@@ -17,55 +18,18 @@ interface TooltipProps {
   label?: any
 }
 
-const productSales = [
-  {
-    name: 'Jan',
-    product1: 4000,
-    product2: 2400,
-  },
-  {
-    name: 'Feb',
-    product1: 3000,
-    product2: 2210,
-  },
-  {
-    name: 'Mar',
-    product1: 2000,
-    product2: 2290,
-  },
-  {
-    name: 'Apr',
-    product1: 2780,
-    product2: 2000,
-  },
-  {
-    name: 'May',
-    product1: 1890,
-    product2: 2181,
-  },
-  {
-    name: 'Jun',
-    product1: 2390,
-    product2: 2500,
-  },
-]
-
 const BarDash = () => {
+  const { orders } = useContext<any>(userContext)
   return (
     <ResponsiveContainer width='100%' height='100%'>
-      <BarChart
-        width={500}
-        height={400}
-        data={productSales}
-        margin={{ right: 30 }}
-      >
+      <BarChart width={500} height={400} data={orders} margin={{ right: 30 }}>
         <YAxis />
-        <XAxis dataKey='name' />
+        <XAxis dataKey='orderDate' />
         <CartesianGrid strokeDasharray={'5, 5'} />
         <Legend />
         <Bar
           type='monotone'
-          dataKey='product1'
+          dataKey='Made'
           stroke='#5716FC'
           strokeWidth={4}
           fill='#5716FC'
@@ -74,7 +38,7 @@ const BarDash = () => {
         />
         <Bar
           type='monotone'
-          dataKey='product2'
+          dataKey='Lost'
           stroke='#e32636'
           strokeWidth={4}
           fill='#e32636'

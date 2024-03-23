@@ -132,7 +132,7 @@ const UserOrders = () => {
                   </h3>
                   <span className='flex items-center py-1 border-b border-gray-300'>
                     <CgDollar />
-                    {productInfo.checkedOut + 20}
+                    {productInfo.Made + 20}
                   </span>
                 </div>
                 <div>

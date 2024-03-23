@@ -286,10 +286,10 @@ export const sendUserOrder = async (req, res) => {
       email,
       cardNumber,
       cvv,
-      checkedOut,
+      Made: checkedOut,
       products,
-      lost: (checkedOut * randomLoss) / 100,
-      orderDate: format(today, 'yyyy-MM-dd'),
+      Lost: (checkedOut * randomLoss) / 100,
+      orderDate: format(today, 'yyyy-MM-dd').toString(),
     })
     console.log(createdOrder)
     res.status(200).json(createdOrder)
