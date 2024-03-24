@@ -16,6 +16,7 @@ const ordersSchema = new mongoose.Schema(
         productColor: String,
         productCount: Number,
         productPrice: Number,
+        productImage: String,
       },
     ],
   },

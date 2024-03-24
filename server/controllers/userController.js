@@ -273,8 +273,6 @@ export const sendUserOrder = async (req, res) => {
   const { token } = req.cookies
   const { email, cardNumber, cvv, checkedOut, products, status } = req.body
 
-  const randomLoss = Math.floor(Math.random() * 30)
-
   try {
     const today = new Date()
     if (!token) {
