@@ -2,14 +2,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useContext } from 'react'
 import {
+  Line,
+  LineChart,
   ResponsiveContainer,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
-  LineChart,
-  Line,
 } from 'recharts'
 import { userContext } from './UserContext'
 import { format } from 'date-fns'
@@ -25,7 +25,7 @@ const formattedDate = (date: string) => {
   return format(new Date(date), 'MM/dd/yyyy')
 }
 
-const LineDash = () => {
+const AreaDash = () => {
   const { orders, user } = useContext<any>(userContext)
 
   if (!user || !orders) {
@@ -33,8 +33,12 @@ const LineDash = () => {
   }
 
   return (
-    <ResponsiveContainer width='100%' height='100%'>
-      <LineChart width={500} height={400} data={orders} margin={{ right: 30 }}>
+    <ResponsiveContainer width='100%' height='75%'>
+      <LineChart
+        className='rounded-lg p-1'
+        data={orders}
+        margin={{ right: 30 }}
+      >
         <defs>
           <linearGradient id='colorSales' x1='0' y1='0' x2='0' y2='1'>
             <stop offset='30%' stopColor='#82ca9d' stopOpacity={0.8} />
@@ -45,13 +49,13 @@ const LineDash = () => {
             <stop offset='95%' stopColor='#e32636' stopOpacity={0.1} />
           </linearGradient>
           <linearGradient id='colorProfit' x1='0' y1='0' x2='0' y2='1'>
-            <stop offset='30%' stopColor='#6050DC ' stopOpacity={0.8} />
-            <stop offset='95%' stopColor='#6050DC ' stopOpacity={0.1} />
+            <stop offset='30%' stopColor='#324AB2 ' stopOpacity={1} />
+            <stop offset='95%' stopColor='#324AB2' stopOpacity={0.1} />
           </linearGradient>
         </defs>
 
         <YAxis />
-        <XAxis dataKey={'orderDate'} tickFormatter={formattedDate} />
+        <XAxis dataKey={'orderDate'} tickFormatter={formattedDate} dy={7} />
         <CartesianGrid strokeDasharray={'5, 5'} />
         <Line
           type='monotone'
@@ -72,10 +76,10 @@ const LineDash = () => {
         <Line
           type='monotone'
           dataKey='Profit'
-          stroke='#5140C2'
+          stroke='#324AB2'
           strokeWidth={2}
           fill='url(#colorProfit)'
-          stopColor='200%'
+          stopColor='10%'
         />
         <Tooltip content={<CustomToolTip />} />
         <Legend />
@@ -97,7 +101,7 @@ const CustomToolTip: React.FC<TooltipProps> = ({ active, payload, label }) => {
           Lost:
           <span className='ml-2'>${payload[1].value.toFixed(2)}</span>
         </p>
-        <p className='text-sm text-[#5140C2]'>
+        <p className='text-sm text-[#324AB2]'>
           Profit:
           <span className='ml-2'>${payload[2].value.toFixed(2)}</span>
         </p>
@@ -106,4 +110,4 @@ const CustomToolTip: React.FC<TooltipProps> = ({ active, payload, label }) => {
   }
 }
 
-export default LineDash
+export default AreaDash

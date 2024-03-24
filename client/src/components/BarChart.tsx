@@ -33,8 +33,8 @@ const BarDash = () => {
   }
 
   return (
-    <ResponsiveContainer width='100%' height='100%'>
-      <BarChart width={500} height={400} data={orders} margin={{ right: 30 }}>
+    <ResponsiveContainer width='100%' height='75%'>
+      <BarChart className='rounded-lg p-1' data={orders} margin={{ right: 30 }}>
         <defs>
           <linearGradient id='colorSales' x1='0' y1='0' x2='0' y2='1'>
             <stop offset='30%' stopColor='#82ca9d' stopOpacity={0.8} />
@@ -45,13 +45,13 @@ const BarDash = () => {
             <stop offset='95%' stopColor='#e32636' stopOpacity={0.1} />
           </linearGradient>
           <linearGradient id='colorProfit' x1='0' y1='0' x2='0' y2='1'>
-            <stop offset='30%' stopColor='#6050DC ' stopOpacity={0.8} />
-            <stop offset='95%' stopColor='#6050DC ' stopOpacity={0.1} />
+            <stop offset='30%' stopColor='#324AB2 ' stopOpacity={1} />
+            <stop offset='95%' stopColor='#324AB2' stopOpacity={0.1} />
           </linearGradient>
         </defs>
 
         <YAxis />
-        <XAxis dataKey={'orderDate'} tickFormatter={formattedDate} />
+        <XAxis dataKey={'orderDate'} tickFormatter={formattedDate} dy={7} />
         <CartesianGrid strokeDasharray={'5, 5'} />
         <Bar
           type='monotone'
@@ -72,10 +72,10 @@ const BarDash = () => {
         <Bar
           type='monotone'
           dataKey='Profit'
-          stroke='#5140C2'
+          stroke='#324AB2'
           strokeWidth={2}
           fill='url(#colorProfit)'
-          stopColor='200%'
+          stopColor='10%'
         />
         <Tooltip content={<CustomToolTip />} />
         <Legend />
@@ -97,7 +97,7 @@ const CustomToolTip: React.FC<TooltipProps> = ({ active, payload, label }) => {
           Lost:
           <span className='ml-2'>${payload[1].value.toFixed(2)}</span>
         </p>
-        <p className='text-sm text-[#5140C2]'>
+        <p className='text-sm text-[#324AB2]'>
           Profit:
           <span className='ml-2'>${payload[2].value.toFixed(2)}</span>
         </p>
