@@ -281,15 +281,17 @@ export const sendUserOrder = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized request' })
     }
     const randomLoss = Math.floor(Math.random() * 30)
+    const lost = (checkedOut * randomLoss) / 100
     const createdOrder = await Orders.create({
       status,
       email,
       cardNumber,
       cvv,
-      Made: checkedOut,
+      Earned: checkedOut,
       products,
-      Lost: (checkedOut * randomLoss) / 100,
+      Lost: lost,
       orderDate: format(today, 'yyyy-MM-dd').toString(),
+      Profit: checkedOut - lost,
     })
     console.log(createdOrder)
     res.status(200).json(createdOrder)

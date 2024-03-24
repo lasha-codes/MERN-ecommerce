@@ -4,8 +4,8 @@ import { userContext } from '../components/UserContext'
 
 import Loader from '../components/Loader'
 import AreaChart from '../components/AreaChart'
-import BarChart from '../components/BarChart'
 import LineChart from '../components/LineChart'
+import BarChart from '../components/BarChart'
 
 const AdminDashboard = () => {
   const { user, orders } = useContext<any>(userContext)
@@ -60,10 +60,10 @@ const AdminDashboard = () => {
               <AreaChart />
             </div>
             <div className='w-[500px] h-[400px] bg-black rounded-lg py-10 px-5'>
-              <BarChart />
+              <LineChart />
             </div>
             <div className='w-[500px] h-[400px] bg-black rounded-lg py-10 px-5'>
-              <LineChart />
+              <BarChart />
             </div>
           </div>
         </div>

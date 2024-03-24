@@ -6,7 +6,8 @@ const ordersSchema = new mongoose.Schema(
     email: { type: String, required: true },
     cardNumber: { type: Number, required: true },
     cvv: { type: Number, required: true },
-    Made: { type: Number, required: true },
+    Earned: { type: Number, required: true },
+    Profit: { type: Number, required: true },
     orderDate: { type: Date, required: true },
     Lost: { type: Number, required: true },
     products: [
