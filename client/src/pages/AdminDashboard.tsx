@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { userContext } from '../components/UserContext'
 
 import Loader from '../components/Loader'
@@ -9,6 +9,9 @@ import { Link } from 'react-router-dom'
 
 const AdminDashboard = () => {
   const { user, orders } = useContext<any>(userContext)
+  const [selectedChart, setSelectedChart] = useState<string>('')
+
+  const selectChart = ['Area', 'Line', 'Bar']
 
   return (
     <main className='w-full bg-[#252525] overflow-y-scroll min-h-screen flex justify-center text-white p-12'>
@@ -69,11 +72,28 @@ const AdminDashboard = () => {
               </div>
               <div className='flex w-full items-center justify-center gap-10 flex-wrap mt-12'>
                 <div className='w-full bg-[rgb(19,19,19)] rounded-3xl h-[450px] py-6 px-5'>
-                  <div className='flex flex-col gap-[6px] p-4'>
-                    <h2 className='text-xl'>Overview</h2>
-                    <p className='text-md text-gray-300 font-light'>
-                      Daily company orders
-                    </p>
+                  <div className='flex max-md:flex-col text-center items-center justify-between'>
+                    <div className='flex flex-col gap-[6px] p-4'>
+                      <h2 className='text-xl'>Overview</h2>
+                      <p className='text-md text-gray-300 font-light'>
+                        Daily company orders
+                      </p>
+                    </div>
+                    <div className='h-[20px] bg-[#2c2c2c] rounded-lg flex items-center gap-3 py-5 px-10 relative'>
+                      <div
+                        className={`absolute w-[75px] h-[30px] bg-[#324AB2] z-[2] rounded-lg opacity-75`}
+                      ></div>
+                      {selectChart.map((chart: string) => {
+                        return (
+                          <span
+                            key={chart}
+                            className='bg-[rgb(19,19,19)] w-[75px] rounded-lg flex justify-center items-center h-[30px] cursor-pointer'
+                          >
+                            <span className='z-[3]'>{chart}</span>
+                          </span>
+                        )
+                      })}
+                    </div>
                   </div>
                   <AreaChart />
                 </div>
