@@ -33,8 +33,12 @@ const AreaDash = () => {
   }
 
   return (
-    <ResponsiveContainer width='100%' height='100%'>
-      <AreaChart width={500} height={400} data={orders} margin={{ right: 30 }}>
+    <ResponsiveContainer width='100%' height='75%'>
+      <AreaChart
+        className='rounded-lg p-1'
+        data={orders}
+        margin={{ right: 30 }}
+      >
         <defs>
           <linearGradient id='colorSales' x1='0' y1='0' x2='0' y2='1'>
             <stop offset='30%' stopColor='#82ca9d' stopOpacity={0.8} />
@@ -51,7 +55,7 @@ const AreaDash = () => {
         </defs>
 
         <YAxis />
-        <XAxis dataKey={'orderDate'} tickFormatter={formattedDate} />
+        <XAxis dataKey={'orderDate'} tickFormatter={formattedDate} dy={7} />
         <CartesianGrid strokeDasharray={'5, 5'} />
         <Area
           type='monotone'
@@ -75,7 +79,7 @@ const AreaDash = () => {
           stroke='#5140C2'
           strokeWidth={2}
           fill='url(#colorProfit)'
-          stopColor='200%'
+          stopColor='10%'
         />
         <Tooltip content={<CustomToolTip />} />
         <Legend />

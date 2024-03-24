@@ -4,8 +4,6 @@ import { userContext } from '../components/UserContext'
 
 import Loader from '../components/Loader'
 import AreaChart from '../components/AreaChart'
-import LineChart from '../components/LineChart'
-import BarChart from '../components/BarChart'
 import whiteLogo from '../assets/white-logo.png'
 import { Link } from 'react-router-dom'
 
@@ -34,8 +32,8 @@ const AdminDashboard = () => {
                 Here u can manage, all of the user orders
               </p>
             </div>
-            <div className='flex items-center gap-10 flex-wrap justify-center'>
-              <div>
+            <div className='flex flex-col items-center gap-2 justify-center'>
+              <div className='flex items-center gap-10 justify-center flex-wrap'>
                 <div className='bg-[rgb(19,19,19)] rounded-3xl flex flex-col gap-3 w-[250px]  px-10 py-8'>
                   <div className='flex items-center justify-between'>
                     <h4 className='text-[15px] text-gray-200'>
@@ -48,37 +46,37 @@ const AdminDashboard = () => {
                   </div>
                   <span className='text-2xl'>$62,475.00</span>
                 </div>
-              </div>
-              <div className='bg-[rgb(19,19,19)] rounded-3xl flex flex-col gap-3 w-[250px] px-10 py-8'>
-                <div className='flex items-center justify-between'>
-                  <h4 className='text-[15px] text-gray-200'>Total Lost</h4>
-                  <span className='text-sm text-red-500'>-22%</span>
+                <div className='bg-[rgb(19,19,19)] rounded-3xl flex flex-col gap-3 w-[250px] px-10 py-8'>
+                  <div className='flex items-center justify-between'>
+                    <h4 className='text-[15px] text-gray-200'>Total Lost</h4>
+                    <span className='text-sm text-red-500'>-22%</span>
+                  </div>
+                  <div className='w-full h-[5px] rounded-lg bg-gray-500 flex justify-start overflow-hidden'>
+                    <div className='w-[22%] bg-red-500 rounded-xl'></div>
+                  </div>
+                  <span className='text-2xl'>$27,773.00</span>
                 </div>
-                <div className='w-full h-[5px] rounded-lg bg-gray-500 flex justify-start overflow-hidden'>
-                  <div className='w-[22%] bg-red-500 rounded-xl'></div>
+                <div className='bg-[rgb(19,19,19)] rounded-3xl flex flex-col gap-3 w-[250px] px-10 py-8'>
+                  <div className='flex items-center justify-between'>
+                    <h4 className='text-[15px] text-gray-200'>Profit</h4>
+                    <span className='text-sm text-[#324AB2]'>+48%</span>
+                  </div>
+                  <div className='w-full h-[5px] rounded-lg bg-gray-500 flex justify-start overflow-hidden'>
+                    <div className='w-[48%] bg-[#324AB2] rounded-2xl'></div>
+                  </div>
+                  <span className='text-2xl'>$34,702.00</span>
                 </div>
-                <span className='text-2xl'>$27,773.00</span>
               </div>
-              <div className='bg-[rgb(19,19,19)] rounded-3xl flex flex-col gap-3 w-[250px] px-10 py-8'>
-                <div className='flex items-center justify-between'>
-                  <h4 className='text-[15px] text-gray-200'>Profit</h4>
-                  <span className='text-sm text-[#324AB2]'>+48%</span>
+              <div className='flex w-full items-center justify-center gap-10 flex-wrap mt-12'>
+                <div className='w-full bg-[rgb(19,19,19)] rounded-3xl h-[450px] py-6 px-5'>
+                  <div className='flex flex-col gap-[6px] p-4'>
+                    <h2 className='text-xl'>Overview</h2>
+                    <p className='text-md text-gray-300 font-light'>
+                      Daily company orders
+                    </p>
+                  </div>
+                  <AreaChart />
                 </div>
-                <div className='w-full h-[5px] rounded-lg bg-gray-500 flex justify-start overflow-hidden'>
-                  <div className='w-[48%] bg-[#324AB2] rounded-2xl'></div>
-                </div>
-                <span className='text-2xl'>$34,702.00</span>
-              </div>
-            </div>
-            <div className='flex items-center justify-center gap-10 flex-wrap mt-12'>
-              <div className='w-[500px] h-[400px] bg-black rounded-lg py-10 px-5'>
-                <AreaChart />
-              </div>
-              <div className='w-[500px] h-[400px] bg-black rounded-lg py-10 px-5'>
-                <LineChart />
-              </div>
-              <div className='w-[500px] h-[400px] bg-black rounded-lg py-10 px-5'>
-                <BarChart />
               </div>
             </div>
           </div>
