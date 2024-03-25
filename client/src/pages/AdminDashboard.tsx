@@ -14,6 +14,8 @@ const AdminDashboard = () => {
   const { user, orders } = useContext<any>(userContext)
   const [selectedChart, setSelectedChart] = useState<string>('Area')
   let ordersMade: number = 0
+  let ordersLost: number = 0
+  let ordersProfit: number = 0
 
   const selectChart = ['Area', 'Line', 'Bar']
 
@@ -29,6 +31,8 @@ const AdminDashboard = () => {
 
   orders.forEach((order: any) => {
     ordersMade += order.Earned
+    ordersLost += order.Lost
+    ordersProfit += order.Profit
   })
 
   return (
@@ -59,10 +63,10 @@ const AdminDashboard = () => {
                     <h4 className='text-[15px] text-gray-200'>
                       Total Earnings
                     </h4>
-                    <span className='text-sm text-green-500'>+54%</span>
+                    <span className='text-sm text-green-500'>+100%</span>
                   </div>
                   <div className='w-full h-[5px] rounded-lg bg-gray-500 flex justify-start overflow-hidden'>
-                    <div className='w-[54%] bg-green-500 rounded-xl'></div>
+                    <div className='w-[100%] bg-green-500 rounded-xl'></div>
                   </div>
                   <span className='text-2xl'>
                     {ordersMade.toLocaleString('en-US', {
@@ -79,7 +83,12 @@ const AdminDashboard = () => {
                   <div className='w-full h-[5px] rounded-lg bg-gray-500 flex justify-start overflow-hidden'>
                     <div className='w-[22%] bg-red-500 rounded-xl'></div>
                   </div>
-                  <span className='text-2xl'>$27,773.00</span>
+                  <span className='text-2xl'>
+                    {ordersLost.toLocaleString('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    })}
+                  </span>
                 </div>
                 <div className='bg-[rgb(19,19,19)] rounded-3xl flex flex-col gap-3 w-[250px] px-10 py-8'>
                   <div className='flex items-center justify-between'>
@@ -89,7 +98,12 @@ const AdminDashboard = () => {
                   <div className='w-full h-[5px] rounded-lg bg-gray-500 flex justify-start overflow-hidden'>
                     <div className='w-[48%] bg-[#324AB2] rounded-2xl'></div>
                   </div>
-                  <span className='text-2xl'>$34,702.00</span>
+                  <span className='text-2xl'>
+                    {ordersProfit.toLocaleString('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    })}
+                  </span>
                 </div>
               </div>
               <div className='flex w-full items-center justify-center gap-10 flex-wrap mt-12'>
