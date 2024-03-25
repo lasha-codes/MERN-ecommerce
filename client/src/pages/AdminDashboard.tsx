@@ -32,11 +32,10 @@ const AdminDashboard = () => {
           <div className='max-w-[400px]'>
             <Link to={'/'} className='flex items-center gap-2'>
               <img src={whiteLogo} className='w-[60px]' />
-              <h1 className='text-xl block max-md:hidden'>Ecommerce</h1>
             </Link>
           </div>
           <div className='flex flex-col w-full justify-center items-center'>
-            <div className='flex flex-col gap-2'>
+            <div className='flex flex-col items-start gap-2 w-full'>
               <h2 className='text-2xl text-center'>
                 Welcome, to Admin Dashboard{' '}
                 <span className='text-gray-400 font-light'>
@@ -93,7 +92,7 @@ const AdminDashboard = () => {
                     </div>
                     <div className='h-[20px] bg-[#2c2c2c] rounded-lg flex items-center gap-3 py-5 px-10 relative'>
                       <div
-                        className={`absolute transition-all duration-300 w-[75px] h-[30px] bg-[#324AB2] z-[2] rounded-lg opacity-75 translate-x-0 ${
+                        className={`absolute transition-all ease-in-out duration-300 w-[75px] h-[30px] bg-[#324AB2] cursor-pointer z-[2] rounded-lg opacity-75 translate-x-0 ${
                           selectedChart === 'Line' && 'translate-x-[87px]'
                         } ${selectedChart === 'Bar' && 'translate-x-[174px]'}`}
                       ></div>

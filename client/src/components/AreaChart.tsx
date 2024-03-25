@@ -54,9 +54,14 @@ const AreaDash = () => {
           </linearGradient>
         </defs>
 
-        <YAxis />
+        <YAxis tickFormatter={(number) => `$${number.toFixed(0)}`} />
         <XAxis dataKey={'orderDate'} tickFormatter={formattedDate} dy={7} />
-        <CartesianGrid strokeDasharray={'5, 5'} />
+        <CartesianGrid
+          strokeDasharray={'5, 5'}
+          stroke='#eee'
+          opacity={0.5}
+          vertical={false}
+        />
         <Area
           type='monotone'
           dataKey='Earned'
