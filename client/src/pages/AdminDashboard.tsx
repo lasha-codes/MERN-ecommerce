@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext, useState } from 'react'
 import { userContext } from '../components/UserContext'
@@ -12,6 +13,7 @@ import { Link } from 'react-router-dom'
 const AdminDashboard = () => {
   const { user, orders } = useContext<any>(userContext)
   const [selectedChart, setSelectedChart] = useState<string>('Area')
+  let ordersMade: number = 0
 
   const selectChart = ['Area', 'Line', 'Bar']
 
@@ -24,6 +26,10 @@ const AdminDashboard = () => {
       return <BarChart />
     }
   }
+
+  orders.forEach((order: any) => {
+    ordersMade += order.Earned
+  })
 
   return (
     <main className='w-full bg-[#252525] overflow-y-scroll min-h-screen flex justify-center text-white p-12'>
@@ -58,7 +64,12 @@ const AdminDashboard = () => {
                   <div className='w-full h-[5px] rounded-lg bg-gray-500 flex justify-start overflow-hidden'>
                     <div className='w-[54%] bg-green-500 rounded-xl'></div>
                   </div>
-                  <span className='text-2xl'>$62,475.00</span>
+                  <span className='text-2xl'>
+                    {ordersMade.toLocaleString('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    })}
+                  </span>
                 </div>
                 <div className='bg-[rgb(19,19,19)] rounded-3xl flex flex-col gap-3 w-[250px] px-10 py-8'>
                   <div className='flex items-center justify-between'>
