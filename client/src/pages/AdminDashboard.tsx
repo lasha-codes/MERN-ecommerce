@@ -10,9 +10,20 @@ import BarChart from '../components/BarChart'
 import whiteLogo from '../assets/white-logo.png'
 import { Link } from 'react-router-dom'
 
+interface StatisticsTypes {
+  Earned: number
+  Lost: number
+  Profit: number
+}
+
 const AdminDashboard = () => {
   const { user, orders } = useContext<any>(userContext)
   const [selectedChart, setSelectedChart] = useState<string>('Area')
+  const [statistics, setStatistics] = useState<StatisticsTypes>({
+    Earned: 0,
+    Lost: 0,
+    Profit: 0,
+  })
   let ordersMade: number = 0
   let ordersLost: number = 0
   let ordersProfit: number = 0
