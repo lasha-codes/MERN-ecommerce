@@ -11,7 +11,7 @@ import whiteLogo from '../assets/white-logo.png'
 import { Link } from 'react-router-dom'
 
 const AdminDashboard = () => {
-  const { user, orders } = useContext<any>(userContext)
+  const { user, orders, allProducts } = useContext<any>(userContext)
   const [selectedChart, setSelectedChart] = useState<string>('Area')
   let ordersMade: number = 0
   let ordersLost: number = 0
@@ -220,8 +220,25 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
-          <div className='bg-[rgb(19,19,19)] p-5 mt-3 h-full rounded-3xl'>
-            <h3>Top Selling Products</h3>
+          <div className='bg-[rgb(19,19,19)] mt-5 h-full rounded-3xl'>
+            <h3 className='pt-6 text-center'>Top Selling Products</h3>
+            <div className='flex py-5 flex-wrap w-[400px] justify-center gap-3'>
+              {allProducts &&
+                allProducts.slice(0, 10).map((product: any, idx: number) => {
+                  return (
+                    <div
+                      key={idx}
+                      className='w-[100px] h-[100px] p-3 rounded-xl bg-[#000] flex justify-center items-center'
+                    >
+                      <img
+                        src={product.image}
+                        className='w-[68px] object-contain'
+                        alt={product.title}
+                      />
+                    </div>
+                  )
+                })}
+            </div>
           </div>
         </div>
       </div>
