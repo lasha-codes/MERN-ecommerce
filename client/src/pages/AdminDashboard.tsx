@@ -41,23 +41,20 @@ const AdminDashboard = () => {
 
   return (
     <main className='w-full bg-[#252525] overflow-y-scroll min-h-screen flex flex-col items-center justify-center text-white p-12'>
-      <div className='flex flex-col items-center'>
+      <div className='flex flex-col items-center mb-10'>
         <Link to={'/'} className='flex items-center gap-2 mb-10'>
           <img src={whiteLogo} className='w-[60px]' />
         </Link>
         <div className='flex flex-col items-start gap-2 w-full'>
-          <h2 className='text-2xl text-center'>
-            Welcome, to Admin Dashboard{' '}
-            <span className='text-gray-400 font-light'>
+          <h2 className='text-2xl text-center text-[#111111] font-light'>
+            Welcome to the Admin Dashboard,{' '}
+            <span className='text-white font-medium'>
               {user.usernameContext}
             </span>
           </h2>
-          <p className='text-lg text-center font-light text-gray-300 mb-10'>
-            Here u can manage, all of the user orders
-          </p>
         </div>
       </div>
-      <div className='flex items-start gap-10'>
+      <div className='flex items-start max-xl:items-center max-xl:flex-col gap-10'>
         {user && orders ? (
           <div className='flex flex-col items-center justify-center gap-20'>
             <div className='flex flex-col w-full justify-center items-center'>
@@ -126,9 +123,9 @@ const AdminDashboard = () => {
                   </div>
                 </div>
                 <div className='flex w-full items-center justify-center gap-10 flex-wrap mt-12'>
-                  <div className='w-full bg-[rgb(19,19,19)] rounded-3xl h-[450px] py-6 px-5'>
+                  <div className='w-full flex flex-col max-md:h-[350px] justify-center gap-2 bg-[rgb(19,19,19)] rounded-3xl h-[450px] py-6 px-5'>
                     <div className='flex max-md:flex-col max-md:text-center items-center justify-between'>
-                      <div className='flex flex-col gap-[6px] p-4'>
+                      <div className='flex max-md:hidden flex-col gap-[6px] p-4'>
                         <h2 className='text-xl'>Overview</h2>
                         <p className='text-md text-gray-300 font-light'>
                           Daily company orders
@@ -220,8 +217,8 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
-          <div className='bg-[rgb(19,19,19)] mt-5 h-full rounded-3xl'>
-            <h3 className='pt-6 text-center'>Top Selling Products</h3>
+          <div className='bg-[rgb(19,19,19)] py-10 mt-5 h-full rounded-3xl'>
+            <h3 className='text-center'>Top Selling Products</h3>
             <div className='flex py-5 flex-wrap w-[400px] justify-center gap-3'>
               {allProducts &&
                 allProducts.slice(0, 10).map((product: any, idx: number) => {
