@@ -31,17 +31,13 @@ const AdminDashboard = () => {
     }
   }
 
-  useEffect(() => {
-    orders.forEach((order: any) => {
-      ordersMade += order.Earned
-      ordersLost += order.Lost
-      ordersProfit += order.Profit
-      ordersLostPercent = Math.round((ordersLost / ordersMade) * 100)
-      ordersProfitPercent = 100 - ordersLostPercent
-    })
-  }, [])
-
-  console.log(ordersLostPercent, ordersProfitPercent)
+  orders.forEach((order: any) => {
+    ordersMade += order.Earned
+    ordersLost += order.Lost
+    ordersProfit += order.Profit
+    ordersLostPercent = Math.round((ordersLost / ordersMade) * 100)
+    ordersProfitPercent = 100 - ordersLostPercent
+  })
 
   return (
     <main className='w-full bg-[#252525] overflow-y-scroll min-h-screen flex justify-center text-white p-12'>
@@ -86,10 +82,14 @@ const AdminDashboard = () => {
                 <div className='bg-[rgb(19,19,19)] rounded-3xl flex flex-col gap-3 w-[250px] px-10 py-8'>
                   <div className='flex items-center justify-between'>
                     <h4 className='text-[15px] text-gray-200'>Total Lost</h4>
-                    <span className='text-sm text-red-500'>-22%</span>
+                    <span className='text-sm text-red-500'>
+                      -{ordersLostPercent}%
+                    </span>
                   </div>
                   <div className='w-full h-[5px] rounded-lg bg-gray-500 flex justify-start overflow-hidden'>
-                    <div className='w-[22%] bg-red-500 rounded-xl'></div>
+                    <div
+                      className={`w-[${ordersLostPercent.toString()}%] bg-red-500 rounded-xl`}
+                    ></div>
                   </div>
                   <span className='text-2xl'>
                     {ordersLost.toLocaleString('en-US', {
@@ -101,10 +101,14 @@ const AdminDashboard = () => {
                 <div className='bg-[rgb(19,19,19)] rounded-3xl flex flex-col gap-3 w-[250px] px-10 py-8'>
                   <div className='flex items-center justify-between'>
                     <h4 className='text-[15px] text-gray-200'>Profit</h4>
-                    <span className='text-sm text-[#324AB2]'>+48%</span>
+                    <span className='text-sm text-[#324AB2]'>
+                      +{ordersProfitPercent}%
+                    </span>
                   </div>
                   <div className='w-full h-[5px] rounded-lg bg-gray-500 flex justify-start overflow-hidden'>
-                    <div className='w-[48%] bg-[#324AB2] rounded-2xl'></div>
+                    <div
+                      className={`w-[${ordersProfitPercent.toString()}%] bg-[#324AB2] rounded-2xl`}
+                    ></div>
                   </div>
                   <span className='text-2xl'>
                     {ordersProfit.toLocaleString('en-US', {
