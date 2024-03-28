@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { userContext } from '../components/UserContext'
 
 import Loader from '../components/Loader'
@@ -88,7 +88,10 @@ const AdminDashboard = () => {
                   </div>
                   <div className='w-full h-[5px] rounded-lg bg-gray-500 flex justify-start overflow-hidden'>
                     <div
-                      className={`w-[${ordersLostPercent.toString()}%] bg-red-500 rounded-xl`}
+                      className={`bg-red-500 rounded-xl`}
+                      style={{
+                        width: `${ordersLostPercent}%`,
+                      }}
                     ></div>
                   </div>
                   <span className='text-2xl'>
@@ -107,7 +110,10 @@ const AdminDashboard = () => {
                   </div>
                   <div className='w-full h-[5px] rounded-lg bg-gray-500 flex justify-start overflow-hidden'>
                     <div
-                      className={`w-[${ordersProfitPercent.toString()}%] bg-[#324AB2] rounded-2xl`}
+                      className={`bg-[#324AB2] rounded-2xl`}
+                      style={{
+                        width: `${ordersProfitPercent}%`,
+                      }}
                     ></div>
                   </div>
                   <span className='text-2xl'>
