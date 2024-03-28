@@ -59,7 +59,7 @@ const AdminDashboard = () => {
       </div>
       <div className='flex items-start gap-10'>
         {user && orders ? (
-          <div className='flex flex-col items-center h-full justify-center gap-20'>
+          <div className='flex flex-col items-center justify-center gap-20'>
             <div className='flex flex-col w-full justify-center items-center'>
               <div className='flex flex-col items-center gap-2 justify-center'>
                 <div className='flex items-center gap-10 justify-center flex-wrap'>
@@ -164,8 +164,8 @@ const AdminDashboard = () => {
         ) : (
           <Loader />
         )}
-        <div>
-          <div className='bg-[rgb(19,19,19)] w-[300px] rounded-2xl p-10 flex flex-col items-center justify-center'>
+        <div className='h-full'>
+          <div className='bg-[rgb(19,19,19)] h-full w-[400px] rounded-3xl p-10 flex flex-col items-center justify-center'>
             <h3 className='text-center text-lg text-gray-100 font-medium mb-4'>
               Sales Statistic
             </h3>
@@ -220,7 +220,9 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
-          <div></div>
+          <div className='bg-[rgb(19,19,19)] p-5 mt-3 h-full rounded-3xl'>
+            <h3>Top Selling Products</h3>
+          </div>
         </div>
       </div>
     </main>
