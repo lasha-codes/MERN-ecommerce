@@ -180,17 +180,38 @@ const AdminDashboard = () => {
                 <p className='text-sm text-gray-300 font-light'>Transaction</p>
               </div>
             </div>
-            <div className='w-full'>
+            <div className='w-full flex flex-col gap-3 mt-3'>
               <div className='flex flex-col gap-1 items-start justify-center'>
                 <span className='text-[16x] text-gray-300 font-light'>
-                  Sale
+                  Sales
                 </span>
                 <div
-                  className='w-full h-[10px] rounded-md flex justify-start
-                overflow-hidden items-center bg-gray-200'
+                  className='w-full h-[10px] rounded-full relative
+                  bg-gray-200'
                 >
+                  <div className='h-full rounded-full w-[101%] bg-[#324AB2] absolute top-0 right-[-1px]'></div>
+                </div>
+              </div>
+              <div className='flex flex-col gap-1 items-start justify-center'>
+                <span className='text-[16x] text-gray-300 font-light'>
+                  Distribute
+                </span>
+                <div className='w-full h-[10px] rounded-full relative bg-gray-200'>
                   <div
-                    className='w-full h-full rounded-md bg-[#324AB2]'
+                    className='w-full h-full rounded-full bg-slate-700 absolute -left-[0.6px] top-0'
+                    style={{
+                      width: `${ordersLostPercent}%`,
+                    }}
+                  ></div>
+                </div>
+              </div>
+              <div className='flex flex-col gap-1 items-start justify-center'>
+                <span className='text-[16x] text-gray-300 font-light'>
+                  Return
+                </span>
+                <div className='w-full h-[10px] rounded-full relative bg-gray-200'>
+                  <div
+                    className='w-full h-full rounded-full bg-gray-500 absolute -left-[0.6px] top-0'
                     style={{
                       width: `${ordersProfitPercent}%`,
                     }}
