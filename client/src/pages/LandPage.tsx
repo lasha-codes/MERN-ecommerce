@@ -42,11 +42,11 @@ const LandPage = () => {
     }
   }
 
-  const addMacbookPro = () => {
-    const macbook = allProducts.find((singleProduct: any) => {
-      return singleProduct.title === 'Macbook 14 pro'
+  const addBanner = () => {
+    const visionPro = allProducts.find((singleProduct: any) => {
+      return singleProduct.title === 'Apple vision pro'
     })
-    addToCart(macbook)
+    addToCart(visionPro)
   }
 
   return (
@@ -56,20 +56,20 @@ const LandPage = () => {
         <div className='flex justify-center items-center mt-[5rem] gap-x-[100px] max-xl:flex-col'>
           <div className='flex flex-col items-start justify-center gap-[10px] max-xl:items-center max-xl:text-center'>
             <h1 className='text-white text-[55px] max-md:text-[40px]'>
-              Macbook 14 Pro
+              Apple Vision Pro
             </h1>
             <p className='text-gray-300 max-w-[470px] text-[18px] max-sm:text-[16px]'>
-              Supercharged by M2 Pro or M2 Max, macbook pro takes its power and
-              efficiency further than ever. it delivers exceptional performance
-              whether its plugged in or not, and now it has even longer battery
-              life.
+              On Apple Vision Pro, you can open all your apps from one
+              place—Apps View. In addition to apps designed for visionOS, the
+              Compatible Apps folder contains familiar iPad and iPhone apps that
+              work with your Apple Vision Pro.
             </p>
             <div className='flex gap-2 py-2 max-md:flex-col'>
               <button className='border bg-transparent rounded-lg px-5 py-[5.5px] text-white text-[18px]'>
                 Read more
               </button>
               <button
-                onClick={addMacbookPro}
+                onClick={addBanner}
                 className='border bg-white border-green-900 rounded-lg px-5 py-[5.5px] text-green-900 flex items-center justify-center gap-2 text-[18px]'
               >
                 <FaShoppingCart />
@@ -88,37 +88,40 @@ const LandPage = () => {
         <h1 className='mb-5 text-[30px] mt-6'>New Arrivals</h1>
         {allProducts ? (
           <div className='flex flex-wrap gap-[20px] w-full justify-center items-center'>
-            {allProducts.slice(0, 5).map((product: any, idx: number) => (
-              <div key={idx}>
-                <Link
-                  to={user ? `/product/${product._id}` : '/account'}
-                  className='w-[300px] h-[240px] hover:opacity-40 transition-all duration-500 bg-white rounded-xl group flex items-center justify-center relative'
-                >
-                  <img
-                    src={product.image}
-                    alt='product image'
-                    className='w-[200px] h-[200px] object-contain'
-                  />
-                </Link>
-                <div>
-                  <h2 className='capitalize p-[2.5px]'>{product.title}</h2>
-                  <div className='flex items-center justify-start gap-2'>
-                    <span className='font-bold'>
-                      <div className='flex items-center'>
-                        <PiCurrencyDollarSimple className='text-[16px]' />
-                        {product.price}
-                      </div>
-                    </span>
-                    <button
-                      className='border border-green-900 rounded-lg text-green-900 px-4 py-1'
-                      onClick={() => addToCart(product)}
-                    >
-                      Add to cart
-                    </button>
+            {allProducts
+              .sort((a: any, b: any) => b.price - a.price)
+              .slice(0, 5)
+              .map((product: any, idx: number) => (
+                <div key={idx}>
+                  <Link
+                    to={user ? `/product/${product._id}` : '/account'}
+                    className='w-[300px] h-[240px] hover:opacity-40 transition-all duration-500 bg-white rounded-xl group flex items-center justify-center relative'
+                  >
+                    <img
+                      src={product.image}
+                      alt='product image'
+                      className='w-[200px] h-[200px] object-contain'
+                    />
+                  </Link>
+                  <div>
+                    <h2 className='capitalize p-[2.5px]'>{product.title}</h2>
+                    <div className='flex items-center justify-start gap-2'>
+                      <span className='font-bold'>
+                        <div className='flex items-center'>
+                          <PiCurrencyDollarSimple className='text-[16px]' />
+                          {product.price}
+                        </div>
+                      </span>
+                      <button
+                        className='border border-green-900 rounded-lg text-green-900 px-4 py-1'
+                        onClick={() => addToCart(product)}
+                      >
+                        Add to cart
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         ) : (
           <div className='w-full flex justify-center items-center p-20'>
