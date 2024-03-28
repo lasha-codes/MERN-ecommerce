@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { userContext } from '../components/UserContext'
 
 import Loader from '../components/Loader'
@@ -10,23 +10,14 @@ import BarChart from '../components/BarChart'
 import whiteLogo from '../assets/white-logo.png'
 import { Link } from 'react-router-dom'
 
-interface StatisticsTypes {
-  Earned: number
-  Lost: number
-  Profit: number
-}
-
 const AdminDashboard = () => {
   const { user, orders } = useContext<any>(userContext)
   const [selectedChart, setSelectedChart] = useState<string>('Area')
-  const [statistics, setStatistics] = useState<StatisticsTypes>({
-    Earned: 0,
-    Lost: 0,
-    Profit: 0,
-  })
   let ordersMade: number = 0
   let ordersLost: number = 0
   let ordersProfit: number = 0
+  let ordersLostPercent: number = 0
+  let ordersProfitPercent: number = 0
 
   const selectChart = ['Area', 'Line', 'Bar']
 
@@ -40,11 +31,17 @@ const AdminDashboard = () => {
     }
   }
 
-  orders.forEach((order: any) => {
-    ordersMade += order.Earned
-    ordersLost += order.Lost
-    ordersProfit += order.Profit
-  })
+  useEffect(() => {
+    orders.forEach((order: any) => {
+      ordersMade += order.Earned
+      ordersLost += order.Lost
+      ordersProfit += order.Profit
+      ordersLostPercent = Math.round((ordersLost / ordersMade) * 100)
+      ordersProfitPercent = 100 - ordersLostPercent
+    })
+  }, [])
+
+  console.log(ordersLostPercent, ordersProfitPercent)
 
   return (
     <main className='w-full bg-[#252525] overflow-y-scroll min-h-screen flex justify-center text-white p-12'>
