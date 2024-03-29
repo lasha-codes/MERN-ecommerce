@@ -157,6 +157,33 @@ const AdminDashboard = () => {
                 </div>
               </div>
             </div>
+            <div
+              className='flex flex-col gap-4 justify-center border-2
+            p-2 border-black'
+            >
+              {orders &&
+                orders.slice(0, 5).map((order: any, orderIdx: number) => {
+                  return (
+                    <div
+                      key={orderIdx}
+                      className='flex border items-center gap-2'
+                    >
+                      <div>
+                        <h3>Product</h3>
+                        {order.products.map(
+                          (product: any, productIdx: number) => {
+                            return (
+                              <span key={productIdx}>
+                                {product.productTitle}
+                              </span>
+                            )
+                          }
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+            </div>
           </div>
         ) : (
           <Loader />
