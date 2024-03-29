@@ -123,7 +123,7 @@ const AdminDashboard = () => {
                     </span>
                   </div>
                 </div>
-                <div className='flex w-full items-center justify-center gap-10 flex-wrap mt-12'>
+                <div className='flex w-full items-center justify-center flex-wrap mt-12'>
                   <div className='w-full flex flex-col max-md:h-[350px] justify-center gap-2 bg-[rgb(19,19,19)] rounded-3xl h-[450px] py-6 px-5'>
                     <div className='flex max-md:flex-col max-md:text-center items-center justify-between'>
                       <div className='flex max-md:hidden flex-col gap-[6px] p-4'>
@@ -160,9 +160,9 @@ const AdminDashboard = () => {
             </div>
             <div
               className='flex flex-col gap-4 justify-center
-            p-10 w-full bg-[rgb(19,19,19)] rounded-3xl'
+            p-10 w-full bg-[rgb(19,19,19)] rounded-3xl mt-[-60px]'
             >
-              <div className='flex items-center justify-between'>
+              <div className='flex items-center justify-between border-b border-gray-400 pb-3'>
                 <h3 className='flex items-center gap-1'>
                   <span>Tracking</span>
                   <TiArrowSortedDown />
@@ -180,44 +180,70 @@ const AdminDashboard = () => {
                   <TiArrowSortedDown />
                 </h3>
               </div>
-              {orders &&
-                orders.slice(0, 5).map((order: any, orderIdx: number) => {
-                  return (
-                    <div
-                      key={orderIdx}
-                      className='flex border items-center justify-between'
-                    >
-                      <div className=''>
-                        <p className='text-[14px] text-gray-200'>
-                          {order.email}
-                        </p>
-                      </div>
-                      <div className='flex flex-col gap-2'>
-                        {order.products.map(
-                          (product: any, productIdx: number) => {
-                            return (
-                              <div
-                                key={productIdx}
-                                className='flex items-center gap-2'
-                              >
-                                <div className='w-[40px] bg-black p-1 rounded-xl'>
-                                  <img
-                                    className='w-full object-contain'
-                                    src={product.productImage}
-                                  />
+              <div className='h-[220px] overflow-y-scroll'>
+                {orders &&
+                  orders.map((order: any, orderIdx: number) => {
+                    return (
+                      <div
+                        key={orderIdx}
+                        className='flex pb-3 border-b items-center justify-between px-3'
+                      >
+                        <div className=''>
+                          <p className='text-[14px] text-gray-200'>
+                            {order.email}
+                          </p>
+                        </div>
+                        <div className='flex flex-col gap-2'>
+                          {order.products.map(
+                            (product: any, productIdx: number) => {
+                              return (
+                                <div
+                                  key={productIdx}
+                                  className='flex items-center gap-2'
+                                >
+                                  <div className='w-[40px] bg-black p-1 rounded-xl'>
+                                    <img
+                                      className='w-full object-contain'
+                                      src={product.productImage}
+                                    />
+                                  </div>
+                                  <span>
+                                    {product.productTitle} x{' '}
+                                    <span>{product.productCount}</span>
+                                  </span>
                                 </div>
-                                <span>
-                                  {product.productTitle} x{' '}
-                                  <span>{product.productCount}</span>
+                              )
+                            }
+                          )}
+                        </div>
+                        <div className='flex flex-col gap-2'>
+                          {order.products.map(
+                            (product: any, productIdx: number) => {
+                              return (
+                                <span key={productIdx}>
+                                  {parseInt(
+                                    product.productPrice
+                                  ).toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD',
+                                  })}
                                 </span>
-                              </div>
-                            )
-                          }
-                        )}
+                              )
+                            }
+                          )}
+                        </div>
+                        <div>
+                          <span>
+                            {parseInt(order.Earned).toLocaleString('en-US', {
+                              style: 'currency',
+                              currency: 'USD',
+                            })}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  )
-                })}
+                    )
+                  })}
+              </div>
             </div>
           </div>
         ) : (
