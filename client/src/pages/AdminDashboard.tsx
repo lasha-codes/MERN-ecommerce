@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext, useState } from 'react'
 import { userContext } from '../components/UserContext'
+import { TiArrowSortedDown } from 'react-icons/ti'
 
 import Loader from '../components/Loader'
 import AreaChart from '../components/AreaChart'
@@ -158,24 +159,58 @@ const AdminDashboard = () => {
               </div>
             </div>
             <div
-              className='flex flex-col gap-4 justify-center border-2
-            p-2 border-black'
+              className='flex flex-col gap-4 justify-center
+            p-10 w-full bg-[rgb(19,19,19)] rounded-3xl'
             >
+              <div className='flex items-center justify-between'>
+                <h3 className='flex items-center gap-1'>
+                  <span>Tracking</span>
+                  <TiArrowSortedDown />
+                </h3>
+                <h3 className='flex items-center gap-1'>
+                  <span>Product</span>
+                  <TiArrowSortedDown />
+                </h3>
+                <h3 className='flex items-center gap-1'>
+                  <span>Price</span>
+                  <TiArrowSortedDown />
+                </h3>
+                <h3 className='flex items-center gap-1'>
+                  <span>Total Amount</span>
+                  <TiArrowSortedDown />
+                </h3>
+              </div>
               {orders &&
                 orders.slice(0, 5).map((order: any, orderIdx: number) => {
                   return (
                     <div
                       key={orderIdx}
-                      className='flex border items-center gap-2'
+                      className='flex border items-center justify-between'
                     >
-                      <div>
-                        <h3>Product</h3>
+                      <div className=''>
+                        <p className='text-[14px] text-gray-200'>
+                          {order.email}
+                        </p>
+                      </div>
+                      <div className='flex flex-col gap-2'>
                         {order.products.map(
                           (product: any, productIdx: number) => {
                             return (
-                              <span key={productIdx}>
-                                {product.productTitle}
-                              </span>
+                              <div
+                                key={productIdx}
+                                className='flex items-center gap-2'
+                              >
+                                <div className='w-[40px] bg-black p-1 rounded-xl'>
+                                  <img
+                                    className='w-full object-contain'
+                                    src={product.productImage}
+                                  />
+                                </div>
+                                <span>
+                                  {product.productTitle} x{' '}
+                                  <span>{product.productCount}</span>
+                                </span>
+                              </div>
                             )
                           }
                         )}
