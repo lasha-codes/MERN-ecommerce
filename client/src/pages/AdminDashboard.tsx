@@ -162,7 +162,7 @@ const AdminDashboard = () => {
               className='flex flex-col gap-4 justify-center
             p-10 w-full bg-[rgb(19,19,19)] rounded-3xl mt-[-60px]'
             >
-              <div className='flex items-center justify-between border-b border-gray-400 pb-3'>
+              <div className='flex justify-between border-b border-gray-400 pb-3'>
                 <h3 className='flex items-center gap-1'>
                   <span>Tracking</span>
                   <TiArrowSortedDown />
@@ -190,7 +190,7 @@ const AdminDashboard = () => {
                     return (
                       <div
                         key={orderIdx}
-                        className='flex pb-3 border-b items-center justify-between px-3'
+                        className='flex flex-wrap pb-3 border-b items-start gap-2 justify-between px-3'
                       >
                         <div className=''>
                           <p className='text-[14px] text-gray-200'>
