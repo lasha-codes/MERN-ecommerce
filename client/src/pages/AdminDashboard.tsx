@@ -179,6 +179,10 @@ const AdminDashboard = () => {
                   <span>Total Amount</span>
                   <TiArrowSortedDown />
                 </h3>
+                <h3 className='flex items-center gap-1'>
+                  <span>Status</span>
+                  <TiArrowSortedDown />
+                </h3>
               </div>
               <div className='h-[220px] overflow-y-scroll'>
                 {orders &&
@@ -239,6 +243,9 @@ const AdminDashboard = () => {
                               currency: 'USD',
                             })}
                           </span>
+                        </div>
+                        <div>
+                          <span className='text-[#ffef16]'>{order.status}</span>
                         </div>
                       </div>
                     )
