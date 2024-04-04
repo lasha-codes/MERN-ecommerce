@@ -1,17 +1,32 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Header from '../components/Header.jsx'
 import banner from '../assets/banner.png'
 import { FaShoppingCart } from 'react-icons/fa'
-import { useContext } from 'react'
+import { useContext, useRef } from 'react'
 import toast from 'react-hot-toast'
 import Loader from '../components/Loader.js'
 import { userContext } from '../components/UserContext.js'
 import { PiCurrencyDollarSimple } from 'react-icons/pi'
 import { Link, useNavigate } from 'react-router-dom'
+import { motion, useInView } from 'framer-motion'
 
 const LandPage = () => {
   const { allProducts, user, cart, setCart } = useContext<any>(userContext)
   const navigate = useNavigate()
+  const productRef = useRef(null)
+  const inView = useInView(productRef, { once: false })
+
+  const productVariants = {
+    initial: {
+      opacity: 0,
+      y: 100,
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+    },
+  }
 
   const addToCart = async (product: any) => {
     try {
@@ -92,7 +107,13 @@ const LandPage = () => {
               .sort((a: any, b: any) => b.price - a.price)
               .slice(0, 5)
               .map((product: any, idx: number) => (
-                <div key={idx}>
+                <motion.div
+                  key={idx}
+                  ref={productRef}
+                  variants={productVariants}
+                  initial='initial'
+                  animate={inView && 'animate'}
+                >
                   <Link
                     to={user ? `/product/${product._id}` : '/account'}
                     className='w-[300px] h-[240px] hover:opacity-40 transition-all duration-500 bg-white rounded-xl group flex items-center justify-center relative'
@@ -120,7 +141,7 @@ const LandPage = () => {
                       </button>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
           </div>
         ) : (
