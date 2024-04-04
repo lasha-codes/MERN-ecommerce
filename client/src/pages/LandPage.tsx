@@ -3,19 +3,17 @@
 import Header from '../components/Header.jsx'
 import banner from '../assets/banner.png'
 import { FaShoppingCart } from 'react-icons/fa'
-import { useContext, useRef } from 'react'
+import { useContext } from 'react'
 import toast from 'react-hot-toast'
 import Loader from '../components/Loader.js'
 import { userContext } from '../components/UserContext.js'
 import { PiCurrencyDollarSimple } from 'react-icons/pi'
 import { Link, useNavigate } from 'react-router-dom'
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 const LandPage = () => {
   const { allProducts, user, cart, setCart } = useContext<any>(userContext)
   const navigate = useNavigate()
-  const productRef = useRef(null)
-  const inView = useInView(productRef, { once: false })
 
   const productVariants = {
     initial: {
@@ -109,15 +107,31 @@ const LandPage = () => {
               .map((product: any, idx: number) => (
                 <motion.div
                   key={idx}
-                  ref={productRef}
                   variants={productVariants}
+                  transition={{
+                    type: 'spring',
+                    damping: 9,
+                    delay: 0.2 * idx,
+                  }}
                   initial='initial'
-                  animate={inView && 'animate'}
+                  animate='animate'
+                  className='relative'
                 >
                   <Link
                     to={user ? `/product/${product._id}` : '/account'}
                     className='w-[300px] h-[240px] hover:opacity-40 transition-all duration-500 bg-white rounded-xl group flex items-center justify-center relative'
                   >
+                    <motion.div
+                      animate={{
+                        width: 0,
+                        height: 0,
+                      }}
+                      transition={{
+                        duration: 0.3,
+                        delay: 0.3 * idx,
+                      }}
+                      className='absolute w-full h-full top-0 left-0 bg-gradient-to-r from-slate-500 to-slate-800 rounded-xl'
+                    ></motion.div>
                     <img
                       src={product.image}
                       alt='product image'
