@@ -130,7 +130,7 @@ const LandPage = () => {
                         duration: 0.3,
                         delay: 0.3 * idx,
                       }}
-                      className='absolute w-full h-full top-0 left-0 bg-gradient-to-r from-slate-500 to-slate-800 rounded-xl'
+                      className='absolute w-full opacity-50 h-full top-0 left-0 bg-gradient-to-r from-slate-500 to-slate-800 rounded-xl'
                     ></motion.div>
                     <img
                       src={product.image}

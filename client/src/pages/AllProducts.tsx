@@ -8,6 +8,7 @@ import { FaShoppingCart } from 'react-icons/fa'
 import { PiCurrencyDollarSimple } from 'react-icons/pi'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import { motion } from 'framer-motion'
 
 const AllProducts = () => {
   const { mainProducts, allProducts, setMainProducts, user, cart, setCart } =
@@ -230,7 +231,12 @@ const AllProducts = () => {
       <div className='w-full justify-center flex flex-wrap gap-6 mt-[40px]'>
         {mainProducts ? (
           mainProducts.map((product: any, idx: number) => (
-            <div key={idx}>
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.2 }}
+            >
               <Link
                 to={user ? `/product/${product._id}` : '/account'}
                 className='w-[250px] block h-[250px] hover:opacity-40 transition-all duration-500 p-10 bg-white rounded-lg'
@@ -254,7 +260,7 @@ const AllProducts = () => {
                   <span>Add to cart</span>
                 </button>
               </div>
-            </div>
+            </motion.div>
           ))
         ) : (
           <div className='w-screen h-[calc(100vh-400px)] flex items-center justify-center'>
